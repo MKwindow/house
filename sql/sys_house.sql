@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2019-03-19 23:49:09
+Date: 2019-03-20 00:29:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,7 +51,6 @@ CREATE TABLE `house` (
   `housefaci` varchar(100) DEFAULT NULL COMMENT '房屋设施',
   `housearea` float(3,2) unsigned NOT NULL COMMENT '房屋面积',
   `housestatus` bit(1) NOT NULL DEFAULT b'0' COMMENT '出租状态',
-  `houserequire` varchar(100) DEFAULT NULL COMMENT '出租要求',
   `style` int(3) DEFAULT '1' COMMENT '房源风格',
   `attestation` bit(1) NOT NULL DEFAULT b'0' COMMENT '认证状态',
   `houseimage` text COMMENT '房屋照片',
