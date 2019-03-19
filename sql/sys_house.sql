@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : yuan
-Source Server Version : 50725
-Source Host           : sunxiaoyuan.com:3307
+Source Server         : mysql
+Source Server Version : 50617
+Source Host           : localhost:3306
 Source Database       : sys_house
 
 Target Server Type    : MYSQL
-Target Server Version : 50725
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2019-03-18 18:18:35
+Date: 2019-03-19 23:49:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,15 +47,16 @@ CREATE TABLE `house` (
   `houseid` varchar(20) NOT NULL COMMENT '房屋编号',
   `housestyle` varchar(15) NOT NULL COMMENT '房屋类型\r\n',
   `houseaddress` varchar(100) NOT NULL COMMENT '房屋地址',
+  `housename` varchar(20) NOT NULL COMMENT '房屋名称',
   `housefaci` varchar(100) DEFAULT NULL COMMENT '房屋设施',
-  `housearea` float(3,2) NOT NULL COMMENT '房屋面积',
-  `housedeco` varchar(100) DEFAULT NULL COMMENT '装修情况',
+  `housearea` float(3,2) unsigned NOT NULL COMMENT '房屋面积',
   `housestatus` bit(1) NOT NULL DEFAULT b'0' COMMENT '出租状态',
   `houserequire` varchar(100) DEFAULT NULL COMMENT '出租要求',
   `style` int(3) DEFAULT '1' COMMENT '房源风格',
   `attestation` bit(1) NOT NULL DEFAULT b'0' COMMENT '认证状态',
   `houseimage` text COMMENT '房屋照片',
   `payway` varchar(20) DEFAULT NULL COMMENT '缴费方式',
+  `housedate` date DEFAULT NULL COMMENT '发布时间',
   `upload` text COMMENT '认证文件',
   PRIMARY KEY (`houseid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房屋信息表';
@@ -148,10 +149,10 @@ CREATE TABLE `role` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `RoleRes`
+-- Table structure for `roleres`
 -- ----------------------------
-DROP TABLE IF EXISTS `RoleRes`;
-CREATE TABLE `RoleRes` (
+DROP TABLE IF EXISTS `roleres`;
+CREATE TABLE `roleres` (
   `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '权限ID',
   `roleid` int(20) NOT NULL COMMENT '角色编号',
   `resourceid` int(20) NOT NULL COMMENT '资源编号',
@@ -159,14 +160,14 @@ CREATE TABLE `RoleRes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色-资源表';
 
 -- ----------------------------
--- Records of RoleRes
+-- Records of roleres
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `uesrRole`
+-- Table structure for `uesrrole`
 -- ----------------------------
-DROP TABLE IF EXISTS `uesrRole`;
-CREATE TABLE `uesrRole` (
+DROP TABLE IF EXISTS `uesrrole`;
+CREATE TABLE `uesrrole` (
   `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '权限ID',
   `userid` varchar(20) NOT NULL COMMENT '用户编号',
   `roleid` int(20) NOT NULL COMMENT '角色编号',
@@ -174,7 +175,7 @@ CREATE TABLE `uesrRole` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户-角色表';
 
 -- ----------------------------
--- Records of uesrRole
+-- Records of uesrrole
 -- ----------------------------
 
 -- ----------------------------
