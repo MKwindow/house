@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2019-03-20 00:29:02
+Date: 2019-03-20 22:59:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -65,23 +65,6 @@ CREATE TABLE `house` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `refund`
--- ----------------------------
-DROP TABLE IF EXISTS `refund`;
-CREATE TABLE `refund` (
-  `refundid` varchar(20) NOT NULL COMMENT '退款编号',
-  `refunddate` date NOT NULL COMMENT '退款日期',
-  `refundpay` double(6,2) NOT NULL COMMENT '退款金额',
-  `userid` varchar(20) NOT NULL COMMENT '退款用户编号',
-  `username` varchar(20) DEFAULT NULL COMMENT '退款用户姓名',
-  PRIMARY KEY (`refundid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='退还记录表';
-
--- ----------------------------
--- Records of refund
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `rent`
 -- ----------------------------
 DROP TABLE IF EXISTS `rent`;
@@ -93,6 +76,8 @@ CREATE TABLE `rent` (
   `outdate` date DEFAULT NULL COMMENT '逾期日期',
   `userid` varchar(20) NOT NULL COMMENT '租客编号',
   `username` varchar(20) NOT NULL COMMENT '租客姓名',
+  `refunddate` date DEFAULT NULL COMMENT '退款日期',
+  `refundpay` double(6,2) DEFAULT NULL COMMENT '退款金额',
   `rentstate` bit(1) NOT NULL DEFAULT b'0' COMMENT '退款状态',
   PRIMARY KEY (`rentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租金表';
