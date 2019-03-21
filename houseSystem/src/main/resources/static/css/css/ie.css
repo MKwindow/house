@@ -1,0 +1,52 @@
+.topmenu .dropdown li a {
+ 	float:left;
+	width:100%}
+
+.topmenu .dropdown li a span {
+	float:left}
+
+.topmenu .dropdown li li a,
+.topmenu .dropdown li a span {
+	float:none;
+	width:auto}
+	
+.toggle.box {
+	background:#f0f0f0;
+	border:1px solid #e2e2e2;}
+
+.frame_box iframe {
+	width:100%}
+
+.featured_post .post-title a {
+	background:#000;}
+
+.map_form .inputtext{
+	width:143px;}
+
+.toggle.box,
+h3.toggle.box {
+	border-top:2px solid #c8c8c8;}
+
+.form_sort, .pages_jump, .pages {
+	margin-left:30px;}
+
+.list_manage .inner {
+	height:30px}
+
+.inlinelist .custom-radio {
+	display:inline;
+	margin-right:11px}
+
+.inputlist .custom-input.addField_remove span,
+.inputlist .custom-input.addField_add span {
+	top:1px;}
+
+.inputlist .custom-input.addField_add {
+	clear:both;
+	padding:0}
+
+.inputlist .custom-input.addField_add input {
+	margin-left:75px}
+	
+.form_white .rowSubmit {
+	padding-top:30px}

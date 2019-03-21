@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+  <link
+	href='http://fonts.googleapis.com/css?family=Lato:400italic,400,700|Bitter'
+	rel='stylesheet' type='text/css' ></link>
+	
+<link th:href="@{/css/style.css}" media="screen" rel="stylesheet"
+	type="text/css" ></link>
+<link th:href="@{/css/styles/orange-blue.css}" media="screen" rel="stylesheet"
+	type="text/css" ></link>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/general.js}"></script>
+<script type="text/javascript" th:src="@{/js/preloadCssImages.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.tools.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<script type="text/javascript" th:src="@{/js/slides.min.jquery.js}"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$('.header_slider').slides({
+			play : 3000,
+			pause : 2000,
+			hoverPause : true
+		});
+	});
+</script>
+
+<link th:href="@{/css/css/cusel.css}" rel="stylesheet" type="text/css" ></link>
+<script type="text/javascript" th:src="@{/js/cusel-min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jScrollPane.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.mousewheel.js}"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		var params = {
+			changedEl : ".select_styled",
+			visRows : 15,
+			scrollArrows : true
+		}
+		cuSel(params);
+	});
+</script>
+<script type="text/javascript" th:src="@{js/jquery.dependClass.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.slider-min.js}"></script>
+<link th:href="@{/css/css/jslider.css}" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" th:src="@{js/jquery.jcarousel.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/images/skins/tango/skin.css}" />
+
+<link href="custom.css" media="screen" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+	<div class="body_wrap">
+
+		<div class="header"
+			style="background-image: url(../images/header_default.jpg);">
+			<div class="header_inner">
+				<div class="container_12">
+
+					<div class="header_top">
+
+						<div class="logo">
+							<a href="home.do"><img th:src="@{/images/logo.png}" alt="" /> </a>
+							<h1>Home Quest - Real Estate</h1>
+						</div>
+
+						<div class="topmenu">
+							<ul class="dropdown">
+								<li class="menu-item-home current-menu-item"><a
+									href="home.do"><span>Home</span> </a></li>
+								<li><a href="sale.do"><span
+										style="color: #fff; font-size: 15px;"><strong>出售</strong>
+									</span> </a></li>
+								<li><a href="rent.do"><span
+										style="color: #fff; font-size: 15px;"><strong>出租</strong>
+									</span> </a></li>
+								<li><a href="bs.do"><span
+										style="color: #fff; font-size: 15px;"><strong>写字楼</strong>
+									</span> </a></li>
+								<li><a href="map.do"><span
+										style="color: #fff; font-size: 15px;"><strong>地图</strong>
+									</span> </a></li>
+								<li><a href="ques.do"><span
+										style="color: #fff; font-size: 15px;"><strong>咨询</strong>
+									</span> </a></li>
+							</ul>
+						</div>
+
+						<div class="header_phone">
+					
+						</div>
+
+						<div class="clear"></div>
+					</div>
+
+					<div class="header_bot">
+
+						<div class="search_home">
+							<p class="search_title">
+								<strong>搜一搜</strong>
+							</p>
+
+							<form action="toFind.do" method="post" class="form_search" />
+							<div class="row selectField" style="z-index: 999">
+								<label class="label_title" style="color: #fff; font-size: 15px;">区域:</label>
+
+								<select class="select_styled" name="region" id="region"
+									title="region">
+									<option value="" />区域
+									<option value="1" />迎泽
+									<option value="2" />小店
+									<option value="3" />杏花岭
+									<option value="4" />万柏林
+									<option value="5" />尖草坪
+									<option value="6" />晋源
+								</select>
+							</div>
+
+
+
+							<div class="row selectField" style="z-index: 888">
+								<label class="label_title" style="color: #fff; font-size: 15px;">类型:</label>
+
+								<select class="select_styled" name="type" id="type" title="type">
+									<option value="" />房屋类型
+									<option value="1" />住宅
+									<option value="2" />公寓
+									<option value="3" />写字楼
+									<option value="4" />其他
+								</select>
+							</div>
+
+							<div class="row selectField" style="z-index: 777">
+								<label class="label_title" style="color: #fff; font-size: 15px;">户型:</label>
+
+								<select class="select_styled" name="htype" id="htype"
+									title="htype">
+									<option value="" />户型
+									<option value="1" />一居
+									<option value="2" />二居
+									<option value="3" />三居
+									<option value="4" />四居
+									<option value="other" />5+
+								</select>
+							</div>
+
+							<div class="row selectField" style="z-index: 666">
+								<label class="label_title" style="color: #fff; font-size: 15px;">价格:</label>
+
+								<select class="select_styled" name="price" id="price"
+									title="price">
+									<option value="" />价格
+									<option value="between 0 and 1000" />小于1000
+									<option value="between 1000 and 2500" />1000-2500
+									<option value="between 2500 and 3500" />2500-3500
+									<option value="between 3500 and 9999999" />3500以上
+								</select>
+							</div>
+
+							<div class="row submitField">
+								<input type="submit" value="&nbsp;&nbsp;&nbsp;查询"
+									id="search_submit" class="btn_search" />
+							</div>
+
+							</form>
+							<script type="text/javascript">
+								jQuery(document)
+										.ready(
+												function($) {
+													// Switch Type
+													$(".cb-enable")
+															.click(
+																	function() {
+																		var parent = $(
+																				this)
+																				.parents(
+																						'.switch');
+																		$(
+																				parent)
+																				.removeClass(
+																						'switch_off');
+																		$(
+																				'.cb-disable',
+																				parent)
+																				.removeClass(
+																						'selected');
+																		$(this)
+																				.addClass(
+																						'selected');
+																	});
+													$(".cb-disable")
+															.click(
+																	function() {
+																		var parent = $(
+																				this)
+																				.parents(
+																						'.switch');
+																		$(
+																				parent)
+																				.addClass(
+																						'switch_off');
+																		$(
+																				'.cb-enable',
+																				parent)
+																				.removeClass(
+																						'selected');
+																		$(this)
+																				.addClass(
+																						'selected');
+																	});
+
+													// Price Range Input
+													$("#price_range")
+															.slider(
+																	{
+																		from : 0,
+																		to : 1000000,
+																		scale : [
+																				0,
+																				'|',
+																				'250k',
+																				'|',
+																				'500k',
+																				'|',
+																				'750k',
+																				'|',
+																				'1Mil' ],
+																		limits : false,
+																		step : 500,
+																		smooth : true,
+																		dimension : '&nbsp;$',
+																		skin : "round_gold"
+																	});
+												});
+							</script>
+						</div>
+
+						<div class="header_slider">
+							<span class="slider_ribbon"></span>
+							<div class="slides_container">
+								<div class="slide">
+										<a href="#"><img
+											src="images/temp3/property_01.jpg" width="645" height="407"
+											alt="" /> </a>
+										<div class="caption">
+											<p>
+												丽江花园<span class="price">1700RMB</span>
+											</p>
+										</div>
+									</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<!--/ header -->
+
+		<!-- carousel before content -->
+		<div class="before_content">
+			<div class="container_12">
+				<h2>最新发布</h2>
+				<div class="carusel_list">
+					<ul id="latest_properties" class="jcarousel-skin-tango">
+						
+					</ul>
+				</div>
+
+				<script type="text/javascript">
+					jQuery(document).ready(function($) {
+						$('#latest_properties').jcarousel({
+							easing : 'easeOutBack',
+							animation : 600,
+							scroll : 1
+						});
+					});
+				</script>
+
+			</div>
+		</div>
+		<!--/ carousel before content -->
+
+		<div class="middle">
+			<div class="container_12">
+
+				<!-- page content -->
+				<div class="entry">
+
+
+
+					<div class="col col_1_3">
+						<div class="inner">
+							<a href="sale.do"><img th:src="@{/images/property_sale.png}"
+								width="137" height="137" alt="Property for SALE"
+								class="alignleft" /> </a>
+							<div class="text-block-1">
+								<strong>出售 <span>SALE&nbsp;</span>
+								</strong>
+								<p>
+									<a href="sale.do" class="link-more2">查看详情 >></a>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col col_1_3">
+						<div class="inner">
+							<a href="rent.do"><img src="../images/property_rent.png"
+								width="137" height="137" alt="APARTMENTS for RENT"
+								class="alignleft" /> </a>
+							<div class="text-block-1">
+								<strong>出租<span>RENT&nbsp;</span>
+								</strong>
+								<p>
+									<a href="rent.do" class="link-more2">查看详情 >></a>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col col_1_3">
+						<div class="inner">
+							<a href="bs.do"><img src="../images/property_lease.png"
+								width="137" height="137" alt="OFFICE SPACE for LEASE"
+								class="alignleft" /> </a>
+							<div class="text-block-1">
+								<strong>写字楼 <span>LEASE</span>
+								</strong>
+								<p>
+									<a href="bs.do" class="link-more2">查看详情 >></a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="divider_space"></div>
+
+				</div>
+				<!--/ page content -->
+
+
+
+
+			</div>
+		</div>
+		<!--/ middle -->
+
+		<div class="footer">
+			<div class="footer_inner">
+				<div class="container_12">
+
+					<div class="f_col_1">
+
+						<div id="categories-3" class="widget-container widget_categories">
+							<h3 class="widget-title">PROPERTIES</h3>
+							<ul>
+								<li><a href="#">Villas for Sale</a></li>
+								<li><a href="#">Apartments for Rent</a></li>
+								<li><a href="#">Office Space</a></li>
+								<li><a href="#">Search for one</a></li>
+								<li><a href="#">Latest offers</a></li>
+							</ul>
+						</div>
+
+					</div>
+					<!--/ footer col 1 -->
+
+					<div class="f_col_2">
+
+						<div class="widget-container widget_pages">
+							<h3 class="widget-title">ABOUT US</h3>
+							<ul>
+
+								<li><a href="#">Why HomeQuest?</a></li>
+								<li><a href="#">Our Experience</a></li>
+								<li><a href="#">Our Expertise</a></li>
+								<li><a href="#">Our Location</a></li>
+								<li><a href="#">Get in touch</a></li>
+							</ul>
+						</div>
+
+					</div>
+					<!--/ footer col 2 -->
+
+					<div class="f_col_3">
+
+						<div class="widget-container widget_twitter">
+							<h3>From Twitter</h3>
+
+							<div class="tweet_item">
+								<div class="tweet_image">
+									<img src="../images/temp/twitter_avatar.png" width="30"
+										height="30" alt="" />
+								</div>
+								<div class="tweet_text">
+									<div class="inner">
+										
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+
+							<div class="tweet_item">
+								<div class="tweet_image">
+									<img src="../images/temp/twitter_avatar.png" width="30"
+										height="30" alt="" />
+								</div>
+								<div class="tweet_text">
+									<div class="inner">
+										<a href="#">@Serendipity:</a> knowing you, every bit of time
+										spent on that car is like a vacation in paradise ;)
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+
+						</div>
+
+					</div>
+					<!--/ footer col 3 -->
+
+					<div class="f_col_4">
+
+
+						<!-- widget contacts -->
+						<div class="widget-container widget_contact">
+							<h3>Contact Us</h3>
+
+							<div class="contact-address">
+								<div class="address">
+									589 Roadhill Boulevard<br /> Venice Beach, CA 90291, USA
+								</div>
+							</div>
+						</div>
+						<!--/ widget contacts -->
+
+
+						<div class="footer_social">
+							<a href="#"><img th:src="@{images/icons/social_facebook_16.png}"
+								alt="" width="16" height="16" /> </a> <a href="#"><img
+								src="images/icons/social_twitter_16.png" alt="" width="16"
+								height="16" /> </a> <a href="#"><img
+								src="images/icons/social_rss_16.png" alt="" width="16"
+								height="16" /> </a>
+							<div class="clear"></div>
+						</div>
+
+
+
+					</div>
+					<!--/ footer col 4 -->
+
+					<div class="clear"></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
