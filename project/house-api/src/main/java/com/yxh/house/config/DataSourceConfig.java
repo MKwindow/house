@@ -1,0 +1,45 @@
+package com.yxh.house.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+
+/**
+ * 作者: sxy
+ * 时间: 2019/3/21
+ */
+@Configuration
+public class DataSourceConfig {
+    @Value("${jdbc_url:jdbc:mysql://sunxiaoyuan.com:3307/house}")
+    String jdbcUrl;
+    @Value("${jdbc_username:root}")
+    String jdbcUsername;
+    @Value("${jdbc_password:123456}")
+    String jdbcPassword;
+
+
+    @Bean
+    public DataSource dataSource(){
+        return DataSourceBuilder.create().url(jdbcUrl).username(jdbcUsername).password(jdbcPassword).build();
+    }
+
+    @Value("${redis_host:sunxiaoyuan.com}")
+    String redisHost;
+    @Value("${redis_password:redisdb}")
+    String redisPassword;
+    @Value("${redis_port:6379}")
+    int redisPort;
+
+    @Autowired
+    public RedisProperties redisProperties(RedisProperties redisProperties){
+        redisProperties.setHost(redisHost);
+        redisProperties.setPassword(redisPassword);
+        redisProperties.setPort(redisPort);
+        return redisProperties;
+    }
+}
