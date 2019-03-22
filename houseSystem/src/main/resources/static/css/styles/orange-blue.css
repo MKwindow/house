@@ -1,0 +1,127 @@
+.header_phone span {
+	color:#f69935;}
+
+.topmenu .dropdown li ul li a:hover,
+.topmenu .dropdown .current-menu-ancestor ul li a:hover,
+.topmenu .dropdown .current-menu-ancestor .current-menu-item a,
+.topmenu .dropdown .current-menu-ancestor li .current-menu-item a,
+.topmenu .dropdown li .current-menu-item a,
+.topmenu .dropdown li.parent li a:hover,
+.topmenu .dropdown .current-menu-ancestor .current-menu-ancestor a,
+.topmenu .dropdown .current-menu-ancestor .current-menu-ancestor .current-menu-ancestor a,
+.topmenu .dropdown .current-menu-ancestor .current-menu-ancestor .current-menu-ancestor li a:hover,
+.topmenu .dropdown .current-menu-ancestor .current-menu-ancestor .current-menu-ancestor .current-menu-item a{
+	color:#f69935;}
+
+.cusel .cuselActive {
+	color: #ff8f17 !important;}
+
+.header_slider .caption .price {
+	 color:#ff8f17}
+	
+.form_search .btn_search,
+.form_white .btn-submit,
+.comment-form .btn-submit,
+.button_link, .button_link_arrow,
+.button_link span, .button_link_arrow span,
+.widget_login .submit .btn-submit {
+	color:#ffa01b;}
+
+.form_search .btn_search,
+.form_white .btn-submit,
+.widget_login .submit .btn-submit,
+.btn-submit, 
+.contact-form .btn-submit,
+.comment-form .btn-submit {
+	background-image:url(orange-blue/btn_sprite.png)}
+
+.header_slider .slider_ribbon {
+	background-image:url(orange-blue/ribbon_featured.png)}
+	
+.switch, .switch_off {
+	background-image:url(orange-blue/switch.png);}
+
+.jslider_round_gold .jslider-bg i,
+.jslider_round_gold .jslider-pointer {
+	background-image: url(orange-blue/jslider.round.gold.png) !important;}
+	
+.btn_view {
+	background-image:url(orange-blue/btn_sprite.png);
+	color:#42b0e3;}
+
+.btn_view:hover {
+	color:#473e1d !important}
+
+.text-block-1 .link-more2 {
+	color:#f69935}
+
+.entry a:hover,
+.post-item h2 a:hover,
+.sidebar .widget-container li a:hover,
+.sidebar .widget-container .current-menu-item a,
+.sidebar .widget-container .current_page_item a,
+.footer a:hover{
+	color:#ff8f17}
+
+.post-meta-top .author,
+.widget_recent_posts .post-meta a,
+.widget_popular_posts .post-meta a {
+	color:#404040;}
+
+h1 span, h2 span, h3 span ,h4 span, h5 span,
+.container_12 blockquote,
+.tabs_framed .tabs li a,
+.slideshow.slideQuotes .slides_container .quote-text,
+.slideshow .link-more,
+.post_list li a:hover,
+.faq_q,
+.sidebar .widget_archive li a,
+.widget_twitter .tweet_item a,
+.sidebar .widget_links li a:hover,
+.sidebar .widget_categories li a:hover,
+.sidebar .widget_meta li a:hover,
+.sidebar .widget_pages li a:hover,
+.sidebar .widget-container li.current-menu-item a,
+.sidebar .widget-container li.current_page_item a,
+.sidebar .widget-container.widget_categories li li a:hover,
+.sidebar .widget-container.widget_links li li a:hover,
+.sidebar .widget-container.widget_meta li li a:hover,
+.sidebar .widget-container.widget_pages li li a:hover,
+.sidebar .widget_nav_menu ul li a:hover,
+.sidebar .widget_nav_menu ul .current-menu-item a,
+.widget_recent_posts .post-meta a:hover,
+.widget_popular_posts .post-meta a:hover,
+.widget_recent_posts ul li .post-title:hover,
+.widget_popular_posts ul li .post-title:hover,
+.author-contact,
+.block_hr .re-price,
+.block_hr .link-back:hover,
+.re-top .re-price,
+.re-bot .link-more:hover,
+.map-textbox .re-price,
+.footer .widget_calendar table a,
+.footer .widget_calendar table tbody a {
+	color:#ff8f17}
+
+.agent_phone,
+.widget_adv_filter .agent_phone {
+	background-image:url(orange-blue/agent_phone_bg.jpg);}
+
+.footer .widget_categories ul li,
+.footer .widget_pages ul li,
+.footer .widget_links ul li,
+.footer .widget_meta ul li,
+.footer .widget_archive ul li,
+.footer .widget-container.widget_nav_menu ul li{
+	background-image:url(orange-blue/dot_1.png)}
+
+.sidebar .widget_links li a,
+.sidebar .widget_categories li a,
+.sidebar .widget_meta li a,
+.sidebar .widget_pages li a,
+.sidebar .widget_nav_menu ul li a {
+	background-image:url(orange-blue/arrow_1.png)}
+
+.header_slider .pagination li a,
+.header_slider .pagination li.current a {
+	background-image:url(orange-blue/slider_pagination.png);

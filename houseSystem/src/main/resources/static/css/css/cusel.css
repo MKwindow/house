@@ -1,0 +1,210 @@
+/*
+	styles for select
+*/
+.cusel,
+.cuselFrameRight,
+.jScrollPaneDrag,
+.jScrollArrowUp,
+.jScrollArrowDown {
+	background: url(../../images/selects-1.png) no-repeat;
+}
+.cusel {
+	height: 31px;
+	background-position: left top;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	font-size: 14px;
+	z-index: 2;
+}
+
+.cuselFrameRight {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 40px;
+	background-position: right 0;
+}
+
+.cuselText {
+	height: 15px;
+	padding: 8px 0 0 10px;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+	font: 12px Arial, Arial, Helvetica, sans-serif;
+	font-style:italic;
+	text-shadow:none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color:#777
+}
+.cusel:hover .cuselText {
+	color:#999}
+	
+* html .cuselText {
+	height: 31px;
+}
+.cusel span {
+	display: block;
+	cursor: pointer;
+	white-space: nowrap;
+	padding: 7px 20px 7px 10px;
+	zoom: 1;
+	border-top: 1px solid #222;
+}
+.cusel span:first-child {
+	border:none}
+	
+.cusel span:hover,
+.cusel .cuselOptHover {
+	background: #424242;
+	color: #ccc;
+}
+.cusel .cuselActive {
+	color: #f6c20f;
+	cursor: default;
+}
+
+/* 	styles for focus and hover */
+.cusel:hover .cuselFrameRight,
+.cuselFocus .cuselFrameRight {
+	background-position: right -31px;}
+
+.cuselOpen {
+	z-index: 999;
+}
+
+/* White select style */
+.white_select .cuselFrameRight {
+	background-position: right -62px;}
+
+.white_select {
+	background-position: 0 -62px;}
+
+.white_select .cuselText {
+	font-style:normal;
+	font-family: 'Lato', sans-serif;
+	font-weight:bold;
+	color:#404040}
+
+.white_select:hover .cuselText {
+	color:#000}
+
+.white_select:hover .cuselFrameRight,
+.white_select.cuselFocus .cuselFrameRight {
+	background-position: right -93px;}
+
+.white_select span {
+	padding: 10px 20px 8px 10px;
+	border-top: none;
+	color:#fff;
+	background:url(../../images/divider_line.png) top repeat-x}
+
+.white_select span:first-child,
+.white_select span:hover:first-child {
+	background:none}
+
+.white_select span:hover,
+.white_select .cuselOptHover {
+	color: #f6c20f;
+	background:url(../../images/divider_line.png) top repeat-x}
+
+.white_select.cuselOpen {
+	background-position: 0 -124px;}
+
+.white_select.cuselOpen .cuselFrameRight {
+	background-position: right -124px;}
+
+/* 	styles for scrollbar */
+.cusel .cusel-scroll-wrap {
+	display: block;
+	visibility: hidden;
+	position: absolute;
+	left: 0;
+	top: 100%;	
+	color:#999999;
+	min-width: 100%;
+	width: auto;
+	font: 12px Arial, Helvetica, sans-serif;
+	z-index:200;
+	text-align:left
+}
+.cusel .jScrollPaneContainer {
+	position: relative;
+	overflow: hidden;
+	z-index: 5;
+	background:url(../../images/opacity_gray_90.png);
+	border: 1px solid #0f0f0f;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.cusel .jScrollPaneTrack {
+	height: 100%;
+	width: 7px !important;
+	background: #454545;
+	position: absolute;
+	top: 0;
+	right: 4px;
+}
+.cusel .jScrollPaneDrag {
+	position: absolute;
+	background-position: -40px -31px;
+	cursor: pointer;
+	width: 15px !important;
+	height: 27px !important;
+	right: -4px;	
+}
+
+.cusel .jScrollPaneDragTop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+.cusel .jScrollPaneDragBottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+.cusel .jScrollArrowUp {
+	position: absolute;
+	top: 0;
+	right: 1px;
+	width: 13px !important;
+	height: 12px;
+	cursor: pointer;
+	background-position: 0 -31px;
+	background-color:#595959;
+	overflow: hidden;	
+	-webkit-border-top-left-radius: 2px;
+	-webkit-border-top-right-radius: 2px;
+	-moz-border-radius-topleft: 2px;
+	-moz-border-radius-topright: 2px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+}
+.cusel .jScrollArrowDown {
+	width: 13px !important;
+	height: 12px;
+	position: absolute;
+	top: auto;
+	bottom: 0;
+	right: 1px;
+	cursor: pointer;
+	background-position: -13px -31px;
+	background-color:#595959;
+	overflow: hidden;
+	-webkit-border-bottom-right-radius: 2px;
+	-webkit-border-bottom-left-radius: 2px;
+	-moz-border-radius-bottomright: 2px;
+	-moz-border-radius-bottomleft: 2px;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;}
