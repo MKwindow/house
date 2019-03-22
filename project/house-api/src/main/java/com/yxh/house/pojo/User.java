@@ -1,9 +1,14 @@
 package com.yxh.house.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.yxh.house.common.Groups;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -16,14 +21,24 @@ import java.util.List;
 @Data
 public class User implements UserDetails, Serializable {
 
-    private int id;
+    @NotNull(groups = {Groups.Select.class,Groups.Update.class,})
+    private Integer id;
+
+    @NotBlank(groups = {Groups.Insert.class})
     private String nickName;
+
+    @NotBlank(groups = {Groups.Insert.class})
     private String username;
+
+    @JsonIgnore @NotBlank(groups = {Groups.Insert.class})
     private String password;
-    private String phone;
+
+    @Email @NotBlank(groups = {Groups.Insert.class})
     private String email;
-    private int credit;
-    private int status;
+
+    private String phone;
+    private Integer credit;
+    private Integer status;
     private Date createTime;
     private List<Role> roles;
 
@@ -45,21 +60,21 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return getStatus()==1;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return getStatus()==1;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return getStatus()==1;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return getStatus()==1;
+        return true;
     }
 }
