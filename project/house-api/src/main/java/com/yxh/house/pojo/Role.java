@@ -1,7 +1,10 @@
 package com.yxh.house.pojo;
 
+import com.yxh.house.common.Groups;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 作者: sxy
@@ -10,7 +13,9 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 public class Role implements GrantedAuthority {
 
-    private int id;
+    @NotNull(groups = {Groups.Update.class})
+    private Integer id;
+    @NotNull(groups = {Groups.Insert.class})
     private String roleName;
 
     @Override

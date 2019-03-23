@@ -1,8 +1,6 @@
 package com.yxh.house.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,20 +24,5 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource(){
         return DataSourceBuilder.create().url(jdbcUrl).username(jdbcUsername).password(jdbcPassword).build();
-    }
-
-    @Value("${redis_host:sunxiaoyuan.com}")
-    String redisHost;
-    @Value("${redis_password:redisdb}")
-    String redisPassword;
-    @Value("${redis_port:6379}")
-    int redisPort;
-
-    @Autowired
-    public RedisProperties redisProperties(RedisProperties redisProperties){
-        redisProperties.setHost(redisHost);
-        redisProperties.setPassword(redisPassword);
-        redisProperties.setPort(redisPort);
-        return redisProperties;
     }
 }
