@@ -57,7 +57,7 @@
     color: #ff8f17;
 }
 
-.layui-row .layui-col-xs12 .container {
+.layui-row .layui-col-md12 .container {
     height: 50px;
     width: 800px;
     margin: 10px auto 0 auto;
@@ -93,4 +93,24 @@
     background: url(../images/before_content.jpg) 0px 0px repeat-x;
 }
 
+.layui-card-header {
+    height: 100%;
+}
 
+#field {
+    text-align: center;
+}
+
+.layui-card {
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, .05);
+}
+
+.layui-card-header {
+    border-bottom: 0px solid #f6f6f6;
+}
+.layui-card-header img{
+    width: 100%;
+}
+.layui-col-space30 {
+    margin: 0px;
+}

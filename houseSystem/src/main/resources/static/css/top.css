@@ -1,7 +1,7 @@
 .layui-header {
     z-index: 1000;
     height: 88px;
-    background: url(../images/header_default.jpg)  no-repeat 0 1px;
+    background: url(../images/header_default.jpg) no-repeat 0 1px;
 }
 
 .layui-nav .layui-nav-item {
@@ -31,4 +31,8 @@
     z-index: 100;
     border-radius: 2px;
     white-space: nowrap;
+}
+
+.layui-nav {
+    background-color: transparent;
 }
