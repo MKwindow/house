@@ -1,0 +1,34 @@
+.layui-header {
+    z-index: 1000;
+    height: 88px;
+    background: url(../images/header_default.jpg)  no-repeat 0 1px;
+}
+
+.layui-nav .layui-nav-item {
+    position: relative;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    line-height: 100px;
+}
+
+.layui-nav * {
+    font-size: 21px;
+}
+
+.layui-nav-child {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100px;
+    min-width: 100%;
+    line-height: 36px;
+    padding: 5px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    z-index: 100;
+    border-radius: 2px;
+    white-space: nowrap;
+}
