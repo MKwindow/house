@@ -13,11 +13,11 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class DataSourceConfig {
-    @Value("${jdbc_url:jdbc:mysql://sunxiaoyuan.com:3307/house}")
+    @Value("${jdbc_url:jdbc:mysql://sunxiaoyuan.com:3307/house?useUnicode=true&characterEncoding=utf8}")
     String jdbcUrl;
     @Value("${jdbc_username:root}")
     String jdbcUsername;
-    @Value("${jdbc_password:123456}")
+    @Value("${jdbc_password}")
     String jdbcPassword;
 
 
