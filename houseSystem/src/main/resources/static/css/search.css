@@ -1,4 +1,4 @@
-.layui-fluid{
+.layui-fluid {
     padding: 0px;
 }
 
@@ -30,7 +30,8 @@
     overflow: hidden;
     background-color: #fff;
 }
-.room-card-small>div {
+
+.room-card-small > div {
     display: inline-block;
     vertical-align: top;
 }
@@ -42,16 +43,19 @@
 .room-card-small .text-content-middle {
     margin-left: 25px;
 }
-.room-card-small .text-content-middle h1{
+
+.room-card-small .text-content-middle h1 {
     width: 330px;
     font-size: 20px;
-    font-family: Helvetica,Calibri,Tahoma,Arial,微软雅黑,宋体,sans-serif;
+    font-family: Helvetica, Calibri, Tahoma, Arial, 微软雅黑, 宋体, sans-serif;
 }
+
 .text-ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
 .room-card-small .text-content-middle h2, .room-card-small .text-content-middle p {
     width: 330px;
     font-size: 14px;
@@ -84,7 +88,7 @@
     color: #f56000;
 }
 
-.room-card-small .text-content-right .price span{
+.room-card-small .text-content-right .price span {
     font-size: 24px;
     font-weight: 700;
 }
@@ -96,7 +100,8 @@
 #field {
     text-align: center;
 }
-.layui-btn{
+
+.layui-form  .layui-form-item .layui-input-block .layui-btn-lg {
     margin-top: -50px;
     margin-left: 780px;
 }

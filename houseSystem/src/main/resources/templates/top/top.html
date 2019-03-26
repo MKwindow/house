@@ -15,17 +15,18 @@
                   th:href="@{/css/login.css}">
             <div class="layui-header">
                 <div class="layui-main">
-                    <div class="layui-logo">
-                        <img src="../../static/images/logo.png" th:src="@{/images/logo.png}">
-                    </div>
-
+                    <a href="/index">
+                        <div class="layui-logo">
+                            <img src="../../static/images/logo.png" th:src="@{/images/logo.png}">
+                        </div>
+                    </a>
                     <ul class="layui-nav layui-layout-right">
-                        <li class="layui-nav-item"><a href=""> <i
+                        <li class="layui-nav-item"><a href="/index"> <i
                                 class="layui-icon layui-icon-home"
                                 style="font-size: 30px; color: #1E9FFF;"></i>
                         </a></li>
                         <li class="layui-nav-item"><a href="">预定房屋管理</a></li>
-                        <li class="layui-nav-item"><a href="">发布房屋</a></li>
+                        <li class="layui-nav-item"><a href="/houseadd">发布房屋</a></li>
                     </ul>
                 </div>
                 <ul class="layui-nav layui-layout-right">
@@ -38,7 +39,7 @@
                     </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a href="">基本信息</a>
+                                <a href="/showuser">基本信息</a>
                             </dd>
                             <dd>
                                 <a href="">合同管理</a>
@@ -57,7 +58,7 @@
     </div>
     <div class="signform" id="signform" style="display: none">
         <div class="userdiv">
-            <input id="user" class="signinput" type="text" placeholder="用户名" name="user" >
+            <input id="user" class="signinput" type="text" placeholder="用户名" name="user">
         </div>
         <div class="pwddiv">
             <input id="pwd" class="signinput" type="password" placeholder="密码" name="pwd">
@@ -67,7 +68,7 @@
         </div>
         <br>
         <div class="change" style="color: #4d4d4d">
-            <p>还没有账号?赶快<a href="#" style="text-decoration: none;color: #43A047">注册</a>一个吧</p>
+            <p>还没有账号?赶快<a href="/register" style="text-decoration: none;color: #43A047">注册</a>一个吧</p>
         </div>
     </div>
 </div>

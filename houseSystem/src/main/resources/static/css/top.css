@@ -40,11 +40,12 @@
     white-space: nowrap;
 }
 
-.layui-nav {
+.layui-header .layui-nav {
     background-color: transparent;
 }
 .layui-icon.layui-icon-username+.layui-btn.layui-btn-radius.layui-btn-primary{
     border: 1px solid #705757;
     background-color: #5f6674;
     color: #a9f8fa;
+    margin-top: -6px;
 }

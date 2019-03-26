@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href='../../static/layui/css/layui.css'
+          th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" href='../../static/css/detail.css'
+          th:href="@{/css/detail.css}">
+    <meta charset="UTF-8">
+    <title>房屋发布页</title>
+</head>
+<body>
+<div class="layui-fluid">
+    <div th:replace="top/top::top"></div>
+    <div class="layui-row">
+        <div class="layui-main" style="width: 500px">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>发布房屋</legend>
+            </fieldset>
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋名称:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="housename" required lay-verify="required" placeholder="请输入房屋名称"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋类型:</label>
+                    <div class="layui-input-block">
+                        <select name="housestyle" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">一室一厅</option>
+                            <option value="1">两室一厅</option>
+                            <option value="2">三室一厅</option>
+                            <option value="3">四室一厅</option>
+                            <option value="4">五室一厅</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋面积:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="housearea" required lay-verify="required" placeholder="请输入房屋面积"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">㎡</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋区域:</label>
+                    <div class="layui-input-block">
+                        <select name="area" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">武侯区</option>
+                            <option value="1">进景区</option>
+                            <option value="2">神马区</option>
+                            <option value="3">位置区</option>
+                            <option value="4">后倾区</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房源风格:</label>
+                    <div class="layui-input-block">
+                        <select name="style" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">经济</option>
+                            <option value="1">豪华</option>
+                            <option value="2">廉价</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">租金:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="zent" lay-verify="required" placeholder="请输入" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">缴费方式:</label>
+                    <div class="layui-input-block">
+                        <select name="payway" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">押一付一</option>
+                            <option value="1">押一付三</option>
+                            <option value="2">月付</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋图片:</label>
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn" id="img">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋设施:</label>
+                    <div class="layui-input-block">
+                        <textarea name="housefaci" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">认证文件:</label>
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn" id="txt">
+                            <i class="layui-icon">&#xe67c;</i>上传文件
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">房屋地址:</label>
+                    <div class="layui-input-block">
+                        <textarea name="houseaddress" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="up" id="up">发布</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">清除</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" src="../../static/js/houseadd.js" th:src="@{/js/houseadd.js}">
+</script>
+</body>
+</html>

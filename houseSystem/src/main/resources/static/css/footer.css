@@ -3,6 +3,10 @@
     height: 284px;
 }
 
+.layui-fluid {
+    padding: 0 0px;
+}
+
 .f_col_1, .f_col_2, .f_col_3, .f_col_4 {
     float: left;
     margin-top: 28px;
