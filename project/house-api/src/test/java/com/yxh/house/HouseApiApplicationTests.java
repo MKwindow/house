@@ -1,8 +1,11 @@
 package com.yxh.house;
 
 import com.github.pagehelper.PageInfo;
+import com.yxh.house.pojo.House;
+import com.yxh.house.pojo.HouseAddr;
 import com.yxh.house.pojo.Role;
 import com.yxh.house.pojo.User;
+import com.yxh.house.service.HouseService;
 import com.yxh.house.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
@@ -18,6 +22,55 @@ public class HouseApiApplicationTests {
 
     @Autowired
     UserService userService;
+    @Autowired
+    HouseService houseService;
+
+    @Test
+    public void testHouse() throws IOException {
+        House house = House.builder()
+                .user_id(1)
+                .title("test")
+                .area(80)
+                .rent(1000)
+                .type_a(1)
+                .type_b(1)
+                .type_c(1)
+                .type_d(1)
+                .style(1)
+                .pay_a(1)
+                .pay_b(1)
+                .info("info")
+                .addr_id(2)
+                .addr_detail("chongqingshi ************")
+                .create_time(new Date())
+                .status(1)
+                .build();
+        for (int i = 0; i < 30; i++) {
+            houseService.addHouse(house,null);
+        }
+        house.setRent(2000);
+        houseService.updateHouse(house);
+
+        PageInfo<House> houseList = houseService.getHouseList(House.builder().build(), 3, 10);
+        System.out.println(houseList);
+    }
+
+    @Test
+    public void testConfig(){
+        HouseAddr h1 = new HouseAddr();
+        h1.setPid(0);
+        h1.setName("重庆");
+        houseService.addAddrConfig(h1);
+
+        String[] addr = {"渝中区","渝北区","大渡口区","九龙坡区","南岸区","北碚区"};
+        for (String s: addr) {
+            HouseAddr houseAddr = new HouseAddr();
+            houseAddr.setPid(h1.getId());
+            houseAddr.setName(s);
+            houseService.addAddrConfig(houseAddr);
+        }
+    }
+
 
     @Test
     public void testUserRole(){
