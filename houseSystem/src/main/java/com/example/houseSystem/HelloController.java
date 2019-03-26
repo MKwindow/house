@@ -77,4 +77,10 @@ public class HelloController {
 		return "main/register";
 	}
 
+	// 房屋管理页面
+	@RequestMapping("/showRentManage")
+	public String showRentManage() {
+		return "main/rent/rent_manage";
+	}
+
 }

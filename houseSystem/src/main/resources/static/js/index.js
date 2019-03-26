@@ -52,15 +52,16 @@ function searchToggle(obj, evt) {
 
 function submitFn(obj, evt) {
     value = $(obj).find('.search-input').val().trim();
-
-    _html = "你输入的是: ";
+    var url = "/index/detail";
+    var parm;
     if (!value.length) {
-        _html = "没有输入文本";
+        parm = null;
     }
     else {
-        _html += "<b>" + value + "</b>";
+        parm = {'address': value};
     }
-    $(obj).find('.result-container').html('<span>' + _html + '</span>');
-    $(obj).find('.result-container').fadeIn(100);
-    evt.preventDefault();
+    $.post(url, JSON.stringify(parm), function () {
+        console.log(url + JSON.stringify(parm));
+        // window.location.href = url;
+    });
 }

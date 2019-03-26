@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href='../../../static/layui/css/layui.css'
+          th:href="@{/layui/css/layui.css}">
+    <meta charset="UTF-8">
+    <title>房屋发布页</title>
+</head>
+<body>
+<div class="layui-fluid">
+    <div th:replace="top/top::top"></div>
+    <div class="layui-row">
+        <table class="layui-hide" id="renthourse" lay-filter="hourse"></table>
+        <script type="text/html" id="toolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+                <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+            </div>
+        </script>
+        <script type="text/html" id="bar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+</div>
+<script src="../../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script>
+    layui.use('table', function () {
+        var url1 = 'http://localhost:63342/resources/static/json/rent_manage.json';
+        var url2 = 'http://localhost:8081/json/rent_manage.json';
+        var table = layui.table;
+        table.render({
+            elem: '#renthourse'
+            , url: url2
+            , toolbar: '#toolbar'
+            , title: '房东房屋表格'
+            , totalRow: true
+            , cols: [
+                [
+                    {type: 'checkbox', fixed: 'left'}
+                    , {
+                    field: 'houseid',
+                    title: '房屋编号',
+                    width: 100,
+                    fixed: 'left',
+                    unresize: true,
+                    sort: true,
+                    totalRowText: '合计'
+                }
+                    , {field: 'housestyle', title: '房屋类型', width: 120}
+                    , {field: 'area', title: '区域', width: 100, unresize: true}
+                    , {field: 'houseaddress', title: '房屋地址', width: 100, sort: true, unresize: true}
+                    , {field: 'housearea', title: '房屋面积', width: 100, sort: true}
+                    , {field: 'housename', title: '房屋名称', width: 100, sort: true}
+                    , {field: 'housefaci', title: '房屋设施', width: 100, sort: true}
+                    , {field: 'zent', title: '租金', width: 80, sort: true}
+                    , {field: 'style', title: '风格', width: 80, sort: true}
+                    , {field: 'houseimage', title: '图片', width: 80, sort: true}
+                    , {field: 'payway', title: '缴费方式', width: 100, sort: true}
+                    , {field: 'housedate', title: '发布时间'}
+                    , {field: 'city', title: '出租状态', width: 100}
+                    , {field: 'attestation', title: '认证状态', width: 120}
+                    , {fixed: 'right', title: '操作', toolbar: '#bar', width: 150}
+                ]
+            ]
+            , page: true
+        });
+
+        //工具栏事件
+        table.on('toolbar(hourse)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                    break;
+            }
+            ;
+        });
+        //监听行工具事件
+        table.on('tool(hourse)', function (obj) {
+            var data = obj.data;
+            console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data));
+            }
+        });
+    });
+</script>
+</body>
+</html>

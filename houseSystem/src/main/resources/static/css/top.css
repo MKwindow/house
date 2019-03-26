@@ -1,4 +1,4 @@
-.layui-header {
+.mylayui-header {
     position: fixed;
     /*固定定位*/
     top: 0;
@@ -11,7 +11,7 @@
     background: url(../images/header_default.jpg) no-repeat 0 1px;
 }
 
-.layui-nav .layui-nav-item {
+.mylayui-nav .mylayui-nav-item {
     position: relative;
     display: inline-block;
     *display: inline;
@@ -20,15 +20,15 @@
     line-height: 100px;
 }
 
-.layui-nav * {
+.mylayui-nav .mylayui-nav-item a {
     font-size: 21px;
 }
 
-.layui-nav-child {
+.mylayui-nav-child {
     display: none;
     position: absolute;
     left: 0;
-    top: 100px;
+    top: 80px;
     min-width: 100%;
     line-height: 36px;
     padding: 5px 0;
@@ -40,10 +40,20 @@
     white-space: nowrap;
 }
 
-.layui-header .layui-nav {
+.mylayui-header .mylayui-nav {
     background-color: transparent;
 }
-.layui-icon.layui-icon-username+.layui-btn.layui-btn-radius.layui-btn-primary{
+
+.mylayui-header .mylayui-nav-right {
+    margin-top: 18px;
+}
+
+.mylayui-header .mylayui-nav-right .layui-nav-item {
+    height: 80px;
+}
+
+.mylayui-header .mylayui-nav
+.layui-icon.layui-icon-username + .layui-btn.layui-btn-radius.layui-btn-primary {
     border: 1px solid #705757;
     background-color: #5f6674;
     color: #a9f8fa;

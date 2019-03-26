@@ -13,23 +13,23 @@
                   th:href="@{/css/top.css}">
             <link rel="stylesheet" href='../../static/css/login.css'
                   th:href="@{/css/login.css}">
-            <div class="layui-header">
+            <div class="layui-header mylayui-header">
                 <div class="layui-main">
-                    <a href="/index">
-                        <div class="layui-logo">
+                    <div class="layui-logo">
+                        <a href="/index">
                             <img src="../../static/images/logo.png" th:src="@{/images/logo.png}">
-                        </div>
-                    </a>
-                    <ul class="layui-nav layui-layout-right">
-                        <li class="layui-nav-item"><a href="/index"> <i
+                        </a>
+                    </div>
+                    <ul class="layui-nav layui-layout-right mylayui-nav">
+                        <li class="layui-nav-item mylayui-nav-item"><a href="/index"> <i
                                 class="layui-icon layui-icon-home"
                                 style="font-size: 30px; color: #1E9FFF;"></i>
                         </a></li>
-                        <li class="layui-nav-item"><a href="">预定房屋管理</a></li>
-                        <li class="layui-nav-item"><a href="/houseadd">发布房屋</a></li>
+                        <li class="layui-nav-item mylayui-nav-item"><a href="">预定房屋管理</a></li>
+                        <li class="layui-nav-item mylayui-nav-item"><a href="/houseadd">发布房屋</a></li>
                     </ul>
                 </div>
-                <ul class="layui-nav layui-layout-right">
+                <ul class="layui-nav layui-layout-right mylayui-nav mylayui-nav-right">
                     <li class="layui-nav-item"><a href="javascript:;"> <i
                             class="layui-icon layui-icon-username"
                             style="font-size: 30px; color: #1E9FFF;"></i>
@@ -37,7 +37,7 @@
                                 class="layui-btn layui-btn-radius layui-btn-primary" id="btn">登陆
                         </button>
                     </a>
-                        <dl class="layui-nav-child">
+                        <dl class="layui-nav-child mylayui-nav-child">
                             <dd>
                                 <a href="/showuser">基本信息</a>
                             </dd>
@@ -45,7 +45,7 @@
                                 <a href="">合同管理</a>
                             </dd>
                             <dd>
-                                <a href="">房屋管理</a>
+                                <a href="/showRentManage">房屋管理</a>
                             </dd>
                             <dd>
                                 <a href="">注销</a>
