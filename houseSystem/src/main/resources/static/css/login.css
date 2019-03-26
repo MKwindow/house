@@ -1,0 +1,58 @@
+.signform {
+    font-family: 微软雅黑;
+    border-radius: 1em;
+    text-align: center;
+    z-index: 999;
+}
+
+#registerform {
+    height: 450px;
+}
+
+#registerloading {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 410px;
+    top: 90px;
+}
+
+.signinput {
+    text-align: center;
+    border-radius: 0.2em;
+    width: 280px;
+    height: 45px;
+    border: none;
+    background-color: #f2f2f2;
+    font-size: 28px;
+}
+
+.signinput::-webkit-input-placeholder {
+    font-size: 26px;
+}
+
+.userdiv {
+    position: relative;
+    margin-top: 80px;
+}
+
+.pwddiv {
+    position: relative;
+    margin-top: 20px;
+}
+
+.postdiv {
+    position: relative;
+    margin-top: 20px;
+}
+
+.postdiv button {
+    cursor: pointer;
+    color: white;
+    font-size: 26px;
+    border: none;
+    border-radius: 0.4em;
+    width: 280px;
+    height: 45px;
+    background-color: #4CAF50;
+}

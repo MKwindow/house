@@ -10,12 +10,9 @@
 </head>
 <body>
 <div class="layui-fluid">
-    <div class="layui-row">
-        <div class="layui-col-md12">
-            <div th:insert="top/top::top"></div>
-        </div>
-    </div>
-    <!-- head -->
+    <!--头部-->
+    <div th:replace="top/top::top"></div>
+    <!-- head 分割线-->
     <div class="layui-row">
         <div class="layui-col-md12" id="bg1"></div>
     </div>
@@ -335,6 +332,7 @@
                     </a>
                 </div>
             </div>
+            <!--分页-->
             <div class="layui-row">
                 <div id="field"></div>
             </div>
@@ -345,7 +343,7 @@
         <div th:insert="bottom/bottom::footer"></div>
     </div>
 </div>
-<script src="../static/jq/jquery-1.11.0.min.js" th:src="jq/jquery-1.11.0.min.js"></script>
+<script src="../static/jq/jquery-1.11.0.min.js" th:src="@{/jq/jquery-1.11.0.min.js}"></script>
 <script src="../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
 <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
 </body>

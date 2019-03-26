@@ -2,6 +2,10 @@
     left: 250px;
 }
 
+.layui-fluid{
+    padding: 0px 0px;
+}
+
 #bg1 {
     height: 32px;
     background: url(../images/header_default.jpg) no-repeat 0 -86px;

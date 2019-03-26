@@ -31,7 +31,7 @@ layui.use(['laypage', 'layer'], function () {
     });
 });
 
-//特效
+//搜索特效
 function searchToggle(obj, evt) {
     var container = $(obj).closest('.search-wrapper');
 
