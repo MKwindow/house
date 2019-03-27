@@ -22,20 +22,48 @@
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
+        <script type="text/html" id="checkboxTp1">
+            <input type="checkbox" name="city" value="{{d.houseid}}" title="锁定" lay-filter="lockcity" {{ d.city
+                   ? 'checked' : '' }}>
+        </script>
+
+        <script type="text/html" id="checkboxTp2">
+            <input type="checkbox" name="attestation" value="{{d.houseid}}" title="锁定" readonly="true" unselectable="on"
+                   lay-filter="lockattestation" {{
+                   d.attestation ? 'checked' : '' }} >
+        </script>
+        <script type="text/html" id="img">
+            {{#  if(d.houseimage && d.houseimage != ""){ }}
+
+            <img
+                    src="http://localhost:63342/resources/static{{= d.houseimage}}" width="100%"
+                    height="100%" onclick="previewImg(this)"
+                    th:href="@{
+            {{= d.houseimage}}
+            }">
+
+            {{#  } }}
+
+        </script>
+
     </div>
 </div>
 <script src="../../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
 <script>
     layui.use('table', function () {
+        var table = layui.table,
+            form = layui.form;
         var url1 = 'http://localhost:63342/resources/static/json/rent_manage.json';
-        var url2 = 'http://localhost:8081/json/rent_manage.json';
-        var table = layui.table;
+        var url2 = '/json/rent_manage.json';
+
         table.render({
-            elem: '#renthourse'
-            , url: url2
-            , toolbar: '#toolbar'
-            , title: '房东房屋表格'
-            , totalRow: true
+            elem: '#renthourse'//表格绑定 根据id绑定
+            , url: url1 //请求地址
+            , method: 'get'//请求方法
+            , contentType: 'application/json'//发送到服务端的内容编码类型
+            , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
+            , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
+            , totalRow: false // 开启合计行
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
@@ -44,27 +72,32 @@
                     title: '房屋编号',
                     width: 100,
                     fixed: 'left',
-                    unresize: true,
-                    sort: true,
+                    unresize: true,//不可编辑
+                    sort: true,//排序
                     totalRowText: '合计'
                 }
                     , {field: 'housestyle', title: '房屋类型', width: 120}
-                    , {field: 'area', title: '区域', width: 100, unresize: true}
-                    , {field: 'houseaddress', title: '房屋地址', width: 100, sort: true, unresize: true}
+                    , {field: 'area', title: '区域', width: 100}
+                    , {field: 'houseaddress', title: '房屋地址', width: 100}
                     , {field: 'housearea', title: '房屋面积', width: 100, sort: true}
-                    , {field: 'housename', title: '房屋名称', width: 100, sort: true}
-                    , {field: 'housefaci', title: '房屋设施', width: 100, sort: true}
+                    , {field: 'housename', title: '房屋名称', width: 100}
+                    , {field: 'housefaci', title: '房屋设施', width: 100}
                     , {field: 'zent', title: '租金', width: 80, sort: true}
                     , {field: 'style', title: '风格', width: 80, sort: true}
-                    , {field: 'houseimage', title: '图片', width: 80, sort: true}
-                    , {field: 'payway', title: '缴费方式', width: 100, sort: true}
-                    , {field: 'housedate', title: '发布时间'}
-                    , {field: 'city', title: '出租状态', width: 100}
-                    , {field: 'attestation', title: '认证状态', width: 120}
+                    , {
+                    field: 'houseimage',
+                    title: '图片',
+                    width: 80,
+                    templet: '#img'
+                }
+                    , {field: 'payway', title: '缴费方式', width: 100}
+                    , {field: 'housedate', title: '发布时间', width: 100, sort: true}
+                    , {field: 'city', title: '出租状态', width: 110, sort: true, templet: '#checkboxTp1'}
+                    , {field: 'attestation', title: '认证状态', width: 110, sort: true, templet: '#checkboxTp2'}
                     , {fixed: 'right', title: '操作', toolbar: '#bar', width: 150}
                 ]
             ]
-            , page: true
+            , page: true //分页开关
         });
 
         //工具栏事件
@@ -86,6 +119,7 @@
             ;
         });
         //监听行工具事件
+        //右侧
         table.on('tool(hourse)', function (obj) {
             var data = obj.data;
             console.log(obj)
@@ -96,9 +130,41 @@
                 });
             } else if (obj.event === 'edit') {
                 layer.alert('编辑行：<br>' + JSON.stringify(data));
+                
             }
         });
+        //监听出租状态锁定操作
+        form.on('checkbox(lockcity)', function (obj) {
+            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
+        });
+        //监听认证状态锁定操作
+        // form.on('checkbox(lockattestation)', function (obj) {
+        //     layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
+        // });
     });
+
+    //图片弹出窗
+    function previewImg(obj) {
+        var img = new Image();
+        img.src = obj.src;
+        var height = img.height + 50; //获取图片高度
+        var width = img.width; //获取图片宽度
+        var imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.8,
+            offset: 'auto',
+            area: [500 + 'px', 550 + 'px'],
+            shadeClose: true,//点击外围关闭弹窗
+            scrollbar: false,//不现实滚动条
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                // layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
 </script>
 </body>
 </html>

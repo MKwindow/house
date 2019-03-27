@@ -16,7 +16,8 @@
       "payway": "押一付一",
       "housedate": "2017-1-1",
       "city": false,
-      "attestation": true
+      "attestation": false,
+      "houseimage":"/images/temp/property_01.jpg"
     },
     {
       "houseid": "195615f",
@@ -30,7 +31,8 @@
       "style": "经济",
       "payway": "押一付一",
       "housedate": "2017-1-1",
-      "city": false,
+      "city": true,
+      "houseimage":"/images/temp/property_01.jpg",
       "attestation": true
     },
     {
@@ -45,8 +47,9 @@
       "style": "经济",
       "payway": "押一付一",
       "housedate": "2017-1-1",
+      "houseimage":"/images/temp/property_01.jpg",
       "city": false,
-      "attestation": true
+      "attestation": false
     },
     {
       "houseid": "195615f",
@@ -59,8 +62,9 @@
       "zent": "900",
       "style": "经济",
       "payway": "押一付一",
+      "houseimage":"/images/temp/property_01.jpg",
       "housedate": "2017-1-1",
-      "city": false,
+      "city": true,
       "attestation": true
     },
     {
@@ -75,6 +79,7 @@
       "style": "经济",
       "payway": "押一付一",
       "housedate": "2017-1-1",
+      "houseimage":"/images/temp/property_01.jpg",
       "city": false,
       "attestation": true
     },
@@ -90,7 +95,8 @@
       "style": "经济",
       "payway": "押一付一",
       "housedate": "2017-1-1",
-      "city": false,
+      "houseimage":"/images/temp/property_01.jpg",
+      "city": true,
       "attestation": true
     },
     {
@@ -105,6 +111,7 @@
       "style": "经济",
       "payway": "押一付一",
       "housedate": "2017-1-1",
+      "houseimage":"/images/temp/property_01.jpg",
       "city": false,
       "attestation": true
     },
@@ -120,8 +127,9 @@
       "style": "经济",
       "payway": "押一付一",
       "housedate": "2017-1-1",
-      "city": false,
-      "attestation": true
+      "houseimage":"/images/temp/property_01.jpg",
+      "city": true,
+      "attestation": false
     }
   ]
 }
