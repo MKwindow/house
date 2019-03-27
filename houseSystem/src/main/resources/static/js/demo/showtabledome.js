@@ -66,6 +66,16 @@ layui.use('table', function () {
         , height: 1000
         , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
+        //回调接口 //返回值
+        , done: function(res, curr, count){
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            console.log(res);
+            //得到当前页码
+            console.log(curr);
+            //得到数据总量
+            console.log(count);
+        }
         //表头定义
         , cols: [
             [
@@ -137,7 +147,7 @@ layui.use('table', function () {
     table.on('tool(hourse)', function (obj) {
             //数据 键值对形式
             var data = obj.data;
-            console.log(obj)
+            console.log(obj);
             switch (obj.event) {
                 case 'del':
                     layer.confirm('真的删除行么', function (index) {
