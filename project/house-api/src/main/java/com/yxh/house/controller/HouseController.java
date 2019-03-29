@@ -8,6 +8,7 @@ import com.yxh.house.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,10 @@ public class HouseController {
         return Response.Success(houseService.updateHouse(house));
     }
     @RequestMapping("list")
-    public Response getHouseList(House house,int pageNum, int pageSize){
+    public Response getHouseList(
+            House house,
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "10") int pageSize){
         return Response.Success(houseService.getHouseList(house,pageNum,pageSize));
     }
 
