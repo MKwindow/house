@@ -38,6 +38,7 @@ public class ControllerTest {
 		return "main/detail";
 	}
 	
+	//房屋房东预定管理页面
 	@RequestMapping(value = "/index/reserveHouseManage")
 	public String reserveHouseManage() {
 		return "main/reserve/reserve_house_manage";

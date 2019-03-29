@@ -3,10 +3,10 @@ function nva() {
     layui.use('element', function () {
         var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
         //监听导航点击
-        element.on('nav(demo)', function (elem) {
-            console.log('导航条:' + elem.text());
-            // layer.msg(elem.text());
-        });
+        // element.on('nav(demo)', function (elem) {
+        //     console.log('导航条:' + elem.text());
+        //     // layer.msg(elem.text());
+        // });
     });
 }
 
@@ -49,6 +49,7 @@ function login() {
             // var url = user_login_url;
             var url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password'
             var param = {"username": username, "password": password};
+            localStorage.setItem("username", username);
             $.ajax(
                 {
                     async: true,
@@ -90,34 +91,31 @@ if (window.addEventListener) {
 
 function down() {
     layui.use(['layer', 'jquery'], function () {
-        var layer = layui.layer
+        var layer = layui.layer;
         var $ = layui.jquery;
         layer.close(layer.index);
     })
 }
 
 function success(data) {
-    // if (data.code == 200) {
-    //     updateUsername(data.data);
-    //     down();
-    // }
-    console.log(JSON.stringify(data));
+    updateUsername(data.data);
+    down();
+    // console.log(JSON.stringify(data));
 }
 
 //更新姓名
 function updateUsername(data) {
     layui.use('jquery', function () {
-        console.log('进入更新');
+        // console.log('进入更新');
         var $ = layui.jquery;
         var laytpl = layui.laytpl;
         var btnname = $('#btn');
         var name = btnname.text().trim();
-        var username = data.username;
-        localStorage.setItem("token", data.token);
+        var username = localStorage.getItem('username');
+        localStorage.setItem("token", data);
         if (name !== username) {
             var userdata = {'username': username};
             setname(userdata);
-            localStorage.setItem("username", username);
         }
     });
 }
