@@ -6,6 +6,23 @@
 	403 服务器已经理解请求，但是拒绝执行它
 
 
+主页
+路径：/index
+提交类型：get
+返回格式：json
+返回内容：{"code": 状态, "msg": 消息,
+			data:[
+				{ "list1":[
+					  //轮播数据   10条数据  图片  房屋名称  租金  房屋id 
+					 {"images": "/images/temp/property_01.jpg", "housename": "华府大道", "zent": "1900", "houseid": "16416"}
+				]},
+				{ "list2":[	
+					 //主页分页数据  6条 图片 房屋地址 租金 房屋风格 房屋id
+					 {"images": "/images/temp1/property_01.jpg", "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）", "zent": "1900", "style": "经济","houseid": "16416"}
+				]}
+			};
+	
+	
 登陆
 路径:/login
 提交类型：post
