@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href='../../static/layui/css/layui.css'
+          th:href="@{/layui/css/layui.css}">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="top" class="layui-row" style="height: 88px">
+    <div class="layui-col-md12">
+        <div class="layui-layout">
+            <link rel="stylesheet" href='../../static/css/top.css'
+                  th:href="@{/css/top.css}">
+            <link rel="stylesheet" href='../../static/css/login.css'
+                  th:href="@{/css/login.css}">
+            <div class="layui-header mylayui-header">
+                <div class="layui-main">
+                    <div class="layui-logo">
+                        <a href="/index">
+                            <img src="../../static/images/logo.png" th:src="@{/images/logo.png}">
+                        </a>
+                    </div>
+                    <ul class="layui-nav layui-layout-right mylayui-nav">
+                        <li class="layui-nav-item mylayui-nav-item"><a href="/index"> <i
+                                class="layui-icon layui-icon-home"
+                                style="font-size: 30px; color: #1E9FFF;"></i>
+                        </a></li>
+                        <li class="layui-nav-item mylayui-nav-item"><a href="">预定房屋管理</a></li>
+                        <li class="layui-nav-item mylayui-nav-item"><a href="/houseadd">发布房屋</a></li>
+                    </ul>
+                </div>
+                <ul class="layui-nav layui-layout-right mylayui-nav mylayui-nav-right">
+                    <li class="layui-nav-item"><a href="javascript:;"> <i
+                            class="layui-icon layui-icon-username"
+                            style="font-size: 30px; color: #1E9FFF;"></i>
+                        <button data-method="offset" data-type="auto"
+                                class="layui-btn layui-btn-radius layui-btn-primary" id="btn">
+                            <script type="text/html" id="usermodel">
+                                {{# if(d.username == null || d.username === "" ){ }}
+                                登录
+                                {{# }else{ }}
+                                {{ d.username }}
+                                {{# } }}
+                            </script>
+                            <p id="showname"></p>
+                        </button>
+                    </a>
+                        <dl class="layui-nav-child mylayui-nav-child">
+                            <dd>
+                                <a href="/showuser">基本信息</a>
+                            </dd>
+                            <dd>
+                                <a href="">合同管理</a>
+                            </dd>
+                            <dd>
+                                <a href="/showRentManage">房屋管理</a>
+                            </dd>
+                            <dd>
+                                <a onclick="logout()">注销</a>
+                            </dd>
+                        </dl>
+                </ul>
+            </div>
+            <script src="../../static/js/demo/url.js" th:src="@{/js/demo/url.js}"></script>
+            <script src="../../static/js/top.js" th:src="@{/js/top.js}"></script>
+        </div>
+    </div>
+    <div class="signform" id="signform" style="display: none">
+        <div class="userdiv">
+            <input id="user" class="signinput" type="text" placeholder="用户名" name="username">
+        </div>
+        <div class="pwddiv">
+            <input id="pwd" class="signinput" type="password" placeholder="密码" name="password">
+        </div>
+        <div class="postdiv">
+            <button class="layui-btn layui-btn-warm layui-btn-lg" id="login">
+                登陆
+            </button>
+        </div>
+        <br>
+        <div class="change" style="color: #4d4d4d">
+            <p>还没有账号?赶快<a href="/register" style="text-decoration: none;color: #43A047">注册</a>一个吧</p>
+        </div>
+    </div>
+</div>
+<script src="../../static/js/token.js" th:src="@{/js/token.js}"></script>
+<script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+</body>
+</html>

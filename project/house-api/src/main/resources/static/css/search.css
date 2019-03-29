@@ -1,0 +1,113 @@
+.layui-fluid {
+    padding: 0px;
+}
+
+#show-slider-tips {
+    width: 375px;
+    position: relative;
+    left: 642px;
+    top: -42px;
+}
+
+#slide {
+    width: 60%;
+    padding-top: 15px;
+}
+
+.room-card-small {
+    width: 840px;
+    height: 230px;
+    margin: 15px;
+    padding: 15px;
+    border-bottom: 1px dashed #ddd;
+    cursor: pointer;
+}
+
+.room-card-small .image-box {
+    width: 280px;
+    height: auto;
+    max-height: 190px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.room-card-small > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.room-card-small .image-box img {
+    max-width: 100%;
+}
+
+.room-card-small .text-content-middle {
+    margin-left: 25px;
+}
+
+.room-card-small .text-content-middle h1 {
+    width: 330px;
+    font-size: 20px;
+    font-family: Helvetica, Calibri, Tahoma, Arial, 微软雅黑, 宋体, sans-serif;
+}
+
+.room-card-small .text-content-middle h1 span {
+    font-size: 22px;
+    color: #fab314;
+}
+
+.text-ellipsis {
+    height: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.room-card-small .text-content-middle h2, .room-card-small .text-content-middle p {
+    width: 330px;
+    font-size: 14px;
+    margin-top: -50px;
+}
+
+.iconList {
+    margin-top: 20px;
+}
+
+.iconImage {
+    width: auto;
+    height: 22px;
+    margin-right: 10px;
+}
+
+.room-card-small .text-content-right {
+    float: right;
+    width: 160px;
+    height: 100%;
+    text-align: right;
+}
+
+.room-card-small .text-content-right .price {
+    margin-top: 80px;
+    font-size: 18px;
+}
+
+.mogo-color {
+    color: #f56000;
+}
+
+.room-card-small .text-content-right .price span {
+    font-size: 35px;
+    font-weight: 700;
+}
+
+.room-card-small .text-content-right .brand {
+    margin-top: 45px;
+}
+
+#field {
+    text-align: center;
+}
+
+.layui-form .layui-form-item .layui-input-block .layui-btn-lg {
+    margin-top: -50px;
+    margin-left: 780px;
+}

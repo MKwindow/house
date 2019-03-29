@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href='../static/layui/css/layui.css'
+          th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" href='../static/css/index.css'
+          th:href="@{/css/index.css}">
+    <meta charset="utf-8"/>
+    <title>主页</title>
+</head>
+<body>
+<div class="layui-fluid">
+    <!--头部-->
+    <div th:replace="top/top::top"></div>
+    <!-- head 分割线-->
+    <div class="layui-row">
+        <div class="layui-col-md12" id="bg1"></div>
+    </div>
+    <!-- 轮状图 -->
+    <div class="layui-row">
+        <div class="layui-col-md12" id="bg2">
+            <div class="layui-carousel header_slider" id="test">
+                <span class="slider_ribbon"></span>
+                <div carousel-item="">
+                    <div>
+                        <img src="../static/images/temp/property_01.jpg"
+                             th:src="@{/images/temp/property_01.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="../static/images/temp/property_02.jpg"
+                             th:src="@{/images/temp/property_02.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="../static/images/temp/property_03.jpg"
+                             th:src="@{/images/temp/property_03.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="../static/images/temp/property_04.jpg"
+                             th:src="@{/images/temp/property_04.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="../static/images/temp/property_05.jpg"
+                             th:src="@{/images/temp/property_05.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img th:src="@{/images/temp/property_01.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img th:src="@{/images/temp/property_02.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img th:src="@{/images/temp/property_03.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img th:src="@{/images/temp/property_04.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img th:src="@{/images/temp/property_05.jpg}">
+                        <div class="caption">
+                            <p>
+                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 搜索 -->
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-bg-bg">
+            <section class="container">
+                <div onsubmit="submitFn(this, event);">
+                    <form class="search-wrapper">
+                        <div class="input-holder">
+                            <input type="text" class="search-input" placeholder="Type to search"/>
+                            <button class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+                        </div>
+                        <span class="close" onclick="searchToggle(this, event);"></span>
+                        <div class="result-container">
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title"
+              style="margin-top: 0px;">
+        <legend>最新发布</legend>
+    </fieldset>
+    <!--消息内容 -->
+    <div class="layui-row">
+        <div class="layui-main">
+            <div class="layui-row layui-col-space30">
+                <div class="layui-col-md4">
+                    <a href="index/detail">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <img src="../static/images/temp1/property_01.jpg"
+                                     th:src="@{/images/temp1/property_01.jpg}">
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-table" lay-even="" lay-skin="nob">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="70%">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td>租金</td>
+                                        <td>1000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>地址</td>
+                                        <td>柚米国际社区四川北路（上海市虹口区虹江路525号）</td>
+                                    </tr>
+                                    <tr>
+                                        <td>房源风格</td>
+                                        <td>经济</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4">
+                    <a href="main/detail.html">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <img src="../static/images/temp1/property_02.jpg"
+                                     th:src="@{/images/temp1/property_02.jpg}">
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-table" lay-even="" lay-skin="nob">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="70%">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td>租金</td>
+                                        <td>1001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>地址</td>
+                                        <td>坝陵北街丽泽苑小区</td>
+                                    </tr>
+                                    <tr>
+                                        <td>房源风格</td>
+                                        <td>经济</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4">
+                    <a href="main/detail.html">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <img src="../static/images/temp1/property_03.jpg"
+                                     th:src="@{/images/temp1/property_03.jpg}">
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-table" lay-even="" lay-skin="nob">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="70%">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td>租金</td>
+                                        <td>1002</td>
+                                    </tr>
+                                    <tr>
+                                        <td>地址</td>
+                                        <td>坝陵北街丽泽苑小区</td>
+                                    </tr>
+                                    <tr>
+                                        <td>房源风格</td>
+                                        <td>经济</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="layui-row layui-col-space30">
+                <div class="layui-col-md4">
+                    <a href="index/detail">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <img src="../static/images/temp1/property_01.jpg"
+                                     th:src="@{/images/temp1/property_01.jpg}">
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-table" lay-even="" lay-skin="nob">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="70%">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td>租金</td>
+                                        <td>1004</td>
+                                    </tr>
+                                    <tr>
+                                        <td>地址</td>
+                                        <td>柚米国际社区四川北路（上海市虹口区虹江路525号）</td>
+                                    </tr>
+                                    <tr>
+                                        <td>房源风格</td>
+                                        <td>经济</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4">
+                    <a href="main/detail.html">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <img src="../static/images/temp1/property_02.jpg"
+                                     th:src="@{/images/temp1/property_02.jpg}">
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-table" lay-even="" lay-skin="nob">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="70%">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td>租金</td>
+                                        <td>1003</td>
+                                    </tr>
+                                    <tr>
+                                        <td>地址</td>
+                                        <td>坝陵北街丽泽苑小区</td>
+                                    </tr>
+                                    <tr>
+                                        <td>房源风格</td>
+                                        <td>经济</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4">
+                    <a href="main/detail.html">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <img src="../static/images/temp1/property_03.jpg"
+                                     th:src="@{/images/temp1/property_03.jpg}">
+                            </div>
+                            <div class="layui-card-body">
+                                <table class="layui-table" lay-even="" lay-skin="nob">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="70%">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <td>租金</td>
+                                        <td>1007</td>
+                                    </tr>
+                                    <tr>
+                                        <td>地址</td>
+                                        <td>坝陵北街丽泽苑小区</td>
+                                    </tr>
+                                    <tr>
+                                        <td>房源风格</td>
+                                        <td>经济</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!--分页-->
+            <div class="layui-row">
+                <div id="field"></div>
+            </div>
+        </div>
+    </div>
+    <!--尾巴-->
+    <div class="layui-row">
+        <div th:insert="bottom/bottom::footer"></div>
+    </div>
+</div>
+<script src="../static/jq/jquery-1.11.0.min.js" th:src="@{/jq/jquery-1.11.0.min.js}"></script>
+<script src="../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+</body>
+</html>

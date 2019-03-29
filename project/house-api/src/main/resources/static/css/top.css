@@ -1,0 +1,61 @@
+.mylayui-header {
+    position: fixed;
+    /*固定定位*/
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 88px;
+    background: url(../images/header_default.jpg) no-repeat 0 1px;
+}
+
+.mylayui-nav .mylayui-nav-item {
+    position: relative;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    line-height: 100px;
+}
+
+.mylayui-nav .mylayui-nav-item a {
+    font-size: 21px;
+}
+
+.mylayui-nav-child {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 80px;
+    min-width: 100%;
+    line-height: 36px;
+    padding: 5px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    z-index: 100;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.mylayui-header .mylayui-nav {
+    background-color: transparent;
+}
+
+.mylayui-header .mylayui-nav-right {
+    margin-top: 18px;
+}
+
+.mylayui-header .mylayui-nav-right .layui-nav-item {
+    height: 80px;
+}
+
+.mylayui-header .mylayui-nav
+.layui-icon.layui-icon-username + .layui-btn.layui-btn-radius.layui-btn-primary {
+    border: 1px solid #705757;
+    background-color: #5f6674;
+    color: #a9f8fa;
+    margin-top: -6px;
+}

@@ -1,0 +1,47 @@
+.footer {
+    background: url(../images/footer_bg_top.jpg) 0 0 repeat-x;
+    height: 284px;
+}
+
+.layui-fluid {
+    padding: 0 0px;
+}
+
+.f_col_1, .f_col_2, .f_col_3, .f_col_4 {
+    float: left;
+    margin-top: 28px;
+    margin-left: 80px;
+    margin-right: 20px;
+}
+
+.f_col_1, .f_col_2 {
+    width: 165px;
+}
+
+.widget-container {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.f_col_1 .widget-container:first-child h3, .f_col_2 .widget-container:first-child h3, .f_col_3 .widget-container:first-child h3, .f_col_4 .widget-container:first-child h3 {
+    margin: 0 0 65px 0;
+}
+
+.footer h3 {
+    font-size: 14px;
+    color: #fff;
+    font-family: 'Bitter', serif;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+}
+
+.footer a {
+    color: #cccccc;
+}
+
+.footer .widget_categories ul li, .footer .widget_pages ul li, .footer .widget_links ul li, .footer .widget_meta ul li, .footer .widget_archive ul li {
+    list-style: none;
+    margin-bottom: 8px;
+    background: url(../images/dot_1.png) 0 5px no-repeat;
+    padding-left: 14px;
+}

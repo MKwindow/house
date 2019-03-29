@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href='../../static/css/search.css'
+          th:href="@{/css/search.css}">
+    <link rel="stylesheet" href='../../static/layui/css/layui.css'
+          th:href="@{/layui/css/layui.css}">
+    <meta charset="UTF-8">
+    <title>搜索页</title>
+</head>
+<body>
+<div class="layui-fluid">
+    <div th:replace="top/top::top"></div>
+    <div class="layui-row">
+        <div class="layui-main">
+            <!--搜索区域-->
+            <div class="layui-row">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item " id="areas">
+                        <label class="layui-form-label">区域</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="" title="全部" checked lay-filter="areas">
+                            <input type="checkbox" name="areas" title="高新区" lay-filter="areas" value="高新区">
+                            <input type="checkbox" name="areas" title="天府新区" lay-filter="areas" value="天府新区">
+                            <input type="checkbox" name="areas" title="武侯区" lay-filter="areas" value="武侯区">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">户型</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="housestyle" value="1" title="一户" checked="">
+                            <input type="radio" name="housestyle" value="2" title="二户">
+                            <input type="radio" name="housestyle" value="3" title="三户">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">房屋类型</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="style" value="廉价" title="廉价">
+                            <input type="radio" name="style" value="经济" title="经济" checked="">
+                            <input type="radio" name="style" value="豪华" title="豪华">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">付款方式</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="payway" value="月付" title="月付">
+                            <input type="radio" name="payway" value="押一付一" title="押一付一" checked="">
+                            <input type="radio" name="payway" value="押一付三" title="押一付三">
+                            <input type="radio" name="payway" value="半年付" title="半年付">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">价格</label>
+                        <div class="layui-input-block">
+                            <div id="slide" class="demo-slider"></div>
+                            <div id="show-slider-tips">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <div class="layui-input-inline" style="width: 100px;">
+                                            <input type="text" name="price_min" autocomplete="off"
+                                                   class="layui-input" readonly unselectable="on">
+                                        </div>
+                                        <div class="layui-form-mid">-</div>
+                                        <div class="layui-input-inline" style="width: 100px;">
+                                            <input type="text" name="price_max" autocomplete="off"
+                                                   class="layui-input" readonly unselectable="on">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-radius layui-btn-lg layui-btn-primary" lay-submit
+                                    lay-filter="*">立即查找
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--数据页-->
+            <div class="layui-row">
+                <div class="layui-nav">
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <div class="image-box"><img
+                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
+                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
+                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span>2300</span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <div class="image-box"><img
+                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
+                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
+                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span>2300</span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <div class="image-box"><img
+                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
+                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
+                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span>2300</span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <div class="image-box"><img
+                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
+                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
+                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span>2300</span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <div class="image-box"><img
+                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
+                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
+                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span>2300</span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <div class="image-box"><img
+                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
+                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
+                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span>2300</span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div id="field"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="bottom/bottom::footer"></div>
+</div>
+<!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+<script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" src="../../static/js/search.js" th:src="@{/js/search.js}">
+</script>
+</body>
+</html>
