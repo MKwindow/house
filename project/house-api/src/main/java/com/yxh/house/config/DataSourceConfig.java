@@ -13,16 +13,16 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class DataSourceConfig {
-    @Value("${jdbc_url:jdbc:mysql://sunxiaoyuan.com:3307/house?useUnicode=true&characterEncoding=utf8}")
-    String jdbcUrl;
-    @Value("${jdbc_username:root}")
-    String jdbcUsername;
-    @Value("${jdbc_password}")
-    String jdbcPassword;
+  @Value("${jdbc_url:jdbc:mysql://sunxiaoyuan.com:3307/house?useUnicode=true&characterEncoding=utf8}")
+  String jdbcUrl;
+  @Value("${jdbc_username:root}")
+  String jdbcUsername;
+  @Value("${jdbc_password}")
+  String jdbcPassword;
 
 
-    @Bean
-    public DataSource dataSource(){
-        return DataSourceBuilder.create().url(jdbcUrl).username(jdbcUsername).password(jdbcPassword).build();
-    }
+  @Bean
+  public DataSource dataSource(){
+    return DataSourceBuilder.create().url(jdbcUrl).username(jdbcUsername).password(jdbcPassword).build();
+  }
 }

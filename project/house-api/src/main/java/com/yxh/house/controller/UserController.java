@@ -5,6 +5,9 @@ import com.yxh.house.common.Response;
 import com.yxh.house.pojo.Role;
 import com.yxh.house.pojo.User;
 import com.yxh.house.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +24,16 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping("user/info")
+    public Response getUserInfo(){
+        String username = (String)SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        User user = userService.loadUserByUsername(username);
+        return Response.Success(user);
+
     }
 
     @RequestMapping("user/add")
