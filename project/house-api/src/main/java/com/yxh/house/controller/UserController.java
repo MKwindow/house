@@ -37,7 +37,7 @@ public class UserController {
     public Response getUsers(
             User user,
             @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(defaultValue = "10") int pageSize){
+            @RequestParam(defaultValue = "20") int pageSize){
         return Response.Success(userService.selectUsers(user,pageNum,pageSize));
     }
 
