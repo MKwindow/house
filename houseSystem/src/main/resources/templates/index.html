@@ -19,96 +19,30 @@
     <!-- 轮状图 -->
     <div class="layui-row">
         <div class="layui-col-md12" id="bg2">
-            <div class="layui-carousel header_slider" id="test">
-                <span class="slider_ribbon"></span>
-                <div carousel-item="">
-                    <div>
-                        <img src="../static/images/temp/property_01.jpg"
-                             th:src="@{/images/temp/property_01.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
+            <div id="show_index_carousel_template"></div>
+            <script id="shuffling_template" type="text/html">
+                <div class="layui-carousel header_slider" id="index_carousel">
+                    <span class="slider_ribbon"></span>
+                    <div carousel-item="">
+                        {{# layui.each(d.list, function(index, item){ }}
+                        <div>
+                            <input type="hidden" name="houseid"autocomplete="off" class="layui-input"
+                                   style="height: 0px" value={{=item.houseid }}>
+                            <!--{{!<img src="../static!}}{{item.images}}{{!"> !}}-->
+                            <!--<img src= {{= item.images}} >-->
+                            <div class="caption">
+                                <p>
+                                    {{ item.housename }}&nbsp;&nbsp;<span class="price">{{ item.zent }} RMB </span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <img src="../static/images/temp/property_02.jpg"
-                             th:src="@{/images/temp/property_02.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img src="../static/images/temp/property_03.jpg"
-                             th:src="@{/images/temp/property_03.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img src="../static/images/temp/property_04.jpg"
-                             th:src="@{/images/temp/property_04.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img src="../static/images/temp/property_05.jpg"
-                             th:src="@{/images/temp/property_05.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img th:src="@{/images/temp/property_01.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img th:src="@{/images/temp/property_02.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img th:src="@{/images/temp/property_03.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img th:src="@{/images/temp/property_04.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <img th:src="@{/images/temp/property_05.jpg}">
-                        <div class="caption">
-                            <p>
-                                东辑虎营坊山府小区&nbsp;&nbsp;<span class="price">1800.0RMB</span>
-                            </p>
-                        </div>
+                        {{# }); }}
+                        {{# if(d.list.length === 0){ }}
+                        无数据
+                        {{# } }}
                     </div>
                 </div>
-            </div>
+            </script>
         </div>
     </div>
     <!-- 搜索 -->
@@ -136,104 +70,7 @@
     <!--消息内容 -->
     <div class="layui-row">
         <div class="layui-main">
-            <div class="layui-row layui-col-space30">
-                <div class="layui-col-md4">
-                    <a href="index/detail">
-                        <div class="layui-card">
-                            <div class="layui-card-header">
-                                <img src="../static/images/temp1/property_01.jpg"
-                                     th:src="@{/images/temp1/property_01.jpg}">
-                            </div>
-                            <div class="layui-card-body">
-                                <table class="layui-table" lay-even="" lay-skin="nob">
-                                    <colgroup>
-                                        <col width="30%">
-                                        <col width="70%">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>租金</td>
-                                        <td>1000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>地址</td>
-                                        <td>柚米国际社区四川北路（上海市虹口区虹江路525号）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>房源风格</td>
-                                        <td>经济</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="layui-col-md4">
-                    <a href="main/detail.html">
-                        <div class="layui-card">
-                            <div class="layui-card-header">
-                                <img src="../static/images/temp1/property_02.jpg"
-                                     th:src="@{/images/temp1/property_02.jpg}">
-                            </div>
-                            <div class="layui-card-body">
-                                <table class="layui-table" lay-even="" lay-skin="nob">
-                                    <colgroup>
-                                        <col width="30%">
-                                        <col width="70%">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>租金</td>
-                                        <td>1001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>地址</td>
-                                        <td>坝陵北街丽泽苑小区</td>
-                                    </tr>
-                                    <tr>
-                                        <td>房源风格</td>
-                                        <td>经济</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="layui-col-md4">
-                    <a href="main/detail.html">
-                        <div class="layui-card">
-                            <div class="layui-card-header">
-                                <img src="../static/images/temp1/property_03.jpg"
-                                     th:src="@{/images/temp1/property_03.jpg}">
-                            </div>
-                            <div class="layui-card-body">
-                                <table class="layui-table" lay-even="" lay-skin="nob">
-                                    <colgroup>
-                                        <col width="30%">
-                                        <col width="70%">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>租金</td>
-                                        <td>1002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>地址</td>
-                                        <td>坝陵北街丽泽苑小区</td>
-                                    </tr>
-                                    <tr>
-                                        <td>房源风格</td>
-                                        <td>经济</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+             <div id="show_index_main_template"></div>
             <div class="layui-row layui-col-space30">
                 <div class="layui-col-md4">
                     <a href="index/detail">
@@ -346,5 +183,49 @@
 <script src="../static/jq/jquery-1.11.0.min.js" th:src="@{/jq/jquery-1.11.0.min.js}"></script>
 <script src="../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
 <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+<script id = "card_template">
+    <div class="layui-row layui-col-space30">
+    {{# layui.each(d.list, function(index, item){ }}
+    <div class="layui-col-md4">
+        <a href="index/detail">
+    <div class="layui-card" >
+        <input type="hidden" name="houseid" lay-verify="required" autocomplete="off" class="layui-input"
+        style="height: 0px" value={{=item.houseid }}>
+    <div class="layui-card-header">
+        <img src= {{= item.images}} >
+        <!--<img src="../static/images/temp1/property_01.jpg"-->
+        <!--th:src="@{/images/temp1/property_01.jpg}">-->
+    </div>
+    <div class="layui-card-body"style="background-color: #f3b40026">
+        <table class="layui-table" lay-even="" lay-skin="nob">
+        <colgroup>
+        <col width="30%">
+        <col width="70%">
+        </colgroup>
+        <tbody>
+        <tr>
+        <td>租金</td>
+        <td>{{ item.zent }}</td>
+    </tr>
+    <tr>
+    <td>地址</td>
+    <td>{{ item.houseaddress}}</td>
+    </tr>
+    <tr>
+    <td>房源风格</td>
+    <td>{{ item.style}}</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </a>
+    </div>
+    {{# }); }}
+    {{# if(d.list.length === 0){ }}
+        无数据
+        {{# } }}
+    </div>
+</script>
 </body>
 </html>

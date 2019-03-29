@@ -1,0 +1,10 @@
+
+登陆
+路径:/login
+提交类型：post
+提交格式：json
+提交内容:{"username": 数据, "password": 密码};
+返回格式：json
+返回内容：{"code": 状态, "msg": 消息,data:{ "token",数据,"username":数据}};
+
+注册

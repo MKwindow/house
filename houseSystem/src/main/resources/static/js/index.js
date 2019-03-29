@@ -2,7 +2,7 @@
 layui.use(['carousel', 'form'], function () {
     var carousel = layui.carousel, form = layui.form;
     carousel.render({
-        elem: '#test',
+        elem: '#index_carousel',
         width: '1000' //设置容器宽度
         ,
         height: '400' //设置容器高度
@@ -79,3 +79,46 @@ function go(data) {
         window.location.href = data.data.url;
     }
 }
+
+layui.use('laytpl', function () {
+    var laytpl = layui.laytpl;
+    // laytpl.config({
+    //     open: '<{%',
+    //     close: '%}>'
+    // });
+    var carousel_data = { //数据
+        "list": [
+            {"images": "/images/temp/property_01.jpg", "housename": "华府大道", "zent": "1900", "houseid": "16416"}
+            , {"images": "/images/temp/property_02.jpg", "housename": "华府大道12", "zent": "1200", "houseid": "16416"}
+            , {"images": "/images/temp/property_03.jpg", "housename": "华府大道31", "zent": "1800", "houseid": "16416"}
+            , {"images": "/images/temp/property_04.jpg", "housename": "华府大道5", "zent": "1700", "houseid": "16416"}
+            , {"images": "/images/temp/property_05.jpg", "housename": "华府大道7", "zent": "1800", "houseid": "16416"}
+            , {"images": "/images/temp/property_01.jpg", "housename": "华府大道9", "zent": "1800", "houseid": "16416"}
+            , {"images": "/images/temp/property_02.jpg", "housename": "华府大道8", "zent": "1800", "houseid": "16416"}
+            , {"images": "/images/temp/property_03.jpg", "housename": "华府大道5", "zent": "1800", "houseid": "16416"}
+            , {"images": "/images/temp/property_04.jpg", "housename": "华府大道46", "zent": "1800", "houseid": "16416"}
+            , {"images": "/images/temp/property_05.jpg", "housename": "华府大道97", "zent": "1800", "houseid": "16416"}
+        ]
+    };
+    var page_data = { //数据
+        "list": [
+            {"images": "/images/temp1/property_01.jpg", "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）", "zent": "1900", "style": "经济","houseid": "16416"}
+            , {"images": "/images/temp1/property_02.jpg", "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）", "zent": "12410", "style": "经济","houseid": "16416"}
+            , {"images": "/images/temp1/property_03.jpg", "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）", "zent": "1200", "style": "经济","houseid": "16416"}
+        ]
+    };
+
+    layplmode(shuffling_template, 'show_index_carousel_template', carousel_data);
+    layplmode(card_template, 'show_index_main_template', page_data);
+
+    //parm jS模型模板ID 渲染视图ID  渲染数据
+    function layplmode(modename, viewname, data) {
+        var getTp_page = modename.innerHTML
+            , view = document.getElementById(viewname);
+        laytpl(getTp_page).render(data, function (html) {
+            view.innerHTML = html;
+        });
+    };
+});
+
+
