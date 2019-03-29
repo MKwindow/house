@@ -11,14 +11,14 @@ layui.use(['table', 'jquery'], function () {
         , method: 'get'//请求方法
         // , contentType: 'application/json'//发送到服务端的内容编码类型
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
-        , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
+        , title: '房屋预定管理'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
         , cols: [
             [
                 {type: 'checkbox', fixed: 'left'}
                 , {
-                field: 'houseid',
-                title: '房屋编号',
+                field: 'reserveid',
+                title: '预定编号',
                 width: 100,
                 fixed: 'left',
                 unresize: true,//不可编辑
@@ -26,13 +26,11 @@ layui.use(['table', 'jquery'], function () {
                 totalRowText: '合计'
             }
                 , {field: 'housestyle', title: '房屋类型', width: 120}
-                , {field: 'area', title: '区域', width: 100}
                 , {field: 'houseaddress', title: '房屋地址', width: 100}
-                , {field: 'housearea', title: '房屋面积', width: 100, sort: true}
-                , {field: 'housename', title: '房屋名称', width: 100}
-                , {field: 'housefaci', title: '房屋设施', width: 100}
+                , {field: 'tenantname', title: '租客姓名', width: 100, sort: true}
+                , {field: 'tenantphone', title: '租客电话', width: 100}
+                , {field: 'username', title: '个人姓名', width: 100}
                 , {field: 'zent', title: '租金', width: 80, sort: true}
-                , {field: 'style', title: '风格', width: 80, sort: true}
                 , {
                 field: 'houseimage',
                 title: '图片',
@@ -41,8 +39,8 @@ layui.use(['table', 'jquery'], function () {
             }
                 , {field: 'payway', title: '缴费方式', width: 100}
                 , {field: 'housedate', title: '发布时间', width: 100, sort: true}
-                , {field: 'city', title: '出租状态', width: 110, sort: true, templet: '#checkboxTp1'}
-                , {field: 'attestation', title: '认证状态', width: 100, sort: true, templet: '#checkboxTp2'}
+                , {field: 'reservestate', title: '出租状态', width: 110, sort: true, templet: '#checkboxTp1'}
+                , {field: 'remakes', title: '认证状态', width: 100, sort: true}
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: 200}
             ]
         ]

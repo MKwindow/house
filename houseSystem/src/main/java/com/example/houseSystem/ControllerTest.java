@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.example.houseSystem.tool.ResponseData;
 
 @Controller
@@ -21,11 +22,27 @@ public class ControllerTest {
 	}
 
 	// 详细页
-	@RequestMapping(value = "/index/detail")
-	public String detail() {
-		return "main/detail";
+	@RequestMapping(value = "/index/detail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public ResponseData detail(@RequestBody Map<String, String> map) {
+		System.out.println(map);
+		ResponseData data = ResponseData.ok();
+		data = data.putDataValue("url", "/index/show_detail");
+		System.out.println(JSON.toJSONString(data));
+		return data;
 	}
 
+	// 详细页
+	@RequestMapping(value = "/index/show_detail")
+	public String showdetail() {
+		return "main/detail";
+	}
+	
+	@RequestMapping(value = "/index/reserveHouseManage")
+	public String reserveHouseManage() {
+		return "main/reserve/reserve_house_manage";
+	}
+	
 	// 主页搜索功能提交
 	@RequestMapping(value = "/index/search", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

@@ -46,15 +46,19 @@ function login() {
         $('#login').click(function () {
             var username = $.trim($("#user").val());//获取用户名
             var password = $.trim($("#pwd").val());
-            var url = user_login_url;
+            // var url = user_login_url;
+            var url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password'
             var param = {"username": username, "password": password};
             $.ajax(
                 {
                     async: true,
                     url: url,
-                    type: 'post',//method请求方式，get或者post
+                    headers: {
+                        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8;application/json; charset=utf-8"
+                    },
+                    type: 'GET',//method请求方式，get或者post
                     dataType: 'json',//预期服务器返回的数据类型
-                    data: JSON.stringify(param),//表格数据序列化
+                    data: param,//表格数据序列化
                     contentType: "application/json; charset=utf-8",
                     success: success,//res为相应体,function为回调函数
                     error: error
@@ -93,14 +97,14 @@ function down() {
 }
 
 function success(data) {
-    if (data.code == 200) {
-        updateUsername(data.data);
-        down();
-    }
+    // if (data.code == 200) {
+    //     updateUsername(data.data);
+    //     down();
+    // }
     console.log(JSON.stringify(data));
 }
 
-
+//更新姓名
 function updateUsername(data) {
     layui.use('jquery', function () {
         console.log('进入更新');
@@ -118,6 +122,7 @@ function updateUsername(data) {
     });
 }
 
+//设置姓名
 function setname(userdata) {
     layui.use('laytpl', function () {
         var laytpl = layui.laytpl;
