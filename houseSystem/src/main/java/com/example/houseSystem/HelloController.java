@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.example.houseSystem.tool.ResponseData;
 
 @Controller
 public class HelloController {
@@ -21,18 +22,30 @@ public class HelloController {
 	}
 
 	// 详细页
-	@RequestMapping("/index/detail")
+	@RequestMapping(value = "/index/detail")
 	public String detail() {
 		return "main/detail";
 	}
 
-	// 搜索页
+	// 主页搜索功能提交
+	@RequestMapping(value = "/index/search", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String search(@RequestBody Map<String, String> map) {
+		json = JSON.toJSONString(map);
+		System.out.println(json);
+		ResponseData data = ResponseData.ok();
+		data = data.putDataValue("url", "/search");
+		System.out.println(JSON.toJSON(data));
+		return JSON.toJSON(data).toString();
+	}
+
+	// 重定向到搜索页面
 	@RequestMapping("/search")
-	public String search() {
+	public String helloRedirect() {
 		return "main/search";
 	}
 
-	// 搜索页 搜索提交
+	// 搜索页   头部搜索功能 提交
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String addClient(@RequestBody Map<String, String> map) {
@@ -52,11 +65,12 @@ public class HelloController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String login(@RequestBody Map<String, String> map) {
-		System.out.println(map);
-		map.clear();
-		map.put("小明", "123456");
-		json = JSON.toJSONString(map);
-		return json;
+		System.out.println(JSON.toJSONString(map));
+		ResponseData data = ResponseData.ok();
+		data.putDataValue("username", "小明");
+		data.putDataValue("token", "6556164");
+		System.out.println(JSON.toJSONString(data));
+		return JSON.toJSONString(data);
 	}
 
 	// 房屋发布页面
@@ -81,6 +95,12 @@ public class HelloController {
 	@RequestMapping("/showRentManage")
 	public String showRentManage() {
 		return "main/house/house_manage";
+	}
+
+	// 预定界面页面
+	@RequestMapping("/showReserveManage")
+	public String showReserveManage() {
+		return "main/house/reserve_house_manage";
 	}
 
 }

@@ -115,8 +115,8 @@
     <div class="layui-row">
         <div class="layui-col-md12 layui-bg-bg">
             <section class="container">
-                <form onsubmit="submitFn(this, event);">
-                    <div class="search-wrapper">
+                <div onsubmit="submitFn(this, event);">
+                    <form class="search-wrapper">
                         <div class="input-holder">
                             <input type="text" class="search-input" placeholder="Type to search"/>
                             <button class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
@@ -124,8 +124,8 @@
                         <span class="close" onclick="searchToggle(this, event);"></span>
                         <div class="result-container">
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </section>
         </div>
     </div>

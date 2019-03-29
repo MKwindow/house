@@ -7,7 +7,8 @@ layui.use(['form', 'upload'], function () {
     //自定义验证规则
     form.verify({
         username: function (value) {
-            if (value.length <= 8) {
+            if (value.length >= 8) {
+                console.log(value.length);
                 return '最多为8个字符';
             }
             if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {

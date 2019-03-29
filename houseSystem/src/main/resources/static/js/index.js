@@ -52,16 +52,30 @@ function searchToggle(obj, evt) {
 
 function submitFn(obj, evt) {
     value = $(obj).find('.search-input').val().trim();
-    var url = "/index/detail";
+    var url = "/index/search";
     var parm;
     if (!value.length) {
         parm = null;
     }
     else {
-        parm = {'address': value};
+        parm = {"address": value};
     }
-    $.post(url, JSON.stringify(parm), function () {
-        console.log(url + JSON.stringify(parm));
-        // window.location.href = url;
+    // console.log(url + JSON.stringify(parm));
+    $.ajax({
+        url: url
+        , type: 'post'
+        , data: JSON.stringify(parm)
+        , dataType: 'json'//预期服务器返回的数据类型
+        , contentType: "application/json; charset=utf-8"
+        , success: go
     });
+    $(obj).find('.result-container').fadeIn(100);
+    evt.preventDefault();
+}
+
+function go(data) {
+    // console.log(data);
+    if (data.code == 200) {
+        window.location.href = data.data.url;
+    }
 }
