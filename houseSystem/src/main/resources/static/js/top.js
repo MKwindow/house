@@ -1,3 +1,5 @@
+var USERNAME_SWAP = null;
+
 function nva() {
     //导航条
     layui.use('element', function () {
@@ -49,7 +51,7 @@ function login() {
             // var url = user_login_url;
             var url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password'
             var param = {"username": username, "password": password};
-            localStorage.setItem("username", username);
+            USERNAME_SWAP = username;
             $.ajax(
                 {
                     async: true,
@@ -98,8 +100,15 @@ function down() {
 }
 
 function success(data) {
-    updateUsername(data.data);
-    down();
+    if (data != null) {
+        console.log("用户等于空",USERNAME_SWAP);
+        if (USERNAME_SWAP != null) {
+            console.log("用户不等于空",USERNAME_SWAP);
+            localStorage.setItem("username", USERNAME_SWAP);
+        }
+        updateUsername(data.data);
+        down();
+    }
     // console.log(JSON.stringify(data));
 }
 

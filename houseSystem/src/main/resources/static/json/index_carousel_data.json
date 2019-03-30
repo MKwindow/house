@@ -1,0 +1,66 @@
+{
+  "code": 0,
+  "msg": "",
+  "data": [
+    {
+      "images": "/images/temp/property_01.jpg",
+      "housename": "华府大道",
+      "zent": "1900",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_02.jpg",
+      "housename": "华府大道12",
+      "zent": "1200",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_03.jpg",
+      "housename": "华府大道31",
+      "zent": "1800",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_04.jpg",
+      "housename": "华府大道5",
+      "zent": "1700",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_05.jpg",
+      "housename": "华府大道7",
+      "zent": "1800",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_01.jpg",
+      "housename": "华府大道9",
+      "zent": "1800",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_02.jpg",
+      "housename": "华府大道8",
+      "zent": "1800",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_03.jpg",
+      "housename": "华府大道5",
+      "zent": "1800",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_04.jpg",
+      "housename": "华府大道46",
+      "zent": "1800",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp/property_05.jpg",
+      "housename": "华府大道97",
+      "zent": "1800",
+      "houseid": "16416"
+    }
+  ]
+}

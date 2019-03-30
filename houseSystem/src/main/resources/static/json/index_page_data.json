@@ -1,0 +1,48 @@
+{
+  "code": 0,
+  "msg": "",
+  "data": [
+    {
+      "images": "/images/temp1/property_01.jpg",
+      "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）",
+      "zent": "1900",
+      "style": "经济",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp1/property_02.jpg",
+      "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）",
+      "zent": "12410",
+      "style": "经济",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp1/property_03.jpg",
+      "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）",
+      "zent": "1200",
+      "style": "经济",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp1/property_01.jpg",
+      "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）",
+      "zent": "19888",
+      "style": "经济",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp1/property_02.jpg",
+      "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）",
+      "zent": "11110",
+      "style": "经济",
+      "houseid": "16416"
+    },
+    {
+      "images": "/images/temp1/property_03.jpg",
+      "houseaddress": "柚米国际社区四川北路（上海市虹口区虹江路525号）",
+      "zent": "1200",
+      "style": "经济",
+      "houseid": "167776"
+    }
+  ]
+}

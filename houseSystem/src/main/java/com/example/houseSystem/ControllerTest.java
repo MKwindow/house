@@ -32,7 +32,7 @@ public class ControllerTest {
 		return data;
 	}
 
-	// 详细页
+	// 详细页显示
 	@RequestMapping(value = "/index/show_detail")
 	public String showdetail() {
 		return "main/detail";

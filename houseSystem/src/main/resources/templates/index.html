@@ -25,7 +25,7 @@
                     <span class="slider_ribbon"></span>
                     <div carousel-item="">
                         {{# layui.each(d.list, function(index, item){ }}
-                        <div>
+                        <div onclick="get_house(this,event)">
                             <input type="hidden" name="houseid"autocomplete="off" class="layui-input"
                                    style="height: 0px" value={{=item.houseid }}>
                             <!--{{!<img src="../static!}}{{item.images}}{{!"> !}}-->
@@ -83,7 +83,8 @@
         <div th:insert="bottom/bottom::footer"></div>
     </div>
 </div>
-<script src="../static/jq/jquery-1.11.0.min.js" th:src="@{/jq/jquery-1.11.0.min.js}"></script>
+<script src="../static/js/token.js" th:src="@{/js/token.js}"></script>
+<script src="../static/js/demo/url.js" th:src="@{/js/demo/url.js}"></script>
 <script src="../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
 <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
 <script id = "card_template">
@@ -123,10 +124,10 @@
     </div>
     </div>
     {{# }); }}
+    </div>
     {{# if(d.list.length === 0){ }}
         无数据
         {{# } }}
-    </div>
 </script>
 </body>
 </html>
