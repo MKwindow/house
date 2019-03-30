@@ -37,13 +37,19 @@ public class ControllerTest {
 	public String showdetail() {
 		return "main/detail";
 	}
-	
-	//房屋房东预定管理页面
+
+	// 房屋房东预定管理页面
 	@RequestMapping(value = "/index/reserveHouseManage")
 	public String reserveHouseManage() {
 		return "main/reserve/reserve_house_manage";
 	}
-	
+
+	// 房屋用户预定管理页面
+	@RequestMapping(value = "/index/reserveTenantManage")
+	public String reserveTenantManage() {
+		return "main/reserve/reserv_tenant_manage";
+	}
+
 	// 主页搜索功能提交
 	@RequestMapping(value = "/index/search", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -112,10 +118,10 @@ public class ControllerTest {
 		return "main/house/house_manage";
 	}
 
-	// 预定界面页面
-	@RequestMapping("/showReserveManage")
-	public String showReserveManage() {
-		return "main/house/reserve_house_manage";
+	// 租客合同管理页面
+	@RequestMapping("/showTentantManage")
+	public String showTentantManage() {
+		return "main/order/order_tenant_manage";
 	}
 
 }

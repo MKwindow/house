@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href='../../../static/layui/css/layui.css'
+          th:href="@{/layui/css/layui.css}">
+    <meta charset="UTF-8">
+    <title>租客签约页</title>
+</head>
+<body>
+<div class="layui-fluid">
+    <div th:replace="top/top::top"></div>
+    <div class="layui-row">
+        <table class="layui-hide" id="renthourse" lay-filter="order"></table>
+        <script type="text/html" id="toolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+                <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+                <button class="layui-btn layui-btn-sm" lay-event="flush">刷新</button>
+            </div>
+        </script>
+
+        <script type="text/html" id="bar">
+            <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="upOrder">上传合同</a>
+            <a class="layui-btn layui-btn-xs" lay-event="orderSigned">合同签订</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="payCost">缴费操作</a>
+        </script>
+
+        <script type="text/html" id="houser">
+            <input type="hidden" value="{{d.houseid}}" style="width: 0px;height: 0px">
+            <a class="layui-btn layui-btn-xs" onclick="show_house(this,event)">查看详情</a>
+        </script>
+
+        <script type="text/html" id="idcard">
+            {{#
+                var plusXing = function (str) {
+                                return str.substring(0, 6) + "**********" + str.substring(str.length - 2);
+                             };
+            }}
+            <div>{{ plusXing(d.tenantidentity) }} </div>
+        </script>
+
+        <script type="text/html" id="checkboxTp2">
+            {{#   if( d.attestation ){  }}
+            <i class="layui-icon layui-icon-auz" style="font-size: 30px; color: #1E9FFF; margin-left: 20px"></i>
+            {{# }else{ }}
+            <i class="layui-icon layui-icon-close-fill" style="font-size: 30px; color: #ff1a00;margin-left: 20px"></i>
+            {{#  } }}
+        </script>
+
+
+    </div>
+</div>
+<script src="../../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script src="../../../static/js/order/order_tenant_manage.js" th:src="@{js/order/order_tenant_manage.js}"></script>
+</body>
+<div class="layui-upload-drag" id="file" style="display: none;">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+</div>
+</html>
+
+<!--<input type="checkbox" name="attestation" value="{{d.houseid}}" title="锁定" readonly="true" unselectable="on"-->
+<!--lay-filter="lockattestation" {{-->
+<!--d.attestation ? 'checked' : '' }} >-->

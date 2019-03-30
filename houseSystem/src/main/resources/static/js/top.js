@@ -2,13 +2,17 @@ var USERNAME_SWAP = null;
 
 function nva() {
     //导航条
-    layui.use('element', function () {
+    layui.use(['element', 'jquery'], function () {
         var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        var $ = layui.jquery;
+        var username = localStorage.getItem("username");
+        var parent = $('#showname').parentsUntil("ul").find("dl:first");
+        if (username === "" || username === null) {
+            // parent.removeClass("layui-nav-child");//设置为展开之前的css，即不展开的样式
+        }
         //监听导航点击
-        // element.on('nav(demo)', function (elem) {
-        //     console.log('导航条:' + elem.text());
-        //     // layer.msg(elem.text());
-        // });
+        element.on('nav(loginfilter)', function (elem) {
+        });
     });
 }
 
@@ -82,28 +86,14 @@ function loadScript() {
     }
 }
 
-//延迟加载
-if (window.addEventListener) {
-    window.addEventListener("load", loadScript, false);
-} else if (window.attachEvent) {
-    window.attachEvent("onload", loadScript);
-} else {
-    window.onload = loadScript;
-}
 
-function down() {
-    layui.use(['layer', 'jquery'], function () {
-        var layer = layui.layer;
-        var $ = layui.jquery;
-        layer.close(layer.index);
-    })
-}
+
 
 function success(data) {
     if (data != null) {
-        console.log("用户等于空",USERNAME_SWAP);
+        console.log("用户等于空", USERNAME_SWAP);
         if (USERNAME_SWAP != null) {
-            console.log("用户不等于空",USERNAME_SWAP);
+            console.log("用户不等于空", USERNAME_SWAP);
             localStorage.setItem("username", USERNAME_SWAP);
         }
         updateUsername(data.data);
@@ -141,6 +131,20 @@ function setname(userdata) {
     });
 }
 
+//关闭窗口
+function down() {
+    layui.use(['layer', 'jquery'], function () {
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        layer.close(layer.index);
+        //关闭窗口后，添加下拉效果
+        var parent = $('#showname').parentsUntil("ul").find("dl:first");
+        parent.addClass("layui-nav-child");
+    });
+}
+
+
+
 function error() {
     console.log('操作失败！!');
 }
@@ -150,3 +154,11 @@ function logout() {
     window.location.reload();
 }
 
+//延迟加载
+if (window.addEventListener) {
+    window.addEventListener("load", loadScript, false);
+} else if (window.attachEvent) {
+    window.attachEvent("onload", loadScript);
+} else {
+    window.onload = loadScript;
+}
