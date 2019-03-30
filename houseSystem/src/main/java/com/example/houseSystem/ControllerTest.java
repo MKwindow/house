@@ -21,7 +21,7 @@ public class ControllerTest {
 		return "index";
 	}
 
-	// 详细页
+	// 详细页请求
 	@RequestMapping(value = "/index/detail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public ResponseData detail(@RequestBody Map<String, String> map) {
@@ -51,7 +51,7 @@ public class ControllerTest {
 		System.out.println(map);
 		ResponseData data = ResponseData.ok();
 		data = data.putDataValue("url", "/search");
-		System.out.println(data);
+		System.out.println(JSON.toJSONString(data));
 		return data;
 	}
 
@@ -84,7 +84,7 @@ public class ControllerTest {
 		ResponseData data = ResponseData.ok();
 		data.putDataValue("username", "小明");
 		data.putDataValue("token", "6556164");
-		System.out.println(data);
+		System.out.println(JSON.toJSONString(data));
 		return data;
 	}
 

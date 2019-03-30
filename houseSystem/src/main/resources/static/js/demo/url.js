@@ -21,6 +21,8 @@ if (port == 8081) {
     var user_login_url = no_static_url + '/login';
     //房东预约管理页面
     var reserve_house_manage = no_static_url + '/json/reserve_house_manage.json'
+    //详情页
+    var detail_url = no_static_url+ '/json/detail_table1.json';
 } else {
     //主页轮转
     var houser_carousel_url = static_url + '/json/index_carousel_data.json';
@@ -32,5 +34,7 @@ if (port == 8081) {
     var user_show_url = static_url + '/json/usershow.json';
     //房东预约管理页面
     var reserve_house_manage = static_url + '/json/reserve_house_manage.json';
+    //详情页
+    var detail_url = static_url+ '/json/detail_table1.json';
 }
 

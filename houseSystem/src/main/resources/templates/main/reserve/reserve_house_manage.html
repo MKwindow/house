@@ -22,7 +22,7 @@
 
         <script type="text/html" id="bar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">同意申请</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">取消预约</a>
         </script>
 
         <script type="text/html" id="checkboxTp2">
@@ -30,6 +30,13 @@
             <i class="layui-icon layui-icon-auz" style="font-size: 30px; color: #1E9FFF; margin-left: 20px"></i>
             {{# }else{ }}
             <i class="layui-icon layui-icon-close-fill" style="font-size: 30px; color: #ff1a00;margin-left: 20px"></i>
+            {{#  } }}
+        </script>
+        <script type="text/html" id="showphone">
+            {{#   if( d.reservestate ){  }}
+                    <div>{{ d.tenantphone }}</div>
+            {{# }else{ }}
+                    <div style="color: #ff1a00;margin-left: 20px">没有权限</div>
             {{#  } }}
         </script>
     </div>
