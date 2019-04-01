@@ -14,7 +14,7 @@ function nva() {
     });
 }
 
-function popwindows() {
+function popwindows( ) {
     //弹窗
     layui.use('layer', function () { //独立版的layer无需执行这一句
         var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
@@ -65,6 +65,7 @@ function login() {
                     data: param,//表格数据序列化
                     contentType: "application/json; charset=utf-8",
                     success: function (res) {
+                        console.log(res);
                         success(res, username);
                     },//res为相应体,function为回调函数
                     error: error
@@ -91,27 +92,26 @@ function loadScript() {
 }
 
 
-function success(data, username) {
-    if (data != null) {
+function success(res, username) {
+    if (res != null) {
         if (username != null) {
             LocalStorage_Day.set("USERNAME", username, 1);
         }
-        updateUsername(data.data);
+        updateUsername(res);
         down();
     }
     // console.log(JSON.stringify(data));
 }
 
 //更新姓名
-function updateUsername(data) {
+function updateUsername(res) {
     layui.use('jquery', function () {
-        // console.log('进入更新');
         var $ = layui.jquery;
-        var laytpl = layui.laytpl;
         var btnname = $('#btn');
         var name = btnname.text().trim();
         var username = LocalStorage_Day.get('USERNAME');
-        token.set("TOKEN", data);
+        debugger;
+        token.set(res);
         if (name !== username) {
             var userdata = {'username': username};
             setname(userdata);
@@ -148,7 +148,8 @@ function down() {
 }
 
 
-function error() {
+function error(data) {
+    console.log(JSON.stringify(data));
     console.log('操作失败！!');
 }
 

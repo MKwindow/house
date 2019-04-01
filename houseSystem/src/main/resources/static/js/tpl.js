@@ -1,25 +1,37 @@
 //使用ajax
 function use_ajax(url, parm, success) {
-    var token = LocalStorage_Day.get("TOKEN");
-    // (parm === "" || parm === null) ? (parm = token) : (Object.assign(parm, token.accesstoken));
     // console.log(parm);
     // JSON.stringify();
+    // debugger;
     layui.use('jquery', function () {
         var $ = layui.jquery;
-        $.ajax({
+        var token = get_token();
+        if (token != null || token !== "") {
+            parm = Object.assign(parm, {"access_token": token.access_token});
+        }
+        // console.log(token.access_token);
+        // var value = "bearer" + '\xa0' + token.access_token;
+        var statusCode = $.ajax({
             url: url
             , type: 'GET'
             , data: parm
+            // , headers: {
+            //     "Authorization": value
+            // }
             , dataType: 'json'//预期服务器返回的数据类型
-            , contentType: "application/json; charset=utf-8"
+            // , contentType: "application/json; charset=utf-8"
             , success: success
-            , error: function (data) {
-                if (data.code === 401) {
-                    error_token();
-                }
+            , error: function (data, start, xhr) {
+                localStorage.removeItem("TOKEN");
+                localStorage.removeItem("USERNAME");
+                error_token();
                 console.log("访问失败");
             }
+            // }, beforeSend: function (XMLHttpRequest) {
+            //     XMLHttpRequest.setRequestHeader("Authorization", "bearer " + token.access_token);
+            // }
         });
+        // console.log(statusCode);
     });
 }
 
@@ -43,3 +55,29 @@ function get_search_json() {
     }
     return search_data;
 }
+
+function get_token() {
+    var data = JSON.parse(localStorage.getItem("TOKEN"));
+    if (data !== null) {
+        // debugger
+        if (data.expirse != null && data.expirse < new Date().getTime()) {
+            localStorage.removeItem(key);
+        } else {
+            return data.value;
+        }
+    }
+    return null;
+}
+
+function error_token() {
+    var token = get_token();//获取名称为“key”的值
+    if (token == null || token === "") {
+        var userform = document.getElementById("signform");
+        if (userform != null) {
+            var user=document.getElementById("showname");
+            user.innerHTML = "登陆";
+        }
+        window.location.href = '/index';
+    }
+}
+

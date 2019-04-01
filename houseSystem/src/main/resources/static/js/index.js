@@ -1,5 +1,4 @@
 //轮播
-
 layui.use('carousel', function () {
     var carousel = layui.carousel;
     var opt = {
@@ -79,12 +78,13 @@ function go(data) {
 //轮转函数
 function carouse(ins, opt) {
     var carousel_data = null;
-    var url = houser_carousel_url;
-    var data = "";
+    var url = "http://test.sunxiaoyuan.com:8080/house/list";
+    var data = {"pageNum": "1", "pageSize": "10"};
     //获取轮转数据
     use_ajax(url, data, function (data) {
-        if (data.code === 0) {
-            carousel_data = {"list": data.data};
+        if (data.code === 200) {
+            // carousel_data = {"list": data.data};
+            carousel_data = carousel_parsing(data);
             update_carousel(carousel_data);
         }
     });
@@ -94,40 +94,19 @@ function carouse(ins, opt) {
     }
 }
 
-//分页请求
-layui.use(['laypage', 'layer'], function () {
-    var laypage = layui.laypage
-        , layer = layui.layer;
-    laypage.render({
-        elem: 'field'
-        , count: 100
-        , limit: 6
-        , first: false
-        , last: false
-        // , curr: location.hash.replace('#!fenye=', '')
-        // , hash: 'fenye' //自定义hash值
-        , jump: function (obj, first) {
-            var curr = obj.curr,
-                limit = obj.limit;
-            // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-            // console.log(obj.limit); //得到每页显示的条数
-            var data = {"curr": curr, 'limit': limit};
-            get_page(data);
-            //首次不执行
-            if (!first) {
-                // console.log(1);
-            }
-        }
-    });
-});
+
+get_page();
 
 //分页数据操作
-function get_page(data) {
-    var url = houser_index_page_url;
-    use_ajax(url, data, function (data) {
-        if (data.code === 0) {
+function get_page() {
+    var page = {"pageNum": 1, 'pageSize': 6};
+    var url = "http://test.sunxiaoyuan.com:8080/house/list";
+    use_ajax(url, page, function (data) {
+        if (data.code === 200) {
             var page_data = {"list": data.data};
+            page_data = page_parsing(data);
             update_page(page_data);
+            jump_page(url, data);
         }
     });
 
@@ -152,6 +131,39 @@ function get_page(data) {
         layplmode(card_template, 'show_index_main_template2', list2);
     }
 }
+
+//分页请求
+function jump_page(url, res) {
+    // console.log(res);
+    layui.use(['laypage', 'layer'], function () {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+        laypage.render({
+            elem: 'field'
+            , count: res.data[0].total
+            , limit: 6
+            , first: false
+            , last: false
+            // , curr: location.hash.replace('#!fenye=', '')
+            // , hash: 'fenye' //自定义hash值
+            , jump: function (obj, first) {
+                var curr = obj.curr,
+                    limit = obj.limit;
+                // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                // console.log(obj.limit); //得到每页显示的条数
+                var data = {"pageNum": curr, 'pageSize': limit};
+                //首次不执行
+                if (!first) {
+                    use_ajax(url, data, function (res) {
+                        var page_data = page_parsing(res);
+                        update_page(page_data);
+                    });
+                }
+            }
+        });
+    });
+}
+
 
 //parm jS模型模板ID 渲染视图ID  渲染数据
 function layplmode(modename, viewname, data, ins, opt) {
@@ -205,4 +217,59 @@ function get_house(obj, event) {
             }
         });
     });
+}
+
+
+function carousel_parsing(res) {
+    var parm = res.data;
+    // console.log(parm);
+    var list = [];
+    for (var i = 0, len = parm[0].list.length; i < len; i++) {
+        list[i] = {
+            "images": parm[0].list[0].pics[0].url,
+            "housename": parm[0].list[i].title,
+            "zent": parm[0].list[i].rent,
+            "houseid": parm[0].list[i].id
+        };
+    }
+    return {"list": list};
+}
+
+function page_parsing(res) {
+    var parm = res.data;
+    var list = [];
+    var search = get_search_json();
+    if (search == null) {
+        layui.use('jquery', function () {
+            var $ = layui.jquery;
+            $.getJSON("/json/search.json", function (search_data) {
+                for (var key in search_data.style) {
+                    for (var i = 0, len = parm[0].list.length; i < len; i++) {
+                        if (key == parm[0].list[i].style) {
+                            parm[0].list[i].style = search_data.style[key];
+                        }
+                    }
+                }
+            });
+        });
+    } else {
+        for (var key in search.style) {
+            for (var i = 0, len = parm[0].list.length; i < len; i++) {
+                if (key == parm[0].list[i].style) {
+                    parm[0].list[i].style = search.style[key];
+                }
+            }
+        }
+    }
+    for (var i = 0, len = parm[0].list.length; i < len; i++) {
+        list[i] = {
+            "images": parm[0].list[0].pics[0].url,
+            "housename": parm[0].list[i].title,
+            "zent": parm[0].list[i].rent,
+            "houseid": parm[0].list[i].id,
+            "houseaddress": parm[0].list[i].addr_detail,
+            "style": parm[0].list[i].style
+        };
+    }
+    return {"list": list};
 }

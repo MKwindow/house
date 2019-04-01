@@ -21,6 +21,11 @@ public class ControllerTest {
 		return "index";
 	}
 
+	@RequestMapping("/test")
+	public String test() {
+		return "test";
+	}
+
 	// 详细页请求
 	@RequestMapping(value = "/index/detail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
