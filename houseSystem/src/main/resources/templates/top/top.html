@@ -7,12 +7,13 @@
 </head>
 <body>
 <div th:fragment="top" class="layui-row" style="height: 88px">
+    <script src="../../static/js/local.js" th:src="@{/js/local.js}"></script>
+    <link rel="stylesheet" href='../../static/css/top.css'
+          th:href="@{/css/top.css}">
+    <link rel="stylesheet" href='../../static/css/login.css'
+          th:href="@{/css/login.css}">
     <div class="layui-col-md12">
         <div class="layui-layout">
-            <link rel="stylesheet" href='../../static/css/top.css'
-                  th:href="@{/css/top.css}">
-            <link rel="stylesheet" href='../../static/css/login.css'
-                  th:href="@{/css/login.css}">
             <div class="layui-header mylayui-header">
                 <div class="layui-main">
                     <div class="layui-logo">
@@ -63,7 +64,6 @@
                     </li>
                 </ul>
             </div>
-            <script src="../../static/js/demo/url.js" th:src="@{/js/demo/url.js}"></script>
             <script src="../../static/js/top.js" th:src="@{/js/top.js}"></script>
         </div>
     </div>
@@ -85,7 +85,7 @@
         </div>
     </div>
 </div>
-<script src="../../static/js/token.js" th:src="@{/js/token.js}"></script>
+
 <script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
 </body>
 </html>

@@ -24,16 +24,17 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">房屋类型:</label>
-                    <div class="layui-input-block">
-                        <select name="housestyle" lay-verify="required">
-                            <option value=""></option>
-                            <option value="0">一室一厅</option>
-                            <option value="1">两室一厅</option>
-                            <option value="2">三室一厅</option>
-                            <option value="3">四室一厅</option>
-                            <option value="4">五室一厅</option>
-                        </select>
+                    <div class="layui-input-block" id="housestyle_view">
                     </div>
+                        <script id="housestyle_tpl">
+                            <select name="housestyle" lay-verify="required">
+                            <option value=""></option>
+                                <%# for(var key in d.housestyle){ %>
+                            <option value=<%= key %>> <% d.housestyle[key] %></option>
+                                    <%# } %>
+                            </select>
+                        </script>
+
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">房屋面积:</label>
@@ -45,27 +46,31 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">房屋区域:</label>
-                    <div class="layui-input-block">
-                        <select name="area" lay-verify="required">
-                            <option value=""></option>
-                            <option value="0">武侯区</option>
-                            <option value="1">进景区</option>
-                            <option value="2">神马区</option>
-                            <option value="3">位置区</option>
-                            <option value="4">后倾区</option>
-                        </select>
+                    <div class="layui-input-block" id="area_view">
                     </div>
+                        <script id="area_tpl">
+                            <select name="area" lay-verify="required">
+                            <option value=""></option>
+                                <%# for(var key in d.areas){ %>
+                            <option value=<%= key %>> <% d.areas[key] %></option>
+                                    <%# } %>
+                            </select>
+                        </script>
+
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">房源风格:</label>
-                    <div class="layui-input-block">
-                        <select name="style" lay-verify="required">
-                            <option value=""></option>
-                            <option value="0">经济</option>
-                            <option value="1">豪华</option>
-                            <option value="2">廉价</option>
-                        </select>
+                    <div class="layui-input-block" id="style_view">
                     </div>
+                        <script id="style_tpl">
+                            <select name="style" lay-verify="required">
+                            <option value=""></option>
+                                <%# for(var key in d.style){ %>
+                            <option value=<%= key %>> <% d.style[key] %></option>
+                                    <%# } %>
+                            </select>
+                        </script>
+
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">租金:</label>
@@ -76,14 +81,16 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">缴费方式:</label>
-                    <div class="layui-input-block">
-                        <select name="payway" lay-verify="required">
-                            <option value=""></option>
-                            <option value="0">押一付一</option>
-                            <option value="1">押一付三</option>
-                            <option value="2">月付</option>
-                        </select>
+                    <div class="layui-input-block" id="payway_view">
                     </div>
+                        <script id="payway_tpl">
+                            <select name="payway" lay-verify="required">
+                            <option value=""></option>
+                                <%# for(var key in d.payway){ %>
+                            <option value=<%= key %>> <% d.payway[key] %></option>
+                                    <%# } %>
+                            </select>
+                        </script>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">房屋图片:</label>

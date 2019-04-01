@@ -15,43 +15,53 @@
         <div class="layui-main">
             <!--搜索区域-->
             <div class="layui-row">
-                <form class="layui-form" action="">
+                <form class="layui-form" lay-filter="search_form">
                     <div class="layui-form-item " id="areas">
-                        <label class="layui-form-label">区域</label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="" title="全部" checked lay-filter="areas">
-                            <input type="checkbox" name="areas" title="高新区" lay-filter="areas" value="高新区">
-                            <input type="checkbox" name="areas" title="天府新区" lay-filter="areas" value="天府新区">
-                            <input type="checkbox" name="areas" title="武侯区" lay-filter="areas" value="武侯区">
+                        <label class="layui-form-label">区域:</label>
+                        <div class="layui-input-block" id="view_areas">
                         </div>
                     </div>
+                    <script id="areastpl" type="text/html">
+                        <input type="checkbox" name="" title="全部" checked lay-filter="areas">
+                        <%# for(var key in d.areas){ %>
+                        <input type="checkbox" name="areas" title=<%= d.areas[key] %>
+                        lay-filter="areas" value=<%= key %>>
+                        <%# } %>
+                    </script>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">户型</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="housestyle" value="1" title="一户" checked="">
-                            <input type="radio" name="housestyle" value="2" title="二户">
-                            <input type="radio" name="housestyle" value="3" title="三户">
+                        <label class="layui-form-label">户型:</label>
+                        <div class="layui-input-block" id="view_housestyle">
                         </div>
+                        <script id="housestyletpl" type="text/html">
+                            <%# for(var key in d.housestyle){ %>
+                            <input type="radio" name="housestyle" value=<%= key %> title=<%= d.housestyle[key]  %>>
+                            <%# } %>
+                        </script>
+
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">房屋类型</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="style" value="廉价" title="廉价">
-                            <input type="radio" name="style" value="经济" title="经济" checked="">
-                            <input type="radio" name="style" value="豪华" title="豪华">
+                        <label class="layui-form-label">房屋类型:</label>
+                        <div class="layui-input-block" id="view_style">
                         </div>
+                        <script id="styletpl" type="text/html">
+                            <%# for(var key in d.style){ %>
+                            <input type="radio" name="style" value=<%= key %> title=<%= d.style[key]  %>>
+                            <%# } %>
+                        </script>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">付款方式</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="payway" value="月付" title="月付">
-                            <input type="radio" name="payway" value="押一付一" title="押一付一" checked="">
-                            <input type="radio" name="payway" value="押一付三" title="押一付三">
-                            <input type="radio" name="payway" value="半年付" title="半年付">
+                        <label class="layui-form-label">付款方式:</label>
+                        <div class="layui-input-block" id="view_payway">
                         </div>
+                        <script id="paywaytpl" type="text/html">
+                            <%# for(var key in d.payway){ %>
+                            <input type="radio" name="payway" value=<%= key %> title=<%= d.payway[key]  %>>
+                            <%# } %>
+                        </script>
                     </div>
+
                     <div class="layui-form-item">
-                        <label class="layui-form-label">价格</label>
+                        <label class="layui-form-label">价格:</label>
                         <div class="layui-input-block">
                             <div id="slide" class="demo-slider"></div>
                             <div id="show-slider-tips">
@@ -82,107 +92,37 @@
             </div>
             <!--数据页-->
             <div class="layui-row">
-                <div class="layui-nav">
-                    <div class="layui-nav-item">
-                        <div class="room-card-small">
-                            <div class="image-box"><img
-                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
-                            </div>
-                            <div class="text-content-middle"><h1 class="text-ellipsis">
-                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
-                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
-                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
-                            </div>
-                            <div class="text-content-right"><p class="mogo-color price">
-                                <span>2300</span>元/月</p>
-                                <p class="brand"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-nav-item">
-                        <div class="room-card-small">
-                            <div class="image-box"><img
-                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
-                            </div>
-                            <div class="text-content-middle"><h1 class="text-ellipsis">
-                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
-                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
-                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
-                            </div>
-                            <div class="text-content-right"><p class="mogo-color price">
-                                <span>2300</span>元/月</p>
-                                <p class="brand"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-nav-item">
-                        <div class="room-card-small">
-                            <div class="image-box"><img
-                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
-                            </div>
-                            <div class="text-content-middle"><h1 class="text-ellipsis">
-                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
-                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
-                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
-                            </div>
-                            <div class="text-content-right"><p class="mogo-color price">
-                                <span>2300</span>元/月</p>
-                                <p class="brand"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-nav-item">
-                        <div class="room-card-small">
-                            <div class="image-box"><img
-                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
-                            </div>
-                            <div class="text-content-middle"><h1 class="text-ellipsis">
-                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
-                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
-                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
-                            </div>
-                            <div class="text-content-right"><p class="mogo-color price">
-                                <span>2300</span>元/月</p>
-                                <p class="brand"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-nav-item">
-                        <div class="room-card-small">
-                            <div class="image-box"><img
-                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
-                            </div>
-                            <div class="text-content-middle"><h1 class="text-ellipsis">
-                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
-                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
-                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
-                            </div>
-                            <div class="text-content-right"><p class="mogo-color price">
-                                <span>2300</span>元/月</p>
-                                <p class="brand"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="layui-nav-item">
-                        <div class="room-card-small">
-                            <div class="image-box"><img
-                                    src="../../static/images/searchimg.png" th:src="@{/images/searchimg.png}">
-                            </div>
-                            <div class="text-content-middle"><h1 class="text-ellipsis">
-                                <span title="天府新区-海悦汇城(西区)">天府新区-海悦汇城(西区)</span></h1>
-                                <h2 class="text-ellipsis">2室2厅1卫-70.0㎡ </h2>
-                                <p class="text-ellipsis">重庆市渝中区华府大道</p>
-                            </div>
-                            <div class="text-content-right"><p class="mogo-color price">
-                                <span>2300</span>元/月</p>
-                                <p class="brand"></p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="layui-nav" id="seach_data_main">
                 </div>
-                <div class="layui-row">
-                    <div id="field"></div>
-                </div>
+                <script type="text/html" id="seach_nav_item">
+                    <%#  layui.each(d.data, function(index, item){ %>
+                    <div class="layui-nav-item">
+                        <div class="room-card-small">
+                            <input type="hidden" name="houseid" style="height: 0px;width: 0px" value=<% item.houseid %>
+                            >
+                            <div class="image-box">
+                                <img src=<%= item.houseimage %> >
+                            </div>
+                            <div class="text-content-middle"><h1 class="text-ellipsis">
+                                <span><% item.housename %></span></h1>
+                                <h2 class="text-ellipsis"><% item.housestyle %>-<% item.housearea %>㎡ </h2>
+                                <p class="text-ellipsis"><% item.houseaddress %></p>
+                            </div>
+                            <div class="text-content-right"><p class="mogo-color price">
+                                <span><% item.zent %></span>元/月</p>
+                                <p class="brand"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <%# });%>
+                    <%# if(d.data.length === 0){ %>
+                    无数据
+                    <%# } %>
+                </script>
+
+            </div>
+            <div class="layui-row">
+                <div id="field"></div>
             </div>
         </div>
     </div>
@@ -190,6 +130,7 @@
 </div>
 <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
 <script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+<script src="../../static/js/tpl.js" th:src="@{/js/tpl.js}"></script>
 <script type="text/javascript" src="../../static/js/search.js" th:src="@{/js/search.js}">
 </script>
 </body>

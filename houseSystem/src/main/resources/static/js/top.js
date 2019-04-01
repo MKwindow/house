@@ -1,11 +1,9 @@
-var USERNAME_SWAP = null;
-
 function nva() {
     //导航条
     layui.use(['element', 'jquery'], function () {
         var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
         var $ = layui.jquery;
-        var username = localStorage.getItem("username");
+        var username = LocalStorage_Day.get("USERNAME");
         var parent = $('#showname').parentsUntil("ul").find("dl:first");
         if (username === "" || username === null) {
             // parent.removeClass("layui-nav-child");//设置为展开之前的css，即不展开的样式
@@ -55,7 +53,6 @@ function login() {
             // var url = user_login_url;
             var url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password'
             var param = {"username": username, "password": password};
-            USERNAME_SWAP = username;
             $.ajax(
                 {
                     async: true,
@@ -67,7 +64,9 @@ function login() {
                     dataType: 'json',//预期服务器返回的数据类型
                     data: param,//表格数据序列化
                     contentType: "application/json; charset=utf-8",
-                    success: success,//res为相应体,function为回调函数
+                    success: function (res) {
+                        success(res, username);
+                    },//res为相应体,function为回调函数
                     error: error
                 }
             );
@@ -77,24 +76,25 @@ function login() {
 
 //延迟加载区
 function loadScript() {
-    var swap = localStorage.getItem("username");
+    try {
+        var swap = LocalStorage_Day.get("USERNAME");
+    } catch (err) {
+        console.log("Uncaught ReferenceError: LocalStorage is null");
+    }
+    // console.log(swap);
     var username = {'username': swap};
-    setname(username);
     nva();
     if (swap === null || swap == "登陆" || swap == "") {
         popwindows();
     }
+    setname(username);
 }
 
 
-
-
-function success(data) {
+function success(data, username) {
     if (data != null) {
-        console.log("用户等于空", USERNAME_SWAP);
-        if (USERNAME_SWAP != null) {
-            console.log("用户不等于空", USERNAME_SWAP);
-            localStorage.setItem("username", USERNAME_SWAP);
+        if (username != null) {
+            LocalStorage_Day.set("USERNAME", username, 1);
         }
         updateUsername(data.data);
         down();
@@ -110,8 +110,8 @@ function updateUsername(data) {
         var laytpl = layui.laytpl;
         var btnname = $('#btn');
         var name = btnname.text().trim();
-        var username = localStorage.getItem('username');
-        localStorage.setItem("token", data);
+        var username = LocalStorage_Day.get('USERNAME');
+        token.set("TOKEN", data);
         if (name !== username) {
             var userdata = {'username': username};
             setname(userdata);
@@ -123,6 +123,10 @@ function updateUsername(data) {
 function setname(userdata) {
     layui.use('laytpl', function () {
         var laytpl = layui.laytpl;
+        laytpl.config({
+            open: '{{',
+            close: '}}'
+        });
         var getTpl = usermodel.innerHTML
         var view = document.getElementById('showname');
         laytpl(getTpl).render(userdata, function (html) {
@@ -144,13 +148,14 @@ function down() {
 }
 
 
-
 function error() {
     console.log('操作失败！!');
 }
 
 function logout() {
-    localStorage.clear();
+    sessionStorage.removeItem("USERNAME_SWAP");
+    localStorage.removeItem("TOKEN");
+    localStorage.removeItem("USERNAME");
     window.location.reload();
 }
 

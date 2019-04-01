@@ -115,7 +115,7 @@ layui.use(['laypage', 'layer'], function () {
             get_page(data);
             //首次不执行
             if (!first) {
-                console.log(1);
+                // console.log(1);
             }
         }
     });
