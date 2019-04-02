@@ -12,7 +12,7 @@
 <div class="layui-fluid">
     <div th:replace="top/top::top"></div>
     <div class="layui-row">
-        <div class="layui-main">
+        <div class="layui-main" style="margin-top: 20px">
             <!--搜索区域-->
             <div class="layui-row">
                 <form class="layui-form" lay-filter="search_form">
@@ -95,7 +95,7 @@
                 <div class="layui-nav" id="seach_data_main">
                 </div>
                 <script type="text/html" id="seach_nav_item">
-                    <%#  layui.each(d.data, function(index, item){ %>
+                    <%#  layui.each(d.list, function(index, item){ %>
                     <div class="layui-nav-item">
                         <div class="room-card-small">
                             <input type="hidden" name="houseid" style="height: 0px;width: 0px" value=<% item.houseid %>
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <%# });%>
-                    <%# if(d.data.length === 0){ %>
+                    <%# if(d.list.length === 0){ %>
                     无数据
                     <%# } %>
                 </script>

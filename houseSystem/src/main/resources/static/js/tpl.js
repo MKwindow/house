@@ -6,18 +6,20 @@ function use_ajax(url, parm, success) {
     layui.use('jquery', function () {
         var $ = layui.jquery;
         var token = get_token();
-        if (token != null || token !== "") {
+        try {
             parm = Object.assign(parm, {"access_token": token.access_token});
+        } catch (err) {
+            error_token();
         }
         // console.log(token.access_token);
-        // var value = "bearer" + '\xa0' + token.access_token;
+        var value = "bearer" + '\xa0' + token.access_token;
         var statusCode = $.ajax({
             url: url
             , type: 'GET'
             , data: parm
-            // , headers: {
-            //     "Authorization": value
-            // }
+            , headers: {
+                "Authorization": value
+            }
             , dataType: 'json'//预期服务器返回的数据类型
             // , contentType: "application/json; charset=utf-8"
             , success: success
@@ -70,14 +72,12 @@ function get_token() {
 }
 
 function error_token() {
-    var token = get_token();//获取名称为“key”的值
-    if (token == null || token === "") {
-        var userform = document.getElementById("signform");
-        if (userform != null) {
-            var user=document.getElementById("showname");
-            user.innerHTML = "登陆";
-        }
-        window.location.href = '/index';
+    var userform = document.getElementById("signform");
+    if (userform != null) {
+        var user = document.getElementById("showname");
+        user.innerHTML = "登陆";
+        popwindows();
     }
+    window.location.href = '/index';
 }
 

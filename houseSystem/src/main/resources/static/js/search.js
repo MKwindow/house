@@ -54,27 +54,37 @@ layui.use(['form', "jquery"], function () {
         });
         data.field.areas = arr.join(",");//将数组合并成字符串
         console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
-        var param = JSON.stringify(data.field);
+        var param = data.field;
+        type_d = param.housestyle % 10,
+            type_c = parseInt(param.housestyle / 10 % 10),
+            type_b = parseInt(param.housestyle / 100 % 10),
+            type_a = parseInt(param.housestyle / 1000 % 10),
+            pay_b = param.payway % 10,
+            pay_a = parseInt(param.payway / 10 % 10);
+        var token = get_token();
+        var swapdata = {
+            "addr_id": param.areas,
+            "style": param.style,
+            "type_a": type_a,
+            "type_b": type_b,
+            "type_c": type_c,
+            "type_d": type_d,
+            "pay_a": pay_a,
+            "pay_b": pay_b,
+            "rent": param.price_max,
+            "access_token": token.access_token
+        };
         $.ajax(
             {
-                url: "/add",
-                type: 'post',//method请求方式，get或者post
+                url: "http://test.sunxiaoyuan.com:8080/house/list",
+                type: 'get',//method请求方式，get或者post
                 dataType: 'json',//预期服务器返回的数据类型
-                data: param,//表格数据序列化
-                contentType: "application/json; charset=utf-8",
+                data: swapdata,//表格数据序列化
+                // contentType: "application/json; charset=utf-8",
                 success: function (res) {//res为相应体,function为回调函数
-                    // if (res.status == 200) {
-                    //     console.log('添加客户信息成功' + JSON.stringify(res));
-                    //     var jsonURL = "/add";
-                    //     $.getJSON(jsonURL, function (data) {
-                    //         console.log(JSON.stringify(data));
-                    //         console.log(JSON.stringify(res));
-                    //     });
-                    //     //$("#res").click();//调用重置按钮将表单数据清空
-                    // } else {
-                    //     console.log(param);
-                    // }
-                    console.log(JSON.stringify(res));
+                    var resdata = Adapter_page(res)
+                    updata_data(resdata);
+                    // console.log(JSON.stringify(res));
                 },
                 error: function () {
                     console.log('操作失败！!');
@@ -138,45 +148,46 @@ layui.use('slider', function () {
 //分页
 layui.use(['laypage', 'layer', 'jquery'], function () {
     var laypage = layui.laypage
-        , layer = layui.layer;
-    laypage.render({
-        elem: 'field'
-        , count: 100
-        , limit: 6
-        , first: false
-        , last: false
-        // , curr: location.hash.replace('#!fenye=', '')
-        // , hash: 'fenye' //自定义hash值
-        , jump: function (obj, first) {
-            get_page_search(obj, first);
-        }
+        , layer = layui.layer,
+        $ = layui.jquery;
+    var counts = null;
+    var seach = localStorage.getItem("search_address");
+    localStorage.removeItem("search_address");
+    console.log(seach);
+    var where = {"pageNum": "1", "pageSize": "10"};
+    var url = "http://test.sunxiaoyuan.com:8080/house/list";
+    use_ajax(url, where, function (res) {
+        counts = res.data[0].total;
+        var swap = Adapter_page(res);
+        updata_data(swap);
+        laypage.render({
+            elem: 'field'
+            , count: counts
+            , limit: 10
+            , first: false
+            , last: false
+            , groups: 8
+            // , curr: location.hash.replace('#!fenye=', '')
+            // , hash: 'fenye' //自定义hash值
+            , jump: function (obj, first) {
+                if (!first) {
+                    get_page_search(obj);
+                }
+            }
+        })
     });
 });
 
 //请求
-function get_page_search(obj, first) {
+function get_page_search(obj) {
     layui.use('jquery', function () {
         var $ = layui.jquery,
-            // where = {"token": "asf"},
-            page = {"curr": obj.curr, "limit": obj.limit};
-        // var data = $.extend(where, page);
-        var data = page;
-        var url = "/json/search_data_main.json";
-        // console.log(1);
-        $.ajax({
-            url: url
-            , type: 'GET'
-            , dataType: 'json'//预期服务器返回的数据类型
-            , contentType: "application/json; charset=utf-8"
-            , data: data
-            , success: function (res) {
-                // console.log(JSON.stringify(res));
-                updata_data(res);
-            }, error: function (res) {
-                console.log("访问失败:######/t" + JSON.stringify(res));
-            }, beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("Token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxOD.....");
-            }
+            token = get_token();
+        var page = {"pageNum": obj.curr, "pageSize": obj.limit, "access_token": token.access_token};
+        var url = "http://test.sunxiaoyuan.com:8080/house/list";
+        use_ajax(url, page, function (res) {
+            var swap = Adapter_page(res)
+            updata_data(swap);
         });
     });
 }
@@ -186,11 +197,11 @@ function updata_data(data) {
     var search = LocalStorage_Day.get("SEARCH");
     if (search != null) {
         for (var newkey in search.housestyle) {
-            for (var key in data.data) {
+            for (var key in data.list) {
                 // console.log(data.data[key].housestyle);
                 // console.log(newkey);
-                if (data.data[key].housestyle == newkey) {
-                    data.data[key].housestyle = search.housestyle[newkey];
+                if (data.list[key].housestyle == newkey) {
+                    data.list[key].housestyle = search.housestyle[newkey];
                 }
             }
         }
@@ -208,3 +219,28 @@ function updata_data(data) {
         });
     });
 }
+
+function Adapter_page(res) {
+    var parm = res.data;
+    var list = [];
+    for (var i = 0, len = parm[0].list.length; i < len; i++) {
+        var housestyle = parm[0].list[i].type_a * 1000 + parm[0].list[i].type_b * 100 + parm[0].list[i].type_c * 10 + parm[0].list[i].type_d;
+        var image = null;
+        try {
+            image = parm[0].list[i].pics[0].url
+        } catch (err) {
+            image = "/images/temp/property_01.jpg";
+        }
+        list[i] = {
+            "houseimage": image,
+            "housename": parm[0].list[i].title,
+            "zent": parm[0].list[i].rent,
+            "houseid": parm[0].list[i].id,
+            "houseaddress": parm[0].list[i].addr_detail,
+            "housestyle": housestyle,
+            "housearea": parm[0].list[i].area
+        };
+    }
+    return {"list": list};
+}
+

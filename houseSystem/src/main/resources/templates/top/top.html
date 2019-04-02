@@ -30,9 +30,9 @@
                         <li class="layui-nav-item mylayui-nav-item"><a href="/houseadd">发布房屋</a></li>
                     </ul>
                 </div>
-                <ul class="layui-nav layui-layout-right mylayui-nav mylayui-nav-right" lay-filter="loginfilter">
+                <ul class="layui-nav layui-layout-right mylayui-nav mylayui-nav-right" lay-filter="loginfilter" lay-allowClose="false">
                     <li class="layui-nav-item">
-                        <a href="javascript:;"> <i
+                        <a href="javascript:;" id="btn_parm_top"> <i
                                 class="layui-icon layui-icon-username"
                                 style="font-size: 30px; color: #1E9FFF;"></i>
                             <button data-method="offset" data-type="auto"
@@ -49,16 +49,16 @@
                         </a>
                         <dl class="layui-nav-child mylayui-nav-child">
                             <dd>
-                                <a href="/showuser">基本信息</a>
+                                <a href="/showuser" id="user_manage_top">基本信息</a>
                             </dd>
                             <dd>
-                                <a href="/showTentantManage">合同管理</a>
+                                <a href="/showTentantManage" id="order_manage_top">合同管理</a>
                             </dd>
                             <dd>
-                                <a href="/showRentManage">房屋管理</a>
+                                <a href="/showRentManage" id="house_manage_top">房屋管理</a>
                             </dd>
                             <dd>
-                                <a onclick="logout()">注销</a>
+                                <a id="loginout_top">注销</a>
                             </dd>
                         </dl>
                     </li>

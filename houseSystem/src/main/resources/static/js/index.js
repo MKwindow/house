@@ -54,26 +54,28 @@ function submitFn(obj, evt) {
             parm = {"address": value};
         }
         // console.log(url + JSON.stringify(parm));
-        $.ajax({
-            url: url
-            , type: 'post'
-            , data: JSON.stringify(parm)
-            , dataType: 'json'//预期服务器返回的数据类型
-            , contentType: "application/json; charset=utf-8"
-            , success: go
-        });
+        // $.ajax({
+        //     url: url
+        //     , type: 'post'
+        //     , data: JSON.stringify(parm)
+        //     , dataType: 'json'//预期服务器返回的数据类型
+        //     // , contentType: "application/json; charset=utf-8"
+        //     , success: go
+        // });
+        localStorage.setItem("search_address", JSON.stringify(parm));
+        window.location.href = "/search";
         $(obj).find('.result-container').fadeIn(100);
         evt.preventDefault();
     });
 }
 
 //跳转到路径
-function go(data) {
-    // console.log(data);
-    if (data.code == 200) {
-        window.location.href = data.data.url;
-    }
-}
+// function go(data) {
+//     // console.log(data);
+//     if (data.code == 200) {
+//         window.location.href = data.data.url;
+//     }
+// }
 
 //轮转函数
 function carouse(ins, opt) {
@@ -109,27 +111,28 @@ function get_page() {
             jump_page(url, data);
         }
     });
+}
 
-    function update_page(page_data) {
-        var result1 = [];
-        var result2 = [];
-        var i = 0;
-        layui.each(page_data.list, function (index, item) {
-            if (index <= 2) {
-                result1[index] = item;
-            } else {
-                result2[index % 3] = item;
-            }
-        });
-        var list1 = {
-            "list": result1
-        };
-        var list2 = {
-            "list": result2
-        };
-        layplmode(card_template, 'show_index_main_template1', list1);
-        layplmode(card_template, 'show_index_main_template2', list2);
-    }
+//更新模板
+function update_page(page_data) {
+    var result1 = [];
+    var result2 = [];
+    var i = 0;
+    layui.each(page_data.list, function (index, item) {
+        if (index <= 2) {
+            result1[index] = item;
+        } else {
+            result2[index % 3] = item;
+        }
+    });
+    var list1 = {
+        "list": result1
+    };
+    var list2 = {
+        "list": result2
+    };
+    layplmode(card_template, 'show_index_main_template1', list1);
+    layplmode(card_template, 'show_index_main_template2', list2);
 }
 
 //分页请求
@@ -199,23 +202,25 @@ function get_house(obj, event) {
     layui.use('jquery', function () {
         var $ = layui.jquery;
         var houseid = $(obj).find("input:hidden:first").val().trim();
-        var parm = {"houseid": houseid}
-        var url = "/index/detail"
-        $.ajax({
-            url: url
-            , type: 'post'
-            , dataType: 'json'//预期服务器返回的数据类型
-            , contentType: "application/json; charset=utf-8"
-            , data: JSON.stringify(parm)
-            , success: function (data) {
-                if (data.code === 200) {
-                    window.location.href = data.data.url;
-                }
-            }
-            , error: function () {
-                console.log("访问失败");
-            }
-        });
+        var parm = {"houseid": houseid};
+        var url = "/index/detail";
+        localStorage.setItem("houseid", houseid);
+        window.location.href = '/index/show_detail';
+        // $.ajax({
+        //     url: url
+        //     , type: 'post'
+        //     , dataType: 'json'//预期服务器返回的数据类型
+        //     , contentType: "application/json; charset=utf-8"
+        //     , data: JSON.stringify(parm)
+        //     , success: function (data) {
+        //         if (data.code === 200) {
+        //             window.location.href = data.data.url;
+        //         }
+        //     }
+        //     , error: function () {
+        //         console.log("访问失败");
+        //     }
+        // });
     });
 }
 
@@ -225,8 +230,14 @@ function carousel_parsing(res) {
     // console.log(parm);
     var list = [];
     for (var i = 0, len = parm[0].list.length; i < len; i++) {
+        var image = null;
+        try {
+            image = parm[0].list[i].pics[0].url
+        } catch (err) {
+            image = "/images/temp/property_01.jpg";
+        }
         list[i] = {
-            "images": parm[0].list[0].pics[0].url,
+            "images": image,
             "housename": parm[0].list[i].title,
             "zent": parm[0].list[i].rent,
             "houseid": parm[0].list[i].id
@@ -262,8 +273,14 @@ function page_parsing(res) {
         }
     }
     for (var i = 0, len = parm[0].list.length; i < len; i++) {
+        var image = null;
+        try {
+            image = parm[0].list[i].pics[0].url
+        } catch (err) {
+            image = "/images/temp/property_01.jpg";
+        }
         list[i] = {
-            "images": parm[0].list[0].pics[0].url,
+            "images": image,
             "housename": parm[0].list[i].title,
             "zent": parm[0].list[i].rent,
             "houseid": parm[0].list[i].id,
