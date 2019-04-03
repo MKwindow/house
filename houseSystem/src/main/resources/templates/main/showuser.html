@@ -93,16 +93,46 @@
     layui.use(['upload', 'jquery'], function () {
         var upload = layui.upload;
         var $ = layui.jquery;
-        var url = user_show_url;
+        // var url = user_show_url;
         // var data = {'token': '123'};
-        $.ajax({
-            url: url
-            // , async: true
-            , type: 'get'
-            , dataType: "json"
-            // , data: JSON.stringify(data)
-            , success: returnGet
-        });
+        // $.ajax({
+        //     url: url
+        //     , async: true
+        //     , type: 'get'
+        //     , dataType: "json"
+        //     , data: JSON.stringify(data)
+        //     , success: returnGet
+        // });
+        var user;
+        try {
+            user = LocalStorage_Day.get("USER");
+        } catch (erro) {
+            try {
+                var data = JSON.parse(localStorage.getItem(key));
+                if (data !== null) {
+                    // debugger
+                    if (data.expirse != null && data.expirse < new Date().getTime()) {
+                        localStorage.removeItem(key);
+                    } else {
+                        user = data.value;
+                    }
+                }
+            } catch (err) {
+                popwindows("user");
+            }
+        }
+        var swap = {
+            "userid": user.id,
+            "username": user.username,
+            "userphone": user.phone,
+            "usermail": user.email,
+            "attestation": user.status,
+            "userdddress": "公测上市",
+            "useridentity": "500226199307231181",
+            "usersex": "1"
+        };
+        updateform(swap);
+
         //执行实例
         upload.render({
             elem: '#up' //绑定元素
@@ -120,18 +150,16 @@
                 //请求异常回调
             }
         });
+
     });
 
-    function returnGet(data) {
-        // console.log(data);
-        if (data.code == 0) {
-            updateform(data.data);
-        }
-    }
+
+    // function returnGet(data) {
+    //     updateform(data.data);
+    // }
 
     //表单
     function updateform(data) {
-        // console.log(data);
         layui.use('form', function () {
             var form = layui.form;
             form.val("updataform", {
@@ -141,23 +169,48 @@
                 , "userphone": data.userphone
                 , "usermail": data.usermail
                 , "useridentity": data.useridentity
-                , "attestation": data.attestation === true ? '已认证' : '未认证'
+                , "attestation": data.attestation === 1 ? '已认证' : '未认证'
                 , 'userdddress': data.userdddress
             });
         });
     }
 
-    layui.use('form', function () {
-        var form = layui.form;
+    layui.use(['form', 'jquery'], function () {
+        var form = layui.form,
+            $ = layui.jquery;
         //修改用户提交
+        var token = LocalStorage_Day.get("TOKEN").access_token;
         form.on('submit(update)', function (data) {
             var userdata = data.field;
             delete userdata.file;
             delete userdata.attestation;
             delete userdata.useridentity;
+            delete userdata.usersex;
+            var swapToken = "Bearer" + "\xa0" + token;
+            var swap = {
+                "id": userdata.userid,
+                "username": userdata.username,
+                "phone": userdata.userphone,
+                "email": userdata.usermail,
+                // "access_token": token
+            };
+            $.ajax({
+                url: 'http://test.sunxiaoyuan.com:8080/user/update'
+                , type: 'GET'
+                , data: swap
+                , headers: {
+                    "Authorization": swapToken
+                }
+                , success: function (res) {
+                    console.log(res)
+                },
+                error: function (res) {
+                    console.log(res)
+                }
+            });
             // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
             // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            console.log(JSON.stringify(userdata)); //当前容器的全部表单字段，名值对形式：{name: value}
+            // console.log(JSON.stringify(userdata)); //当前容器的全部表单字段，名值对形式：{name: value}
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
         //修改密码提交

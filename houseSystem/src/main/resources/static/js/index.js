@@ -17,6 +17,7 @@ layui.use('carousel', function () {
 });
 
 
+
 //搜索特效
 function searchToggle(obj, evt) {
     layui.use('jquery', function () {
@@ -96,8 +97,8 @@ function carouse(ins, opt) {
     }
 }
 
-
 get_page();
+
 
 //分页数据操作
 function get_page() {

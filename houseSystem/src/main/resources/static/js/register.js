@@ -34,7 +34,7 @@ layui.use(['form', 'upload'], function () {
     });
     //监听提交
     form.on('submit(submit)', function (data) {
-        var url = '';
+        var url = 'http://test.sunxiaoyuan.com:8080/user/add';
         var parm = JSON.stringify(data.field);
         $.post(url, parm);
         return false;

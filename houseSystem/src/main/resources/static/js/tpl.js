@@ -9,7 +9,7 @@ function use_ajax(url, parm, success) {
         try {
             parm = Object.assign(parm, {"access_token": token.access_token});
         } catch (err) {
-            error_token();
+//            error_token();
         }
         // console.log(token.access_token);
         var value = "bearer" + '\xa0' + token.access_token;
@@ -76,8 +76,10 @@ function error_token() {
     if (userform != null) {
         var user = document.getElementById("showname");
         user.innerHTML = "登陆";
-        popwindows();
+        popwindows("error_token");
+    }else{
+    	 window.location.href = '/index';
     }
-    window.location.href = '/index';
+   
 }
 
