@@ -205,6 +205,7 @@ function get_house(obj, event) {
         var houseid = $(obj).find("input:hidden:first").val().trim();
         var parm = {"houseid": houseid};
         var url = "/index/detail";
+        debugger;
         localStorage.setItem("houseid", houseid);
         window.location.href = '/index/show_detail';
         // $.ajax({

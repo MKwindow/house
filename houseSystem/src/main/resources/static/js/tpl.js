@@ -47,9 +47,7 @@ function get_search_json() {
             var url = "/json/search.json";
             $.getJSON(url, function (res) {
                 if (res.code === 0) {
-                    // debugger
                     LocalStorage_Day.set("SEARCH", res.data, 0.1);
-                    // console.log("search_data" + res.data);
                     search_data = res.data;
                 }
             });

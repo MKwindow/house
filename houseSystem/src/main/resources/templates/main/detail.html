@@ -77,8 +77,8 @@
                     </li>
                 </ul>
                 <div class="buy-now">
-                    <a href="#" class="layui-btn btn">预定房屋</a>
-                    <a href="#" class="layui-btn btn">入住</a>
+                    <a  class="layui-btn btn"  id="reservation_house">预定房屋</a>
+                    <a   class="layui-btn btn" >入住 </a>
                 </div>
             </div>
         </div>
@@ -103,7 +103,9 @@
                             <span class="title">房屋编号：</span>
                             <span>{{ d.houseid }}</span>
                         </li>
+
                         <li>
+                            <input type="hidden" id="user_id" value={{= d.userid }} style="height: 0px; width: 0px">
                             <span class="title">出租人：</span>
                             <span>{{ d.username }}</span>
                         </li>
@@ -127,21 +129,6 @@
         </div>
     </div>
 </script>
-<script type="text/javascript">
-    layui.use(['laytpl', 'jquery'], function () {
-        var laytpl = layui.laytpl,
-            $ = layui.jquery;
-        var url = 'http://test.sunxiaoyuan.com:8080/';
-        $.get(url, showdetail);
-
-        function showdetail(data) {
-            var getTpl = demo.innerHTML
-                , view = document.getElementById('detail');
-            laytpl(getTpl).render(data.data, function (html) {
-                view.innerHTML = html;
-            });
-        }
-    });
-</script>
+<script type="text/javascript" src="../../static/js/house_detail.js" th:src="@{/js/house_detail.js}"></script>
 </body>
 </html>

@@ -7,9 +7,9 @@ const token = {
         LocalStorage_Day.set("TOKEN", token, 1);
     },
     error: function () {
-        var token = LocalStorage_Day.get("TOKEN");//获取名称为“key”的值
+        let token = LocalStorage_Day.get("TOKEN");//获取名称为“key”的值
         if (token == null || token === "") {
-            var userform = document.getElementById("signform");
+            let userform = document.getElementById("signform");
             if (userform != null) {
                 popwindows();
             }
@@ -21,7 +21,7 @@ const token = {
 
 const LocalStorage_Day = {
     set: function (key, value, num) {
-        var data = 3600 * 1000 * 24 * num;
+        let data = 3600 * 1000 * 24 * num;
         LocalStorage_Data.set(key, value, data);
     },
     get: function (key) {
@@ -31,11 +31,11 @@ const LocalStorage_Day = {
 
 const LocalStorage_Data = {
     set: function (key, value, ttl_ms) {
-        var data = {value: value, expirse: (new Date().getTime() + ttl_ms)};
+        let data = {value: value, expirse: (new Date().getTime() + ttl_ms)};
         localStorage.setItem(key, JSON.stringify(data));
     },
     get: function (key) {
-        var data = JSON.parse(localStorage.getItem(key));
+        let data = JSON.parse(localStorage.getItem(key));
         if (data !== null) {
             // debugger
             if (data.expirse != null && data.expirse < new Date().getTime()) {
