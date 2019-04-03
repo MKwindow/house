@@ -1,0 +1,189 @@
+layui.use(['table', 'jquery'], function () {
+    let table = layui.table,
+        form = layui.form,
+        $ = layui.jquery,
+        upload = layui.upload;
+    // console.log(reserve_house_manage);
+    let url = 'http://test.sunxiaoyuan.com:8080/reserve/list';
+    let token = get_LocalStorage("TOKEN");
+    let swap = {"Authorization": "Bearer" + "\xa0" + token.access_token};
+    let retable = table.render({
+        elem: '#renthourse'//表格绑定 根据id绑定
+        , url: url //请求地址
+        , method: 'POST'//请求方法
+        // , headers: swap
+        , where: {"access_token": token.access_token}
+        , request: {
+            pageName: 'pageNum' //页码的参数名称，默认：page
+            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
+        , parseData: function (res) { //res 即为原始返回的数据
+            let data = Apt_reserve(res);
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.data.total, //解析数据长度
+                "data": data //解析数据列表
+            };
+        }
+        , response: {
+            // statusName: 'status' ,  //规定数据状态的字段名称，默认：code
+            statusCode: 200 //规定成功的状态码，默认：0
+            // , msgName: 'hint' //规定状态信息的字段名称，默认：msg
+            // , countName: 'total' //规定数据总数的字段名称，默认：count
+            // , dataName: 'data' //规定数据列表的字段名称，默认：data
+        }
+        // , contentType: 'application/json'//发送到服务端的内容编码类型
+        , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
+        , title: '房屋预定管理'//定义 table 的大标题（在文件导出等地方会用到
+        , totalRow: false // 开启合计行
+        , id: 'house'
+        , done: function (res, curr, count) {
+            // let parnt = $(".layui-table-box");
+            // parnt.find("[data-field='houseid']").css("display", "none");
+            // parnt.find("[data-field='userid']").css("display", "none");
+            // parnt.find("[data-field='owenid']").css("display", "none");
+            // parnt.find("[data-field='owenphone']").css("display", "none");
+        }
+        // , loading: true
+        , limit: 8
+        , cols: [
+            [
+                {type: 'checkbox', fixed: 'left'}
+                , {
+                field: 'reserveid',
+                title: '预定编号',
+                width: 100,
+                fixed: 'left',
+                unresize: true,//不可编辑
+                sort: true,//排序
+                totalRowText: '合计'
+            }
+                , {field: 'houseid', title: '房屋编号',hide:true}
+                , {field: 'userid', title: '用户编号',hide:true}
+                , {field: 'owenid', title: '房东编号',hide:true}
+                , {field: 'housestyle', title: '房屋类型', width: 120}
+                , {field: 'houseaddress', title: '房屋地址', width: 228}
+                , {field: 'tenantname', title: '租客姓名', width: 100, sort: true}
+                , {field: 'tenantphone', title: '租客电话', width: 120, sort: true, templet: '#showphone1'}
+                , {field: 'owenphone', title: '房东电话', width: 120, sort: true, templet: '#showphone2',hide:true}
+                , {field: 'username', title: '房东姓名', width: 90}
+                , {field: 'reservedate', title: '预约日期', width: 110, sort: true}
+                , {field: 'payway', title: '缴费方式', width: 100}
+                , {field: 'reservestate', title: '预约状态', width: 110, sort: true, templet: '#checkboxTp2'}
+                , {field: 'zent', title: '租金', width: 200, sort: true}
+                , {fixed: 'right', title: '操作', toolbar: '#bar', width: 160}
+            ]
+        ]
+        , page: true
+    });
+
+    function Apt_reserve(data) {
+        // debugger;
+        let list = data.data[0].list;
+        try {
+            let search = get_LocalStorage('SEARCH');
+            return success(search);
+        } catch (err) {
+            $.getJSON('/json/search.json', function (opt) {
+                let data = {'value': opt.data, 'expirse': (new Date().getTime() + 86400000)};
+                localStorage.setItem('SEARCH', JSON.stringify(data));
+            });
+        }
+
+        function success(opt) {
+            let search = opt;
+            let swap = [];
+            for (let i = 0, len = list.length; i < len; i++) {
+                swap[i] = {
+                    'houseaddress': list[i].addr_detail,
+                    'area': list[i].area,
+                    'reservedate': list[i].time,
+                    'houseid': list[i].house_id,
+                    'payway': list[i].pay_a * 10 + list[i].pay_b,
+                    'username': list[i].u_nick_name,
+                    'reservestate': list[i].status,
+                    'tenantphone': list[i].phone,
+                    'tenantname': list[i].nick_name,
+                    'zent': list[i].rent,
+                    'housestyle': list[i].type_a * 1000 + list[i].type_b * 100 + list[i].type_c * 10 + list[i].type_d,
+                    'userid': list[i].user_id,
+                    'owenid': 1,
+                    'reserveid': 1,
+                    'owenphone': list[i].u_phone
+                }
+            }
+            for (let i = 0, len = swap.length; i < len; i++) {
+                for (let key in search.payway) {
+                    if (swap[i].payway == key) {
+                        swap[i].payway = search.payway[key];
+                    }
+                }
+                for (let key in search.housestyle) {
+                    if (swap[i].housestyle == key)
+                        swap[i].housestyle = search.housestyle[key];
+                }
+            }
+            return swap;
+        }
+    }
+
+    //工具栏事件
+    table.on('toolbar(hourse)', function (obj) {
+        let checkStatus = table.checkStatus(obj.config.id);
+        switch (obj.event) {
+            case 'getCheckData':
+                let data1 = checkStatus.data;
+                layer.alert(JSON.stringify(data1));
+                break;
+            case 'getCheckLength':
+                let data2 = checkStatus.data;
+                layer.msg('选中了：' + data2.length + ' 个');
+                break;
+            case 'isAll':
+                layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                break;
+            case 'flush':
+                retable.reload();
+                break;
+        }
+    });
+    //监听行工具事件
+    //右侧
+    table.on('tool(hourse)', function (obj) {
+        let data = obj.data;
+        // console.log(obj);
+        switch (obj.event) {
+            case 'del':
+                layer.confirm('真的取消么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+                break;
+            case 'edit':
+                console.log('更新');
+                layer.confirm('同意对方的申请吗', function (index) {
+                    //更新缓存里面的值
+                    obj.update({
+                        "reservestate": data.houseid // "name": "value"
+                    });
+                    layer.close(index);
+                });
+                break;
+        }
+    });
+});
+
+function get_LocalStorage(key) {
+    let data = JSON.parse(localStorage.getItem(key));
+    if (data !== null) {
+        // debugger
+        if (data.expirse != null && data.expirse < new Date().getTime()) {
+            localStorage.removeItem(key);
+        } else {
+            return data.value;
+        }
+    }
+    return null;
+}
+

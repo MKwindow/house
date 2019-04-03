@@ -6,7 +6,7 @@ function nva() {
         var $ = layui.jquery;
         var parent = $('#showname').parentsUntil("ul").find("dl:first");
         try {
-            var username = LocalStorage_Day.get("USER").username;
+            var username = LocalStorage_Day.get("USER").nickName;
         } catch (err) {
             parent.removeClass("layui-nav-child");// 设置为展开之前的css，即不展开的样式
         }
@@ -42,6 +42,7 @@ function nva() {
         localStorage.removeItem("USER");
         var user = document.getElementById("showname");
         user.innerHTML = "登陆";
+        window.location.reload();
     }
 }
 
@@ -88,7 +89,7 @@ function login() {
                     headers: {
                         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8;application/json; charset=utf-8"
                     },
-                    type: 'GET',// method请求方式，get或者post
+                    type: 'POST',// method请求方式，get或者post
                     dataType: 'json',// 预期服务器返回的数据类型
                     data: param,// 表格数据序列化
                     // contentType:
@@ -108,7 +109,7 @@ function login() {
 function loadScript() {
     nva();
     try {
-        var swap = LocalStorage_Day.get("USER").username;
+        var swap = LocalStorage_Day.get("USER").nickName;
     } catch (err) {
         // popwindows();
     }
@@ -167,9 +168,8 @@ function updateUsername(res) {
                 'username': username
             };
             setname(userdata);
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
+            window.location.reload();
+
         }
     });
 }
@@ -187,6 +187,7 @@ function setname(userdata) {
         laytpl(getTpl).render(userdata, function (html) {
             view.innerHTML = html;
         });
+
     });
 }
 
@@ -203,8 +204,9 @@ function down() {
 }
 
 function error(data) {
-    console.log(JSON.stringify(data));
-    console.log('操作失败！!');
+    var user = document.getElementById('show_erro');
+    user.innerHTML = "用户名或者密码错误";
+    // console.log('操作失败！!');
 }
 
 // 延迟加载
