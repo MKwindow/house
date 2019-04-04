@@ -9,7 +9,6 @@
     <title>房屋详情页</title>
 </head>
 <body>
-<script src="../../static/js/local.js" th:src="@{js/local.js}"></script>
 <div class="layui-fluid">
     <div th:replace="top/top::top"></div>
     <div class="layui-main" id="detail">
@@ -144,7 +143,7 @@
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label" style="width: 100px">文本域</label>
+        <label class="layui-form-label" style="width: 100px">备注</label>
         <div class="layui-input-inline">
             <textarea name="desc" placeholder="请输入备注" class="layui-textarea">无</textarea>
         </div>

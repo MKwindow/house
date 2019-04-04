@@ -82,7 +82,7 @@ function submitFn(obj, evt) {
 function carouse(ins, opt) {
     let carousel_data = null;
     let url = "http://test.sunxiaoyuan.com:8080/house/list";
-    let data = {"pageNum": "1", "pageSize": "10"};
+    let data = {"pageNum": "1", "pageSize": "10",'status':1};
     //获取轮转数据
     use_ajax(url, data, function (data) {
         if (data.code === 200) {
@@ -155,7 +155,7 @@ function jump_page(url, res) {
                     limit = obj.limit;
                 // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                 // console.log(obj.limit); //得到每页显示的条数
-                let data = {"pageNum": curr, 'pageSize': limit};
+                let data = {"pageNum": curr, 'pageSize': limit,'status':1};
                 //首次不执行
                 if (!first) {
                     use_ajax(url, data, function (res) {
@@ -203,10 +203,7 @@ function get_house(obj, event) {
     layui.use('jquery', function () {
         let $ = layui.jquery;
         let houseid = $(obj).find("input:hidden:first").val().trim();
-        let parm = {"houseid": houseid};
-        let url = "/index/detail";
-        debugger;
-        localStorage.setItem("houseid", houseid);
+        localStorage.setItem("houseid",houseid);
         window.location.href = '/index/show_detail';
         // $.ajax({
         //     url: url

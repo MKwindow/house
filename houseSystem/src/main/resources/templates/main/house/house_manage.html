@@ -13,10 +13,7 @@
         <table class="layui-hide" id="renthourse" lay-filter="hourse"></table>
         <script type="text/html" id="toolbar">
             <div class="layui-btn-container">
-                <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>-->
-                <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>-->
-                <!--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>-->
-                <button class="layui-btn layui-btn-sm" lay-event="flush">刷新</button>
+                <button class="layui-btn layui-btn-sm" lay-event="flush"><i class="layui-icon layui-icon-refresh" style="font-size: 20px; color: #f9ff20;"></i></button>
             </div>
         </script>
 
@@ -26,7 +23,7 @@
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
         <script type="text/html" id="checkboxTp1">
-            <input type="checkbox" name="city" value="{{d.houseid}}" title="锁定" lay-filter="lockcity" {{ d.city
+            <input type="checkbox" name="city" value="{{d.houseid}}" title="已出租" lay-filter="lockcity" {{ d.city
                    ? 'checked' : '' }}>
         </script>
 

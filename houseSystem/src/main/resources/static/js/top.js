@@ -152,7 +152,7 @@ function updateUsername(res) {
             data: tokenheaders,
             success: function (userdata) {
                 if (userdata.code === 200) {
-                    LocalStorage_Day.set("USER", userdata.data[0], 0.1);
+                    LocalStorage_Day.set("USER", userdata.data[0], 1/12);
                     username = userdata.data[0].username;
                 }
             },
@@ -164,7 +164,7 @@ function updateUsername(res) {
             // }
         });
         if (name !== username && username != null) {
-            var userdata = {
+            let userdata = {
                 'username': username
             };
             setname(userdata);

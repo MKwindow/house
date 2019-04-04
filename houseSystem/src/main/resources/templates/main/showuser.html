@@ -31,22 +31,22 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">电话：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="userphone" required lay-verify="required|phone"
+                        <input type="text" name="userphone" required lay-verify="phone"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">邮箱地址：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="usermail" required lay-verify="required|email"
+                        <input type="text" name="usermail" required lay-verify="email"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">身份证：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="useridentity" required lay-verify="required|identity"
-                               autocomplete="off" class="layui-input" disabled>
+                        <input type="text" name="useridentity" required lay-verify="identity"
+                               autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -86,194 +86,9 @@
         </div>
     </div>
 </div>
-<script src="../../static/js/demo/url.js" th:src="@{/js/demo/url.js}"></script>
+
 <script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
-<script>
-
-    layui.use(['upload', 'jquery'], function () {
-        var upload = layui.upload;
-        var $ = layui.jquery;
-        // var url = user_show_url;
-        // var data = {'token': '123'};
-        // $.ajax({
-        //     url: url
-        //     , async: true
-        //     , type: 'get'
-        //     , dataType: "json"
-        //     , data: JSON.stringify(data)
-        //     , success: returnGet
-        // });
-        var user;
-        try {
-            user = LocalStorage_Day.get("USER");
-        } catch (erro) {
-            try {
-                var data = JSON.parse(localStorage.getItem(key));
-                if (data !== null) {
-                    // debugger
-                    if (data.expirse != null && data.expirse < new Date().getTime()) {
-                        localStorage.removeItem(key);
-                    } else {
-                        user = data.value;
-                    }
-                }
-            } catch (err) {
-                popwindows("user");
-            }
-        }
-        var swap = {
-            "userid": user.id,
-            "username": user.nickName,
-            "userphone": user.phone,
-            "usermail": user.email,
-            "attestation": user.status,
-            "userdddress": "公测上市",
-            "useridentity": user.idCard,
-            "usersex": user.sex
-        };
-        updateform(swap);
-
-        //执行实例
-        upload.render({
-            elem: '#up' //绑定元素
-            , url: '/file/' //上传接口
-            , method: 'post'//默认post
-            , accept: 'file'//文件类型
-            , size: 51200//大小
-            , exts: 'zip|rar|7z|doc|txt|docx|rtf|pdf|gz|arj'//允许后缀
-            , auto: true//自动上传
-            // , bindAction: '#up'//提交按钮 不使用默认提交方式
-            , done: function (res) {
-                //上传完毕回调
-            }
-            , error: function () {
-                //请求异常回调
-            }
-        });
-
-    });
-
-
-    // function returnGet(data) {
-    //     updateform(data.data);
-    // }
-
-    //表单
-    function updateform(data) {
-        debugger;
-        layui.use('form', function () {
-            var form = layui.form;
-            form.val("updataform", {
-                'userid': data.userid
-                , "username": data.username // "name": "value"
-                , "usersex": data.usersex === 1 ? '1' : '0'
-                , "userphone": data.userphone
-                , "usermail": data.usermail
-                , "useridentity": data.useridentity
-                , "attestation": data.attestation === 1 ? '已认证' : '未认证'
-                , 'userdddress': data.userdddress
-            });
-
-        });
-    }
-
-    layui.use(['form', 'jquery', 'layer'], function () {
-        var form = layui.form,
-            layer = layui.layer,
-            $ = layui.jquery;
-        //修改用户提交
-        var token = LocalStorage_Day.get("TOKEN").access_token;
-        form.on('submit(update)', function (data) {
-            var userdata = data.field;
-            delete userdata.file;
-            delete userdata.attestation;
-            delete userdata.useridentity;
-            delete userdata.usersex;
-            // var swapToken = "Bearer" + "\xa0" + token;
-            var swap = {
-                "id": userdata.userid,
-                "phone": userdata.userphone,
-                "email": userdata.usermail,
-                "access_token": token
-            };
-            $.ajax({
-                url: 'http://test.sunxiaoyuan.com:8080/user/update'
-                , type: 'POST'
-                , data: swap
-                // , headers: {
-                //     "Authorization": swapToken
-                // }
-                , success: function (res) {
-                    console.log(res)
-                },
-                error: function (res) {
-                    console.log(res)
-                }
-            });
-            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            // console.log(JSON.stringify(userdata)); //当前容器的全部表单字段，名值对形式：{name: value}
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-        });
-        //修改密码提交
-        form.verify({
-            password: [
-                /^[\S]{0,12}$/
-                , '密码必须6到12位，且不能出现空格'
-            ],
-            repwd: function (value, item) {
-                var old = $("input[name='oldpassword']").val().trim();
-                if (old !== value) {
-                    return '密码不相同'
-                }
-            }
-        });
-        form.on('submit(updatepwd)', function (data) {
-            var userdata = data.field;
-            var parm = {
-                "id": userdata.userid
-                , "password": userdata.password
-                , "access_token": token
-            };
-            $.ajax({
-                url: 'http://test.sunxiaoyuan.com:8080/user/update'
-                , type: 'POST'
-                , data: parm
-                , success: function (res) {
-                    console.log(res);
-                    layer.closeAll();
-                    localStorage.removeItem("TOKEN");
-                    localStorage.removeItem("USER");
-                    window.location.reload();
-                }, error: function (res) {
-                    console.log(res);
-                }
-            });
-            // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-            // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            // console.log(userdata); //当前容器的全部表单字段，名值对形式：{name: value}
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-        });
-    });
-
-    layui.use(['jquery', 'layer'], function () {
-        var $ = layui.jquery;
-        var layer = layui.layer;
-        $('#updatepwd').click(function () {
-            var id = $("input[type='hidden']:first").val().trim();
-            $("input[type='hidden']:eq(1)").attr("value", id);
-            layer.open({
-                type: 1
-                , title: '修改密码'
-                , shade: [0.3, '#393D49']
-                , shadeClose: true
-                , content: $('#openpwd')
-            });
-            // console.log(id);
-        });
-    });
-
-</script>
+<script src="../../static/js/showUser.js" th:src="@{/js/showUser.js}"></script>
 </body>
 <div id="openpwd" style="display: none">
     <div class="layui-form" lay-filter="formpwd">

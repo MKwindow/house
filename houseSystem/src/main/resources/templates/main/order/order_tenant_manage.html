@@ -13,10 +13,7 @@
         <table class="layui-hide" id="renthourse" lay-filter="order"></table>
         <script type="text/html" id="toolbar">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-                <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-                <button class="layui-btn layui-btn-sm" lay-event="flush">刷新</button>
+                <button class="layui-btn layui-btn-sm" lay-event="flush"><i class="layui-icon layui-icon-refresh" style="color: #14ff00;"></i></button>
             </div>
         </script>
 
@@ -31,13 +28,22 @@
             <a class="layui-btn layui-btn-xs" onclick="show_house(this,event)">查看详情</a>
         </script>
 
-        <script type="text/html" id="idcard">
+        <script type="text/html" id="idcard1">
             {{#
-                var plusXing = function (str) {
-                                return str.substring(0, 6) + "**********" + str.substring(str.length - 2);
-                             };
+            var plusXing = function (str) {
+            return str.substring(0, 6) + "**********" + str.substring(str.length - 2);
+            };
             }}
-            <div>{{ plusXing(d.tenantidentity) }} </div>
+            <div>{{ plusXing(d.owneridentity) }}</div>
+        </script>
+
+        <script type="text/html" id="idcard2">
+            {{#
+            var plusXing = function (str) {
+            return str.substring(0, 6) + "**********" + str.substring(str.length - 2);
+            };
+            }}
+            <div>{{ plusXing(d.tenantidentity) }}</div>
         </script>
 
         <script type="text/html" id="checkboxTp2">

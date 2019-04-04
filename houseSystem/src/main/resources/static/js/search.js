@@ -122,7 +122,6 @@ function get_house(obj, event) {
     layui.use('jquery', function () {
         let $ = layui.jquery;
         let houseid = $(obj).find("input:hidden:first").val().trim();
-        let parm = {"houseid": houseid};
         localStorage.setItem("houseid", houseid);
         window.location.href = '/index/show_detail';
     });
@@ -178,9 +177,9 @@ layui.use(['laypage', 'layer', 'jquery'], function () {
     debugger;
     let where;
     if (seach != "") {
-        where = {"pageNum": "1", "pageSize": "10", 'addr_detail': seach};
+        where = {"pageNum": "1", "pageSize": "10", 'addr_detail': seach, 'status': 1};
     } else {
-        where = {"pageNum": "1", "pageSize": "10"};
+        where = {"pageNum": "1", "pageSize": "10",'status':1};
     }
     let url = "http://test.sunxiaoyuan.com:8080/house/list";
     use_ajax(url, where, function (res) {
@@ -198,7 +197,7 @@ layui.use(['laypage', 'layer', 'jquery'], function () {
             // , hash: 'fenye' //自定义hash值
             , jump: function (obj, first) {
                 if (!first) {
-                    get_page_search(obj,seach);
+                    get_page_search(obj, seach);
                 }
             }
         })
@@ -206,13 +205,13 @@ layui.use(['laypage', 'layer', 'jquery'], function () {
 });
 
 //请求
-function get_page_search(obj,seach) {
+function get_page_search(obj, seach) {
     layui.use('jquery', function () {
         let $ = layui.jquery;
         let page;
-        if (seach != ""){
+        if (seach != "") {
             page = {"pageNum": obj.curr, "pageSize": obj.limit, "addr_detail": seach};
-        }else {
+        } else {
             page = {"pageNum": obj.curr, "pageSize": obj.limit};
         }
         let url = "http://test.sunxiaoyuan.com:8080/house/list";

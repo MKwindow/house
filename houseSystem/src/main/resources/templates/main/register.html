@@ -32,7 +32,7 @@
             <label class="layui-form-label"><i class="layui-icon layui-icon-tips"
                                                style="font-size: 15px;color: #e10b0b;">用户编号</i></label>
             <div class="layui-input-inline">
-                <input type="text" name="username" autocomplete="off" lay-verify="required" placeholder="例如：zhangquangdan"
+                <input type="text" name="username" autocomplete="off" lay-verify="required|username" placeholder="例如：zhangquangdan"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux" id="txt">只允许数字和字母</div>
@@ -41,7 +41,7 @@
             <label class="layui-form-label"><i class="layui-icon layui-icon-tips"
                                                style="font-size: 15px;color: #e10b0b;">用户名</i></label>
             <div class="layui-input-inline">
-                <input type="text" name="nick_name" autocomplete="off" lay-verify="required|username" placeholder="例如：张三"
+                <input type="text" name="nick_name" autocomplete="off" lay-verify="required|nick_name" placeholder="例如：张三"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">字符长度不超过8位</div>
@@ -105,18 +105,18 @@
             </div>
         </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">认证文件</label>
-            <div class="layui-input-block">
-                <div class="layui-upload-drag" id="test10">
-                    <i class="layui-icon"></i>
-                    <p>点击上传，或将文件拖拽到此处</p>
-                </div>
-            </div>
-            <div class="layui-form-mid layui-word-aux" style="margin-left: 382px; margin-top: -88px;">请上传认证文件
-                支持doc,zip,txt,docx,rar
-            </div>
-        </div>
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">认证文件</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<div class="layui-upload-drag" id="test10">-->
+                    <!--<i class="layui-icon"></i>-->
+                    <!--<p>点击上传，或将文件拖拽到此处</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-form-mid layui-word-aux" style="margin-left: 382px; margin-top: -88px;">请上传认证文件-->
+                <!--支持doc,zip,txt,docx,rar-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="" lay-filter="submit">立即提交</button>

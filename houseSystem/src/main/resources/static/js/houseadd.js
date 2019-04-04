@@ -1,26 +1,37 @@
-layui.use(['form', 'jquery'], function () {
-    var form = layui.form;
-    var $ = layui.jquery;
+layui.use(['form', 'jquery', 'layer'], function () {
+    let form = layui.form;
+    let $ = layui.jquery,
+        layer = layui.layer;
     house_ajx(form);
     //监听提交
     form.on('submit(up)', function (data) {
-        var fromdata = data.field;
-        var url = "http://test.sunxiaoyuan.com:8080/house/add";
-        var swap = Apd_add(fromdata);
-        var token = getToken_house_add("TOKEN");
-        // var swapToken = "Bearer" + "\xa0" + token.access_token;
-        var swapToken = {"access_token": token.access_token};
+        let fromdata = data.field;
+        let url = "http://test.sunxiaoyuan.com:8080/house/add";
+        let swap = Apd_add(fromdata);
+        let token = getToken_house_add("TOKEN");
+        // let swapToken = "Bearer" + "\xa0" + token.access_token;
+        let swapToken = {"access_token": token.access_token};
         swap = Object.assign(swap, swapToken);
         $.ajax({
             url: url
             , type: 'GET'
             // , headers: {"Authorization": swapToken}
             , data: swap
-            , success: function (res) {
-                console.log(res);
+            , success: function (rescss) {
+                if (rescss.code == 200) {
+                    layer.msg('发布成功，马上去看看发布结果', {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function () {
+                        window.location.href = '/showRentManage'
+                    });
+                }
             }
             , error: function (res) {
-                console.log("提交失败");
+                layer.msg('网络开小差，等等就好了', {
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
             }
         });
         console.log(JSON.stringify(data.field));
@@ -29,14 +40,14 @@ layui.use(['form', 'jquery'], function () {
     form.render();
 });
 layui.use('upload', function () {
-    var upload = layui.upload;
+    let upload = layui.upload;
     //执行实例
     //图片
-    var token = getToken_house_add("TOKEN");
+    let token = getToken_house_add("TOKEN");
     try {
-        var swapToken = "Bearer" + "\xa0" + token.access_token;
+        let swapToken = "Bearer" + "\xa0" + token.access_token;
     } catch (err) {
-        var open = document.getElementById('btn');
+        let open = document.getElementById('btn');
         if (open != null) {
             popwindows();
         } else
@@ -82,8 +93,8 @@ layui.use('upload', function () {
 
 function house_ajx(from) {
     layui.use('jquery', function () {
-        var $ = layui.jquery;
-        var search_data = LocalStorage_Day.get("SEARCH");
+        let $ = layui.jquery;
+        let search_data = LocalStorage_Day.get("SEARCH");
         if (search_data == null || search_data === "" || typeof search_data === "undefined") {
             $.ajax({
                 url: '/json/search.json'
@@ -114,13 +125,13 @@ function house_tpl(from, data) {
             open: '<%',
             close: '%>'
         });
-        var getTpl1 = housestyle_tpl.innerHTML,
+        let getTpl1 = housestyle_tpl.innerHTML,
             view1 = document.getElementById("housestyle_view");
         laytpl(getTpl1).render(data, function (html) {
             view1.innerHTML = html;
             from.render();
         });
-        var getTpl2 = area_tpl.innerHTML,
+        let getTpl2 = area_tpl.innerHTML,
             view2 = document.getElementById("area_view");
         laytpl(getTpl2).render(data, function (html) {
             view2.innerHTML = html;
@@ -130,7 +141,7 @@ function house_tpl(from, data) {
 
             }
         });
-        var getTpl3 = style_tpl.innerHTML,
+        let getTpl3 = style_tpl.innerHTML,
             view3 = document.getElementById("style_view");
         laytpl(getTpl3).render(data, function (html) {
             view3.innerHTML = html;
@@ -140,7 +151,7 @@ function house_tpl(from, data) {
 
             }
         });
-        var getTpl4 = payway_tpl.innerHTML,
+        let getTpl4 = payway_tpl.innerHTML,
             view4 = document.getElementById("payway_view");
         laytpl(getTpl4).render(data, function (html) {
             view4.innerHTML = html;
@@ -154,15 +165,15 @@ function house_tpl(from, data) {
 }
 
 function Apd_add(txt) {
-    var type_d = txt.housestyle % 10,
+    let type_d = txt.housestyle % 10,
         type_c = parseInt(txt.housestyle / 10 % 10),
         type_b = parseInt(txt.housestyle / 100 % 10),
         type_a = parseInt(txt.housestyle / 1000 % 10),
         pay_b = txt.payway % 10,
         pay_a = parseInt(txt.payway / 10 % 10);
-    var newData = new Date().toLocaleDateString();
-    var userid = LocalStorage_Day.get("USER").id;
-    var swap = {
+    let newData = new Date().toLocaleDateString();
+    let userid = LocalStorage_Day.get("USER").id;
+    let swap = {
         "title": txt.housename,
         "area": txt.housearea,
         "addr_id": txt.area,
@@ -185,7 +196,7 @@ function Apd_add(txt) {
 
 function getToken_house_add(key) {
     debugger;
-    var data = JSON.parse(localStorage.getItem(key));
+    let data = JSON.parse(localStorage.getItem(key));
     if (data !== null) {
         // debugger
         if (data.expirse != null && data.expirse < new Date().getTime()) {

@@ -15,6 +15,7 @@ layui.use(['table', 'jquery'], function () {
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
         , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
+        , defaultToolbar: ['filter']
         , request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -59,7 +60,7 @@ layui.use(['table', 'jquery'], function () {
             }
                 , {field: 'payway', title: '缴费方式', width: 100}
                 , {field: 'housedate', title: '发布时间', width: 100, sort: true}
-                , {field: 'city', title: '出租状态', width: 110, sort: true, templet: '#checkboxTp1'}
+                , {field: 'city', title: '出租状态', width: 125, sort: true, templet: '#checkboxTp1'}
                 , {field: 'attestation', title: '认证状态', width: 100, sort: true, templet: '#checkboxTp2'}
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: 200}
             ]
@@ -72,17 +73,6 @@ layui.use(['table', 'jquery'], function () {
     table.on('toolbar(hourse)', function (obj) {
         let checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
-            // case 'getCheckData':
-            //     let data1 = checkStatus.data;
-            //     layer.alert(JSON.stringify(data1));
-            //     break;
-            // case 'getCheckLength':
-            //     let data2 = checkStatus.data;
-            //     layer.msg('选中了：' + data2.length + ' 个');
-            //     break;
-            // case 'isAll':
-            //     layer.msg(checkStatus.isAll ? '全选' : '未全选');
-            //     break;
             case 'flush':
                 retable.reload();
                 break;
@@ -310,16 +300,9 @@ function house_ajx(from) {
         let $ = layui.jquery;
         let search_data = get_localStorage("SEARCH");
         if (search_data == null || search_data === "" || typeof search_data === "undefined") {
-            $.ajax({
-                url: '/json/search.json'
-                , type: 'GET'
-                , dataType: 'json'//预期服务器返回的数据类型
-                , contentType: "application/json; charset=utf-8"
-                , success: function (res) {
-                    house_tpl(from, res);
-                }, error: function (res) {
-                    console.log("访问失败:######/t" + JSON.stringify(res));
-                }
+            $.getJSON('/json/search.json', function (opt) {
+                let data = {'value': opt.data, 'expirse': (new Date().getTime() + 86400000)};
+                localStorage.setItem('SEARCH', JSON.stringify(data));
             });
         } else {
             house_tpl(from, search_data);
@@ -359,7 +342,7 @@ function Apt_house(data) {
             "houseaddress": swapdata[i].addr_detail,
             "style": swapdata[i].style,
             "area": swapdata[i].addr_id,
-            "status": swapdata[i].status >= 3 ? true : false,
+            "status": swapdata[i].status >= 2 ? true : false,
             "payway": swapdata[i].pay_a * 10 + swapdata[i].pay_b,
             "attestation": swapdata[i].status >= 1 ? true : false,
             "housedate": swapdata[i].create_time,

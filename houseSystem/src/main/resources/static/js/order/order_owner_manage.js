@@ -1,14 +1,34 @@
 layui.use(['table', 'jquery'], function () {
-    var table = layui.table,
+    let table = layui.table,
         form = layui.form,
         $ = layui.jquery,
         upload = layui.upload;
-    var url = "/json/order_owner_manage.json";
-    var retable = table.render({
+    let url = "http://test.sunxiaoyuan.com:8080/order/list";
+    let token = get_LocalStorage("TOKEN");
+    let user = get_LocalStorage("USER");
+    let retable = table.render({
         elem: '#renthourse'//表格绑定 根据id绑定
         , url: url //请求地址
-        , method: 'get'//请求方法
+        , method: 'POST'//请求方法
+        , where: {"access_token": token.access_token, 'user_id': user.id}
+        , request: {
+            pageName: 'pageNum' //页码的参数名称，默认：page
+            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        },
+        parseData: function (res) { //res 即为原始返回的数据
+            let data = Apt_reserve(res);
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.data[0].total, //解析数据长度
+                "data": data //解析数据列表
+            };
+        }
+        , response: {
+            statusCode: 200 //规定成功的状态码，默认：0
+        }
         // , contentType: 'application/json'//发送到服务端的内容编码类型
+        , defaultToolbar: []
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
         , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
@@ -24,17 +44,30 @@ layui.use(['table', 'jquery'], function () {
                 sort: true,//排序
                 totalRowText: '合计'
             }
+                , {field: 'ownerid', title: '房东编号', width: 80, hide: true}
                 , {field: 'ownername', title: '房东姓名', width: 80}
                 , {
                 field: 'owneridentity',
                 title: '房东身份证',
                 width: 140,
-                templet: '#idcard'
+                templet: '#idcard1',
+                sort: true
             }
-                , {field: 'houseid', title: '房屋id', width: 100,sort:true}
-                , {field: 'tenantname', title: '租客名字', width: 100, sort: true}
-                , {field: 'tenantphone', title: '租客电话', width: 120}
-                , {field: 'renpayable', title: '应交租金', width: 90,sort:true}
+                , {field: 'ownerphone', title: '房东电话', width: 120, hide: true}
+                , {field: 'houseid', title: '房屋编号', width: 100, sort: true}
+                , {field: 'housename', title: '房屋名称', width: 100}
+                , {field: 'tenantid', title: '租客编号', width: 100, hide: true}
+                , {field: 'tenantname', title: '租客名字', width: 100}
+                , {field: 'tenantphone', title: '租客电话', width: 120, sort: true}
+                , {
+                field: 'tenantidentity',
+                title: '租客身份证',
+                width: 140,
+                templet: '#idcard2',
+                sort: true,
+                hide: true
+            }
+                , {field: 'renpayable', title: '应交租金', width: 90, sort: true}
                 , {field: 'startdate', title: '签订时间', width: 100, sort: true}
                 , {field: 'enddata', title: '到期时间', width: 100, sort: true}
                 , {
@@ -42,8 +75,8 @@ layui.use(['table', 'jquery'], function () {
                 width: 90,
                 templet: '#houser'
             }
-                , {field: 'text', title: '合同内容', width: 100}
-                , {field: 'attestation', title: '认证状态', width: 100, sort: true, templet: '#checkboxTp2'}
+                , {field: 'remark', title: '备注', width: 100}
+                , {field: 'status', title: '认证状态', width: 100, sort: true, templet: '#checkboxTp2'}
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: 240}
             ]
         ]
@@ -53,19 +86,8 @@ layui.use(['table', 'jquery'], function () {
 
     //工具栏事件
     table.on('toolbar(order)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id);
+        let checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
-            case 'getCheckData':
-                var data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
-                break;
-            case 'getCheckLength':
-                var data = checkStatus.data;
-                layer.msg('选中了：' + data.length + ' 个');
-                break;
-            case 'isAll':
-                layer.msg(checkStatus.isAll ? '全选' : '未全选');
-                break;
             case 'flush':
                 retable.reload();
                 break;
@@ -74,7 +96,7 @@ layui.use(['table', 'jquery'], function () {
     //监听行工具事件
     //右侧
     table.on('tool(order)', function (obj) {
-        var data = obj.data;
+        let data = obj.data;
         // console.log(obj);
         switch (obj.event) {
             case 'orderSigned':
@@ -95,14 +117,46 @@ layui.use(['table', 'jquery'], function () {
                 break;
         }
     });
+
+    function Apt_reserve(data) {
+        // debugger;
+        let user = get_LocalStorage("USER");
+        let list = data.data[0].list;
+        let swap = [];
+        for (let i = 0, len = list.length; i < len; i++) {
+            if(user.id !== 1 ){ //房东id
+                continue;
+            }
+            swap[i] = {
+                'contractid': list[i].id,
+                'ownerid': '1',
+                'ownername': list[i].u_nick_name,
+                'owneridentity': list[i].u_id_card,
+                'ownerphone': list[i].u_phone,
+                'housename': list[i].title,
+                'houseid': list[i].house_id,
+                'tenantid': list[i].user_id,
+                'tenantname': list[i].nick_name,
+                'tenantphone': list[i].phone,
+                'tenantidentity': '500223200308128412',
+                'renpayable': list[i].rent,
+                'startdate': list[i].start_time,
+                'enddata': list[i].end_time,
+                "remark": list[i].remark,
+                'status': list[i].status == 0 ? false : true
+            }
+        }
+        return swap;
+    }
+
 });
 
 //上传
 function uploadData(data) {
     layui.use('upload', function () {
-        var upload = layui.upload;
-        var $ = layui.jquery;
-        var id = data.houseid;
+        let upload = layui.upload;
+        let $ = layui.jquery;
+        let id = data.houseid;
         upload.render({
             elem: '#file', //绑定元素
             url: '/file/' //上传接口
@@ -122,33 +176,29 @@ function uploadData(data) {
             }
 
         });
-        console.log(data);
     });
 }
 
 function show_house(obj, event) {
     layui.use('jquery', function () {
-        var $ = layui.jquery;
-        var id = $(obj).siblings("input[type='hidden']").val().trim();
-        var url = "/index/detail";
-        var data = {"houseid": id};
-        $.ajax({
-            url: url
-            , type: 'POST'
-            , data: JSON.stringify(data)
-            , dataType: 'json'//预期服务器返回的数据类型
-            , contentType: "application/json; charset=utf-8"
-            , success: function (data) {
-                if (data.code == 200)
-                    window.location.href = data.data.url;
-            }
-            , error: function (data) {
-                if (data.code === 401) {
-                    error_token();
-                }
-                console.log("访问失败");
-            }
-        });
+        let $ = layui.jquery;
+        let id = $(obj).siblings("input[type='hidden']").val().trim();
+        localStorage.setItem('houseid', id);
+        window.location.href = '/index/show_detail';
     });
+}
+
+
+function get_LocalStorage(key) {
+    let data = JSON.parse(localStorage.getItem(key));
+    if (data !== null) {
+        // debugger
+        if (data.expirse != null && data.expirse < new Date().getTime()) {
+            localStorage.removeItem(key);
+        } else {
+            return data.value;
+        }
+    }
+    return null;
 }
 

@@ -1,4 +1,4 @@
-layui.use(['laytpl', 'jquery', 'layer','form'], function () {
+layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
     let laytpl = layui.laytpl,
         $ = layui.jquery,
         layer = layui.layer,
@@ -134,7 +134,7 @@ layui.use(['laytpl', 'jquery', 'layer','form'], function () {
         let houseid = localStorage.getItem("houseid");
         let userid = get_LocalStorage('USER').id;
         let _content = '<div>' +
-            '<span>请选择时间，不填默认2019-01-01</span><input class="layui-input timer" id="timer" placeholder="开始时间"/>' +
+            '<span>请选择时间，不填默认2019-04-04</span><input class="layui-input timer" id="timer" placeholder="开始时间"/>' +
             '</div>';
         layer.open({
             type: 1,
@@ -148,6 +148,7 @@ layui.use(['laytpl', 'jquery', 'layer','form'], function () {
                     'house_id': houseid,
                     'create_time': new Date(),
                     'time': new Date(time),
+                    'status': 0,
                     'access_token': token
                 };
                 // console.log(parm);
@@ -158,7 +159,7 @@ layui.use(['laytpl', 'jquery', 'layer','form'], function () {
                     success: function (res) {
                         console.log(res);
                         if (res.code === 200) {
-                            window.location.href='/index/reserveHouseManage';
+                            window.location.href = '/index/reserveTenantManage';
                             console.log('预约成功');
                         }
                     },
@@ -176,10 +177,10 @@ layui.use(['laytpl', 'jquery', 'layer','form'], function () {
             let laydate = layui.laydate;
             laydate.render({
                 elem: '#timer'
-                , min: '2019-01-01 00:00:00'
+                , min: '2019-04-04 00:00:00'
                 , max: '2099-06-16 23:59:59'
-                , value: '2019-01-01 00:00:00'
-                , istoday: false
+                , value:'2019-04-04 00:00:00'
+                , istoday: true
                 , choose: function (datas) {
                     end.min = datas; //开始日选好后，重置结束日的最小日期
                     end.start = datas //将结束日的初始值设定为开始日
@@ -202,39 +203,39 @@ layui.use(['laytpl', 'jquery', 'layer','form'], function () {
 
         layer.open({
             type: 1,
-            id:'ordertime_open',
-            resize:false,
+            id: 'ordertime_open',
+            resize: false,
             btn: ['确定', '取消'],
             title: '选择',
             content: $('#order_time'),
             area: ['350px', '280px'],
-            shadeClose:true,
-            shade:[0.3, '#393D49'],
-            scrollbar:false,
+            shadeClose: true,
+            shade: [0.3, '#393D49'],
+            scrollbar: false,
             yes: function (index) {
+                debugger;
                 let time = $("#order_time select[name='ordertime']").val();
                 let desc = $("#order_time textarea[name='desc']").val();
                 let now = new Date();
-                switch (time){
-                    case 1:
-                        now.setDate(now.getFullYear()+1);
+                switch (time) {
+                    case '1':
+                        now.setDate(now.getFullYear() + 1);
                         break;
-                    case 2:
-                        now.setDate(now.getFullYear()+2);
+                    case '2':
+                        now.setDate(now.getFullYear() + 2);
                         break;
-                    case 3:
-                        now.setDate(now.getFullYear()+3);
+                    case '3':
+                        now.setDate(now.getFullYear() + 3);
                         break;
                 }
-
                 let parm = {
                     'user_id': userid,
                     'create_time': new Date(),
-                    'house_id':houseid,
+                    'house_id': houseid,
                     'start_time': new Date(),
-                    'end_time':now,
-                    'status':0,
-                    'remark':desc == null ? "无":desc,
+                    'end_time': now,
+                    'status': 0,
+                    'remark': desc == null ? "无" : desc,
                     'access_token': token
                 };
                 $.ajax({
@@ -244,12 +245,21 @@ layui.use(['laytpl', 'jquery', 'layer','form'], function () {
                     success: function (res) {
                         console.log(res);
                         if (res.code === 200) {
-                            console.log('预约成功');
-                            window.location.href='/showOwnerManage';
+                            layer.close(index);
+                            layer.msg('预约成功,快去看看吧', {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location.href = '/showTentantManage';
+                            });
                         }
                     },
                     error(res) {
-                        console.log(res);
+                        layer.close(index);
+                        layer.msg('哦，不，没预约上或许是网页开小差了', {
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
                     }
                 });
             },

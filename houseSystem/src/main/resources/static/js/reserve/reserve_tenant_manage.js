@@ -5,7 +5,7 @@ layui.use(['table', 'jquery'], function () {
         upload = layui.upload;
     let url = 'http://test.sunxiaoyuan.com:8080/reserve/list';
     let token = get_LocalStorage("TOKEN");
-    let swap = {"Authorization": "Bearer" + "\xa0" + token.access_token};
+    // let swap = {"Authorization": "Bearer" + "\xa0" + token.access_token};
     let user = get_LocalStorage('USER');
     let retable = table.render({
         elem: '#renthourse'//表格绑定 根据id绑定
@@ -36,6 +36,7 @@ layui.use(['table', 'jquery'], function () {
         , title: '租客预约管理'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
         , id: 'house_tenant'
+        , defaultToolbar: []
         // , loading: true
         , limit: 8
         , cols: [
@@ -88,23 +89,29 @@ layui.use(['table', 'jquery'], function () {
             let search = opt;
             let swap = [];
             for (let i = 0, len = list.length; i < len; i++) {
-                swap[i] = {
-                    'houseaddress': list[i].addr_detail,
-                    'area': list[i].area,
-                    'reservedate': list[i].time,
-                    'houseid': list[i].house_id,
-                    'payway': list[i].pay_a * 10 + list[i].pay_b,
-                    'username': list[i].u_nick_name,
-                    'reservestate': list[i].status == 0 ? false :true,
-                    'tenantphone': list[i].phone,
-                    'tenantname': list[i].nick_name,
-                    'zent': list[i].rent,
-                    'housestyle': list[i].type_a * 1000 + list[i].type_b * 100 + list[i].type_c * 10 + list[i].type_d,
-                    'userid': list[i].user_id,
-                    'owenid': list[i].u_user_id,
-                    'reserveid': list[i].id,
-                    'owenphone': list[i].u_phone,
-                    "create_time":list[i].create_time
+                if (user.id !== list[i].user_id) {
+                    i--;
+                    len--;
+                    continue;
+                }else{
+                    swap[i] = {
+                        'houseaddress': list[i].addr_detail,
+                        'area': list[i].area,
+                        'reservedate': list[i].time,
+                        'houseid': list[i].house_id,
+                        'payway': list[i].pay_a * 10 + list[i].pay_b,
+                        'username': list[i].u_nick_name,
+                        'reservestate': list[i].status == 0 ? false :true,
+                        'tenantphone': list[i].phone,
+                        'tenantname': list[i].nick_name,
+                        'zent': list[i].rent,
+                        'housestyle': list[i].type_a * 1000 + list[i].type_b * 100 + list[i].type_c * 10 + list[i].type_d,
+                        'userid': list[i].user_id,
+                        'owenid': list[i].u_user_id,
+                        'reserveid': list[i].id,
+                        'owenphone': list[i].u_phone,
+                        "create_time":list[i].create_time
+                    }
                 }
             }
             for (let i = 0, len = swap.length; i < len; i++) {
@@ -126,17 +133,6 @@ layui.use(['table', 'jquery'], function () {
     table.on('toolbar(hourse)', function (obj) {
         let checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
-            case 'getCheckData':
-                let data1 = checkStatus.data;
-                layer.alert(JSON.stringify(data1));
-                break;
-            case 'getCheckLength':
-                let data2 = checkStatus.data;
-                layer.msg('选中了：' + data2.length + ' 个');
-                break;
-            case 'isAll':
-                layer.msg(checkStatus.isAll ? '全选' : '未全选');
-                break;
             case 'flush':
                 retable.reload();
                 break;
@@ -146,21 +142,10 @@ layui.use(['table', 'jquery'], function () {
     //右侧
     table.on('tool(hourse)', function (obj) {
         let data = obj.data;
-        // console.log(obj);
         switch (obj.event) {
             case 'del':
                 layer.confirm('真的取消么', function (index) {
                     obj.del();
-                    layer.close(index);
-                });
-                break;
-            case 'edit':
-                console.log('更新');
-                layer.confirm('同意对方的申请吗', function (index) {
-                    //更新缓存里面的值
-                    obj.update({
-                        "reservestate": data.houseid // "name": "value"
-                    });
                     layer.close(index);
                 });
                 break;

@@ -1,4 +1,4 @@
-layui.use(['form', 'upload'], function () {
+layui.use(['form', 'upload', 'layer', 'jquery'], function () {
     let form = layui.form
         , layer = layui.layer;
     let $ = layui.jquery
@@ -7,7 +7,6 @@ layui.use(['form', 'upload'], function () {
     form.verify({
         nick_name: function (value) {
             if (value.length >= 8) {
-                console.log(value.length);
                 return '最多为8个字符';
             }
             if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
@@ -31,40 +30,72 @@ layui.use(['form', 'upload'], function () {
             }
         }
         , username: function (value) {
-            if (!new RegExp("/^[A-Za-z0-9]*$/").test(value)) {
+            if (new RegExp("/^[A-Za-z0-9]*$/").test(value)) {
                 return '用户编号必须为字母或者数组';
             }
         }
     });
-    
-    $.ajax({
-        url: 'http://test.sunxiaoyuan.com:8080/user/check',
-        type: 'POST',
-        data: {'username': value.trim()},
-        success: function (res) {
-            $('#txt').html("允许使用");
-        }, error: function (res) {
-            $('#txt').html("重复了");
-        }
+    $("input[name='username']").blur(function () {
+        let user = $(this).val();
+        $.ajax({
+            url: 'http://test.sunxiaoyuan.com:8080/user/check',
+            type: 'POST',
+            data: {'username': user.trim()},
+            success: function (res) {
+                $('#txt').html("允许使用");
+            }, error: function (res) {
+                $('#txt').html("重复了");
+            }
+        });
     });
-
 
     //监听提交
     form.on('submit(submit)', function (data) {
         let user = data.field;
-        delete user.repasswod;
+        let parm = {
+            'username': user.username,
+            'nick_name': user.nick_name,
+            'password': user.passwod,
+            'phone': user.phone,
+            'email': user.email,
+            'id_card': user.id_card,
+            'sex': user.sex,
+            'status': 1,
+            'create_time': new Date()
+        };
         let url = 'http://test.sunxiaoyuan.com:8080/user/add';
-
-        let parm = JSON.stringify(data.field);
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: parm,
+            success: function (res) {
+                if (res.code === 200) {
+                    layer.msg('你已经注册成功了', {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function () {
+                        setTimeout(function () {
+                            window.location.href = '/index'
+                        }, 2000)
+                    });
+                }
+            }, error: function (res) {
+                layer.msg('注册失败', {
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            }
+        });
+        // let parm = JSON.stringify(data.field);
         // $.post(url, parm);
         return false;
     });
     //拖拽上传
-    upload.render({
-        elem: '#test10'
-        , url: '/upload/'
-        , done: function (res) {
-            console.log(res)
-        }
-    });
+    // upload.render({
+    //     elem: '#test10'
+    //     , url: '/upload/'
+    //     , done: function (res) {
+    //         console.log(res)
+    //     }
+    // });
 });
