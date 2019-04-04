@@ -4,7 +4,7 @@ const token = {
         return LocalStorage_Day.get("TOKEN");//获取名称为“key”的值
     },
     set: function (token) {
-        LocalStorage_Day.set("TOKEN", token, 1);
+        LocalStorage_Day.set("TOKEN", token, 1/12);
     },
     error: function () {
         let token = LocalStorage_Day.get("TOKEN");//获取名称为“key”的值

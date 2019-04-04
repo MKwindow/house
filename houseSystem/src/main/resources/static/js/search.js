@@ -118,6 +118,16 @@ function search_template(tpl, view, search_data, form) {
     });
 }
 
+function get_house(obj, event) {
+    layui.use('jquery', function () {
+        let $ = layui.jquery;
+        let houseid = $(obj).find("input:hidden:first").val().trim();
+        let parm = {"houseid": houseid};
+        localStorage.setItem("houseid", houseid);
+        window.location.href = '/index/show_detail';
+    });
+}
+
 
 //范围
 layui.use('slider', function () {
@@ -145,20 +155,37 @@ layui.use('slider', function () {
         }
     });
 });
+
+function clear_search() {
+    let addr = document.getElementById('clear_address');
+    addr.click(function () {
+        localStorage.removeItem("search_address");
+    });
+}
+
 //分页
 layui.use(['laypage', 'layer', 'jquery'], function () {
     var laypage = layui.laypage
         , layer = layui.layer,
         $ = layui.jquery;
     var counts = null;
-    var seach = localStorage.getItem("search_address");
-    localStorage.removeItem("search_address");
-    console.log(seach);
-    var where = {"pageNum": "1", "pageSize": "10"};
-    var url = "http://test.sunxiaoyuan.com:8080/house/list";
+    let seach;
+    try {
+        seach = JSON.parse(localStorage.getItem("search_address")).address;
+    } catch (err) {
+        seach = '';
+    }
+    debugger;
+    let where;
+    if (seach != "") {
+        where = {"pageNum": "1", "pageSize": "10", 'addr_detail': seach};
+    } else {
+        where = {"pageNum": "1", "pageSize": "10"};
+    }
+    let url = "http://test.sunxiaoyuan.com:8080/house/list";
     use_ajax(url, where, function (res) {
         counts = res.data[0].total;
-        var swap = Adapter_page(res);
+        let swap = Adapter_page(res);
         updata_data(swap);
         laypage.render({
             elem: 'field'
@@ -171,7 +198,7 @@ layui.use(['laypage', 'layer', 'jquery'], function () {
             // , hash: 'fenye' //自定义hash值
             , jump: function (obj, first) {
                 if (!first) {
-                    get_page_search(obj);
+                    get_page_search(obj,seach);
                 }
             }
         })
@@ -179,14 +206,18 @@ layui.use(['laypage', 'layer', 'jquery'], function () {
 });
 
 //请求
-function get_page_search(obj) {
+function get_page_search(obj,seach) {
     layui.use('jquery', function () {
-        var $ = layui.jquery,
-            token = get_token();
-        var page = {"pageNum": obj.curr, "pageSize": obj.limit, "access_token": token.access_token};
-        var url = "http://test.sunxiaoyuan.com:8080/house/list";
+        let $ = layui.jquery;
+        let page;
+        if (seach != ""){
+            page = {"pageNum": obj.curr, "pageSize": obj.limit, "addr_detail": seach};
+        }else {
+            page = {"pageNum": obj.curr, "pageSize": obj.limit};
+        }
+        let url = "http://test.sunxiaoyuan.com:8080/house/list";
         use_ajax(url, page, function (res) {
-            var swap = Adapter_page(res)
+            var swap = Adapter_page(res);
             updata_data(swap);
         });
     });

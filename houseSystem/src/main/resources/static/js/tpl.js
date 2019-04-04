@@ -39,12 +39,12 @@ function use_ajax(url, parm, success) {
 
 //设置搜索属性
 function get_search_json() {
-    var search_data = LocalStorage_Day.get("SEARCH");
+    let search_data = LocalStorage_Day.get("SEARCH");
     if (search_data === null || search_data === "") {
         layui.use("jquery", function () {
-            var $ = layui.jquery;
+            let $ = layui.jquery;
             // var url = "http://localhost:63342/resources/static/json/search.json";
-            var url = "/json/search.json";
+            let url = "/json/search.json";
             $.getJSON(url, function (res) {
                 if (res.code === 0) {
                     LocalStorage_Day.set("SEARCH", res.data, 0.1);

@@ -30,9 +30,18 @@
     <form class="layui-form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label"><i class="layui-icon layui-icon-tips"
-                                               style="font-size: 15px;color: #e10b0b;">姓名</i></label>
+                                               style="font-size: 15px;color: #e10b0b;">用户编号</i></label>
             <div class="layui-input-inline">
-                <input type="text" name="username" autocomplete="off" lay-verify="required|username" placeholder="例如：张三"
+                <input type="text" name="username" autocomplete="off" lay-verify="required" placeholder="例如：zhangquangdan"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" id="txt">只允许数字和字母</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon layui-icon-tips"
+                                               style="font-size: 15px;color: #e10b0b;">用户名</i></label>
+            <div class="layui-input-inline">
+                <input type="text" name="nick_name" autocomplete="off" lay-verify="required|username" placeholder="例如：张三"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">字符长度不超过8位</div>
@@ -82,7 +91,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">身份证号码</label>
             <div class="layui-input-inline">
-                <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off"
+                <input type="text" name="id_card" lay-verify="identity" placeholder="" autocomplete="off"
                        class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">输出正确的身份证号码</div>
@@ -91,10 +100,11 @@
             <label class="layui-form-label"><i class="layui-icon layui-icon-tips"
                                                style="font-size: 15px;color: #e10b0b;">性别</i></label>
             <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="男" checked="">
-                <input type="radio" name="sex" value="女" title="女">
+                <input type="radio" name="sex" value="0" title="男" checked="">
+                <input type="radio" name="sex" value="1" title="女">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">认证文件</label>
             <div class="layui-input-block">
@@ -102,7 +112,6 @@
                     <i class="layui-icon"></i>
                     <p>点击上传，或将文件拖拽到此处</p>
                 </div>
-
             </div>
             <div class="layui-form-mid layui-word-aux" style="margin-left: 382px; margin-top: -88px;">请上传认证文件
                 支持doc,zip,txt,docx,rar

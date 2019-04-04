@@ -1,7 +1,7 @@
 //轮播
 layui.use('carousel', function () {
-    var carousel = layui.carousel;
-    var opt = {
+    let carousel = layui.carousel;
+    let opt = {
         elem: '#index_carousel'
         , width: '1000' //设置容器宽度
         , height: '400' //设置容器高度
@@ -12,7 +12,7 @@ layui.use('carousel', function () {
         , autoplay: false //是否自动切换
     };
 
-    var ins = carousel.render(opt);
+    let ins = carousel.render(opt);
     carouse(ins, opt);
 });
 
@@ -21,8 +21,8 @@ layui.use('carousel', function () {
 //搜索特效
 function searchToggle(obj, evt) {
     layui.use('jquery', function () {
-        var $ = layui.jquery;
-        var container = $(obj).closest('.search-wrapper');
+        let $ = layui.jquery;
+        let container = $(obj).closest('.search-wrapper');
         if (!container.hasClass('active')) {
             container.addClass('active');
             evt.preventDefault();
@@ -43,11 +43,11 @@ function searchToggle(obj, evt) {
 //搜索点击事件
 function submitFn(obj, evt) {
     layui.use('jquery', function () {
-        var $ = layui.jquery;
+        let $ = layui.jquery;
 
         value = $(obj).find('.search-input').val().trim();
-        var url = "/index/search";
-        var parm;
+        let url = "/index/search";
+        let parm;
         if (!value.length) {
             parm = {"address": ""};
         }
@@ -80,9 +80,9 @@ function submitFn(obj, evt) {
 
 //轮转函数
 function carouse(ins, opt) {
-    var carousel_data = null;
-    var url = "http://test.sunxiaoyuan.com:8080/house/list";
-    var data = {"pageNum": "1", "pageSize": "10"};
+    let carousel_data = null;
+    let url = "http://test.sunxiaoyuan.com:8080/house/list";
+    let data = {"pageNum": "1", "pageSize": "10"};
     //获取轮转数据
     use_ajax(url, data, function (data) {
         if (data.code === 200) {
@@ -102,11 +102,11 @@ get_page();
 
 //分页数据操作
 function get_page() {
-    var page = {"pageNum": 1, 'pageSize': 6};
-    var url = "http://test.sunxiaoyuan.com:8080/house/list";
+    let page = {"pageNum": 1, 'pageSize': 6};
+    let url = "http://test.sunxiaoyuan.com:8080/house/list";
     use_ajax(url, page, function (data) {
         if (data.code === 200) {
-            var page_data = {"list": data.data};
+            let page_data = {"list": data.data};
             page_data = page_parsing(data);
             update_page(page_data);
             jump_page(url, data);
@@ -116,9 +116,9 @@ function get_page() {
 
 //更新模板
 function update_page(page_data) {
-    var result1 = [];
-    var result2 = [];
-    var i = 0;
+    let result1 = [];
+    let result2 = [];
+    let i = 0;
     layui.each(page_data.list, function (index, item) {
         if (index <= 2) {
             result1[index] = item;
@@ -126,10 +126,10 @@ function update_page(page_data) {
             result2[index % 3] = item;
         }
     });
-    var list1 = {
+    let list1 = {
         "list": result1
     };
-    var list2 = {
+    let list2 = {
         "list": result2
     };
     layplmode(card_template, 'show_index_main_template1', list1);
@@ -140,7 +140,7 @@ function update_page(page_data) {
 function jump_page(url, res) {
     // console.log(res);
     layui.use(['laypage', 'layer'], function () {
-        var laypage = layui.laypage
+        let laypage = layui.laypage
             , layer = layui.layer;
         laypage.render({
             elem: 'field'
@@ -151,15 +151,15 @@ function jump_page(url, res) {
             // , curr: location.hash.replace('#!fenye=', '')
             // , hash: 'fenye' //自定义hash值
             , jump: function (obj, first) {
-                var curr = obj.curr,
+                let curr = obj.curr,
                     limit = obj.limit;
                 // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                 // console.log(obj.limit); //得到每页显示的条数
-                var data = {"pageNum": curr, 'pageSize': limit};
+                let data = {"pageNum": curr, 'pageSize': limit};
                 //首次不执行
                 if (!first) {
                     use_ajax(url, data, function (res) {
-                        var page_data = page_parsing(res);
+                        let page_data = page_parsing(res);
                         update_page(page_data);
                     });
                 }
@@ -176,14 +176,14 @@ function layplmode(modename, viewname, data, ins, opt) {
         //     open: '<{%',
         //     close: '%}>'
         // });
-        var laytpl = layui.laytpl,
+        let laytpl = layui.laytpl,
             $ = layui.jquery,
             carousel = layui.carousel;
-        var getTp_page = modename.innerHTML
+        let getTp_page = modename.innerHTML
             , view = document.getElementById(viewname);
         laytpl(getTp_page).render(data, function (html) {
             view.innerHTML = html;
-            var msg = null;
+            let msg = null;
             try {
                 if ($.isFunction) {
                     ins.reload(opt);
@@ -201,10 +201,10 @@ function layplmode(modename, viewname, data, ins, opt) {
 //详情页
 function get_house(obj, event) {
     layui.use('jquery', function () {
-        var $ = layui.jquery;
-        var houseid = $(obj).find("input:hidden:first").val().trim();
-        var parm = {"houseid": houseid};
-        var url = "/index/detail";
+        let $ = layui.jquery;
+        let houseid = $(obj).find("input:hidden:first").val().trim();
+        let parm = {"houseid": houseid};
+        let url = "/index/detail";
         debugger;
         localStorage.setItem("houseid", houseid);
         window.location.href = '/index/show_detail';
@@ -228,11 +228,11 @@ function get_house(obj, event) {
 
 
 function carousel_parsing(res) {
-    var parm = res.data;
+    let parm = res.data;
     // console.log(parm);
-    var list = [];
-    for (var i = 0, len = parm[0].list.length; i < len; i++) {
-        var image = null;
+    let list = [];
+    for (let i = 0, len = parm[0].list.length; i < len; i++) {
+        let image = null;
         try {
             image = parm[0].list[i].pics[0].url
         } catch (err) {
@@ -249,15 +249,15 @@ function carousel_parsing(res) {
 }
 
 function page_parsing(res) {
-    var parm = res.data;
-    var list = [];
-    var search = get_search_json();
+    let parm = res.data;
+    let list = [];
+    let search = get_search_json();
     if (search == null) {
         layui.use('jquery', function () {
-            var $ = layui.jquery;
+            let $ = layui.jquery;
             $.getJSON("/json/search.json", function (search_data) {
-                for (var key in search_data.style) {
-                    for (var i = 0, len = parm[0].list.length; i < len; i++) {
+                for (let key in search_data.style) {
+                    for (let i = 0, len = parm[0].list.length; i < len; i++) {
                         if (key == parm[0].list[i].style) {
                             parm[0].list[i].style = search_data.style[key];
                         }
@@ -266,16 +266,16 @@ function page_parsing(res) {
             });
         });
     } else {
-        for (var key in search.style) {
-            for (var i = 0, len = parm[0].list.length; i < len; i++) {
+        for (let key in search.style) {
+            for (let i = 0, len = parm[0].list.length; i < len; i++) {
                 if (key == parm[0].list[i].style) {
                     parm[0].list[i].style = search.style[key];
                 }
             }
         }
     }
-    for (var i = 0, len = parm[0].list.length; i < len; i++) {
-        var image = null;
+    for (let i = 0, len = parm[0].list.length; i < len; i++) {
+        let image = null;
         try {
             image = parm[0].list[i].pics[0].url
         } catch (err) {

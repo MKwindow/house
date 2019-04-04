@@ -86,6 +86,9 @@
                             <button class="layui-btn layui-btn-radius layui-btn-lg layui-btn-primary" lay-submit
                                     lay-filter="*">立即查找
                             </button>
+                            <button class="layui-btn layui-btn-radius layui-btn-lg layui-btn-primary" id="clear_address" style="margin-left: 900px;margin-top: -83px;">
+                                   清除地址
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -97,7 +100,7 @@
                 <script type="text/html" id="seach_nav_item">
                     <%#  layui.each(d.list, function(index, item){ %>
                     <div class="layui-nav-item">
-                        <div class="room-card-small">
+                        <div class="room-card-small" onclick=get_house(this,event)>
                             <input type="hidden" name="houseid" style="height: 0px;width: 0px" value=<% item.houseid %> >
                             <div class="image-box">
                                 <img src=<%= item.houseimage %> >

@@ -13,6 +13,8 @@ http://test.sunxiaoyuan.com:8080/order/add  参数 同数据库 +token
 http://test.sunxiaoyuan.com:8080/order/list
 http://test.sunxiaoyuan.com:8080/order/updata
 
+http://test.sunxiaoyuan.com:8080/user/check 参数 username
+
 
 
 

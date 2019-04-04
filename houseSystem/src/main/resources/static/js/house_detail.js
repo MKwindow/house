@@ -1,7 +1,8 @@
-layui.use(['laytpl', 'jquery', 'layer'], function () {
+layui.use(['laytpl', 'jquery', 'layer','form'], function () {
     let laytpl = layui.laytpl,
         $ = layui.jquery,
-        layer = layui.layer;
+        layer = layui.layer,
+        form = layui.form;
     let houseid = localStorage.getItem("houseid");
     let token = get_LocalStorage('TOKEN');
     let url = 'http://test.sunxiaoyuan.com:8080/house/list';
@@ -131,7 +132,7 @@ layui.use(['laytpl', 'jquery', 'layer'], function () {
         let url = 'http://test.sunxiaoyuan.com:8080/reserve/add';
         let token = get_LocalStorage('TOKEN').access_token;
         let houseid = localStorage.getItem("houseid");
-        let userid = $('#user_id').val();
+        let userid = get_LocalStorage('USER').id;
         let _content = '<div>' +
             '<span>请选择时间，不填默认2019-01-01</span><input class="layui-input timer" id="timer" placeholder="开始时间"/>' +
             '</div>';
@@ -157,6 +158,7 @@ layui.use(['laytpl', 'jquery', 'layer'], function () {
                     success: function (res) {
                         console.log(res);
                         if (res.code === 200) {
+                            window.location.href='/index/reserveHouseManage';
                             console.log('预约成功');
                         }
                     },
@@ -192,6 +194,70 @@ layui.use(['laytpl', 'jquery', 'layer'], function () {
 
     });
 
+    $('#order_add').click(function () {
+        let url = 'http://test.sunxiaoyuan.com:8080/order/add';
+        let token = get_LocalStorage('TOKEN').access_token;
+        let houseid = localStorage.getItem("houseid");
+        let userid = get_LocalStorage('USER').id;
+
+        layer.open({
+            type: 1,
+            id:'ordertime_open',
+            resize:false,
+            btn: ['确定', '取消'],
+            title: '选择',
+            content: $('#order_time'),
+            area: ['350px', '280px'],
+            shadeClose:true,
+            shade:[0.3, '#393D49'],
+            scrollbar:false,
+            yes: function (index) {
+                let time = $("#order_time select[name='ordertime']").val();
+                let desc = $("#order_time textarea[name='desc']").val();
+                let now = new Date();
+                switch (time){
+                    case 1:
+                        now.setDate(now.getFullYear()+1);
+                        break;
+                    case 2:
+                        now.setDate(now.getFullYear()+2);
+                        break;
+                    case 3:
+                        now.setDate(now.getFullYear()+3);
+                        break;
+                }
+
+                let parm = {
+                    'user_id': userid,
+                    'create_time': new Date(),
+                    'house_id':houseid,
+                    'start_time': new Date(),
+                    'end_time':now,
+                    'status':0,
+                    'remark':desc == null ? "无":desc,
+                    'access_token': token
+                };
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: parm,
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code === 200) {
+                            console.log('预约成功');
+                            window.location.href='/showOwnerManage';
+                        }
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
+                });
+            },
+            btn2: function (index) {
+                layer.close(index);
+            }
+        });
+    });
 
     function get_LocalStorage(key) {
         let data = JSON.parse(localStorage.getItem(key));

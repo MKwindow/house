@@ -33,7 +33,7 @@
             {{#  } }}
         </script>
         <script type="text/html" id="showphone1">
-            {{#   if( d.reservestate ){  }}
+            {{#   if( d.reservestate == true ){  }}
                     <div>{{ d.tenantphone }}</div>
             {{# }else{ }}
                     <div style="color: #ff1a00;margin-left: 20px">没有权限</div>

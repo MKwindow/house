@@ -26,7 +26,13 @@
                                 class="layui-icon layui-icon-home"
                                 style="font-size: 30px; color: #1E9FFF;"></i>
                         </a></li>
-                        <li class="layui-nav-item mylayui-nav-item"><a href="/index/reserveHouseManage">预定房屋管理</a></li>
+                        <li class="layui-nav-item mylayui-nav-item">
+                            <a href="javascript:;">预定房屋管理</a>
+                            <dl class="layui-nav-child mylayui-nav-child" style="margin-top: 20px">
+                                <dd> <a href="/index/reserveHouseManage">房东预约查看</a></dd>
+                                <dd> <a href="/index/reserveTenantManage">租客预约查看</a></dd>
+                            </dl>
+                        </li>
                         <li class="layui-nav-item mylayui-nav-item"><a href="/houseadd">发布房屋</a></li>
                     </ul>
                 </div>
@@ -52,7 +58,10 @@
                                 <a href="/showuser" id="user_manage_top">基本信息</a>
                             </dd>
                             <dd>
-                                <a href="/showTentantManage" id="order_manage_top">合同管理</a>
+                                <a href="/showOwnerManage" id="owner_order_manage_top">房东合同管理</a>
+                            </dd>
+                            <dd>
+                                <a href="/showTentantManage" id="tenant_order_manage_top">租客合同管理</a>
                             </dd>
                             <dd>
                                 <a href="/showRentManage" id="house_manage_top">房屋管理</a>

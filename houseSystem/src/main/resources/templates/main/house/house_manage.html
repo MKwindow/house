@@ -13,9 +13,9 @@
         <table class="layui-hide" id="renthourse" lay-filter="hourse"></table>
         <script type="text/html" id="toolbar">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-                <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+                <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>-->
+                <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>-->
+                <!--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>-->
                 <button class="layui-btn layui-btn-sm" lay-event="flush">刷新</button>
             </div>
         </script>
@@ -53,11 +53,10 @@
 
     </div>
 </div>
-<script src="../../../static/js/demo/url.js" th:src="@{/js/demo/url.js}"></script>
 <script src="../../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
 <script src="../../../static/js/house_manage.js" th:src="@{/js//house_manage.js}"></script>
 </body>
-<div class="layui-form" style="display: none;" id="formedit" lay-filter="formedit">
+<div class="layui-form" style="display: none;" id="formedit" lay-filter="formedit" >
     <input type="hidden" name="houseid" lay-verify="required" autocomplete="off" class="layui-input"
            style="height: 0px">
     <div class="layui-form-item">
@@ -69,16 +68,16 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">房屋类型:</label>
-        <div class="layui-input-block">
-            <select name="housestyle" lay-verify="required">
-                <option value=""></option>
-                <option value="一室一厅">一室一厅</option>
-                <option value="两室一厅">两室一厅</option>
-                <option value="三室一厅">三室一厅</option>
-                <option value="四室一厅">四室一厅</option>
-                <option value="五室一厅">五室一厅</option>
-            </select>
-        </div>
+            <div class="layui-input-block" id="housestyle_view">
+            </div>
+            <script id="housestyle_tpl">
+                <select name="housestyle" lay-verify="required">
+                    <option value=""></option>
+                    <%# for(var key in d.housestyle){ %>
+                <option value=<%= key %>> <% d.housestyle[key] %></option>
+                        <%# } %>
+                </select>
+            </script>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">房屋面积:</label>
@@ -90,28 +89,29 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">房屋区域:</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block" id="area_view">
+        </div>
+        <script id="area_tpl">
             <select name="area" lay-verify="required">
                 <option value=""></option>
-                <option value="武侯区">武侯区</option>
-                <option value="进景区">进景区</option>
-                <option value="神马区">神马区</option>
-                <option value="位置区">位置区</option>
-                <option value="后倾区">后倾区</option>
-                <option value="经济区">经济区</option>
+                <%# for(var key in d.areas){ %>
+            <option value=<%= key %>> <% d.areas[key] %></option>
+                    <%# } %>
             </select>
-        </div>
+        </script>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">房源风格:</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block" id="style_view">
+        </div>
+        <script id="style_tpl">
             <select name="style" lay-verify="required">
                 <option value=""></option>
-                <option value="经济">经济</option>
-                <option value="豪华">豪华</option>
-                <option value="廉价">廉价</option>
+                <%# for(var key in d.style){ %>
+            <option value=<%= key %>> <% d.style[key] %></option>
+                    <%# } %>
             </select>
-        </div>
+        </script>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">租金:</label>
@@ -122,14 +122,16 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">缴费方式:</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block" id="payway_view">
+        </div>
+        <script id="payway_tpl">
             <select name="payway" lay-verify="required">
                 <option value=""></option>
-                <option value="押一付一">押一付一</option>
-                <option value="押一付三">押一付三</option>
-                <option value="月付">月付</option>
+                <%# for(var key in d.payway){ %>
+            <option value=<%= key %>> <% d.payway[key] %></option>
+                    <%# } %>
             </select>
-        </div>
+        </script>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">房屋图片:</label>
@@ -162,7 +164,3 @@
     <p>点击上传，或将文件拖拽到此处</p>
 </div>
 </html>
-
-<!--<input type="checkbox" name="attestation" value="{{d.houseid}}" title="锁定" readonly="true" unselectable="on"-->
-<!--lay-filter="lockattestation" {{-->
-<!--d.attestation ? 'checked' : '' }} >-->

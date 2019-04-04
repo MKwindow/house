@@ -1,18 +1,36 @@
 layui.use(['table', 'jquery'], function () {
-    var table = layui.table,
+    let table = layui.table,
         form = layui.form,
         $ = layui.jquery,
         upload = layui.upload;
-    console.log(houser_static_url);
-    var url = houser_static_url;
-    var retable = table.render({
+    let url = 'http://test.sunxiaoyuan.com:8080/house/list';
+    let token = get_localStorage("TOKEN");
+    let user = get_localStorage("USER");
+    let retable = table.render({
         elem: '#renthourse'//表格绑定 根据id绑定
         , url: url //请求地址
-        , method: 'get'//请求方法
+        , method: 'POST'//请求方法
+        , where: {"access_token": token.access_token, 'user_id': user.id}
         // , contentType: 'application/json'//发送到服务端的内容编码类型
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
         , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
+        , request: {
+            pageName: 'pageNum' //页码的参数名称，默认：page
+            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        },
+        parseData: function (res) { //res 即为原始返回的数据
+            let data = Apt_house(res);
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.data[0].total, //解析数据长度
+                "data": data //解析数据列表
+            };
+        }
+        , response: {
+            statusCode: 200 //规定成功的状态码，默认：0
+        }
         , cols: [
             [
                 {type: 'checkbox', fixed: 'left'}
@@ -52,19 +70,19 @@ layui.use(['table', 'jquery'], function () {
 
     //工具栏事件
     table.on('toolbar(hourse)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id);
+        let checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
-            case 'getCheckData':
-                var data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
-                break;
-            case 'getCheckLength':
-                var data = checkStatus.data;
-                layer.msg('选中了：' + data.length + ' 个');
-                break;
-            case 'isAll':
-                layer.msg(checkStatus.isAll ? '全选' : '未全选');
-                break;
+            // case 'getCheckData':
+            //     let data1 = checkStatus.data;
+            //     layer.alert(JSON.stringify(data1));
+            //     break;
+            // case 'getCheckLength':
+            //     let data2 = checkStatus.data;
+            //     layer.msg('选中了：' + data2.length + ' 个');
+            //     break;
+            // case 'isAll':
+            //     layer.msg(checkStatus.isAll ? '全选' : '未全选');
+            //     break;
             case 'flush':
                 retable.reload();
                 break;
@@ -73,7 +91,7 @@ layui.use(['table', 'jquery'], function () {
     //监听行工具事件
     //右侧
     table.on('tool(hourse)', function (obj) {
-        var data = obj.data;
+        let data = obj.data;
         // console.log(obj);
         switch (obj.event) {
             case 'del':
@@ -83,7 +101,7 @@ layui.use(['table', 'jquery'], function () {
                 });
                 break;
             case 'edit':
-                // layer.alert('编辑行：<br>' + JSON.stringify(data));
+                house_ajx(form);
                 layer.open({
                     type: 1
                     , shade: 0.8
@@ -108,8 +126,8 @@ layui.use(['table', 'jquery'], function () {
                 });
                 //表单提交
                 form.on('submit(up)', function (data) {
-                    console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-                    console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+                    // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+                    // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
                     console.log(JSON.stringify(data.field)); //当前容器的全部表单字段，名值对形式：{name: value}
                     $.ajax({
                             url: '/test'
@@ -119,19 +137,19 @@ layui.use(['table', 'jquery'], function () {
                     return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
                 });
                 //更新缓存里面的值
-                obj.update({
-                    "houseid": data.houseid // "name": "value"
-                    , 'housename': data.housename
-                    , 'area': data.area
-                    , "housestyle": data.housestyle
-                    , "houseaddress": data.houseaddress
-                    , "housearea": data.housearea
-                    , "housefaci": data.housefaci
-                    , "zent": data.zent
-                    , "style": data.style
-                    , "payway": data.payway
-                    , "housedate": data.housedate
-                });
+                // obj.update({
+                //     "houseid": data.houseid // "name": "value"
+                //     , 'housename': data.housename
+                //     , 'area': data.area
+                //     , "housestyle": data.housestyle
+                //     , "houseaddress": data.houseaddress
+                //     , "housearea": data.housearea
+                //     , "housefaci": data.housefaci
+                //     , "zent": data.zent
+                //     , "style": data.style
+                //     , "payway": data.payway
+                //     , "housedate": data.housedate
+                // });
                 break;
             case 'attestation':
                 layer.open({
@@ -151,6 +169,7 @@ layui.use(['table', 'jquery'], function () {
 
     //监听出租状态锁定操作
     form.on('checkbox(lockcity)', function (obj) {
+        // {"access_token": token.access_token}
         layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
     });
     //监听认证状态锁定操作
@@ -158,13 +177,14 @@ layui.use(['table', 'jquery'], function () {
     //     layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
     // });
 
+
 });
 
 //上传
 function uploadData(data) {
     layui.use('upload', function () {
-        var upload = layui.upload;
-        var $ = layui.jquery;
+        let upload = layui.upload;
+        let $ = layui.jquery;
         upload.render({
             elem: '#file', //绑定元素
             url: '/file/' //上传接口
@@ -184,15 +204,15 @@ function uploadData(data) {
             }
 
         });
-        console.log(data);
+        // console.log(data);
     });
 }
 
 function uploadimg(rowdata) {
     //上传图片
     layui.use('upload', function () {
-        var upload = layui.upload;
-        var $ = layui.jquery;
+        let upload = layui.upload;
+        let $ = layui.jquery;
         upload.render({
             elem: '#image', //绑定元素
             url: '/imgage/' //上传接口
@@ -218,11 +238,11 @@ function uploadimg(rowdata) {
 
 //图片弹出窗
 function previewImg(obj) {
-    var img = new Image();
+    let img = new Image();
     img.src = obj.src;
-    var height = img.height + 50; //获取图片高度
-    var width = img.width; //获取图片宽度
-    var imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";
+    let height = img.height + 50; //获取图片高度
+    let width = img.width; //获取图片宽度
+    let imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";
     //弹出层
     layer.open({
         type: 1,
@@ -238,3 +258,175 @@ function previewImg(obj) {
         }
     });
 }
+
+function house_tpl(from, data) {
+    layui.use('laytpl', function () {
+        laytpl = layui.laytpl;
+        laytpl.config({
+            open: '<%',
+            close: '%>'
+        });
+        let getTpl1 = housestyle_tpl.innerHTML,
+            view1 = document.getElementById("housestyle_view");
+        laytpl(getTpl1).render(data, function (html) {
+            view1.innerHTML = html;
+            from.render();
+        });
+        let getTpl2 = area_tpl.innerHTML,
+            view2 = document.getElementById("area_view");
+        laytpl(getTpl2).render(data, function (html) {
+            view2.innerHTML = html;
+            try {
+                from.render();
+            } catch (err) {
+
+            }
+        });
+        let getTpl3 = style_tpl.innerHTML,
+            view3 = document.getElementById("style_view");
+        laytpl(getTpl3).render(data, function (html) {
+            view3.innerHTML = html;
+            try {
+                from.render();
+            } catch (err) {
+
+            }
+        });
+        let getTpl4 = payway_tpl.innerHTML,
+            view4 = document.getElementById("payway_view");
+        laytpl(getTpl4).render(data, function (html) {
+            view4.innerHTML = html;
+            try {
+                from.render();
+            } catch (err) {
+
+            }
+        });
+    });
+}
+
+function house_ajx(from) {
+    layui.use('jquery', function () {
+        let $ = layui.jquery;
+        let search_data = get_localStorage("SEARCH");
+        if (search_data == null || search_data === "" || typeof search_data === "undefined") {
+            $.ajax({
+                url: '/json/search.json'
+                , type: 'GET'
+                , dataType: 'json'//预期服务器返回的数据类型
+                , contentType: "application/json; charset=utf-8"
+                , success: function (res) {
+                    house_tpl(from, res);
+                }, error: function (res) {
+                    console.log("访问失败:######/t" + JSON.stringify(res));
+                }
+            });
+        } else {
+            house_tpl(from, search_data);
+        }
+    });
+}
+
+function get_localStorage(key) {
+    let data = JSON.parse(localStorage.getItem(key));
+    if (data !== null) {
+        // debugger
+        if (data.expirse != null && data.expirse < new Date().getTime()) {
+            localStorage.removeItem(key);
+        } else {
+            return data.value;
+        }
+    }
+    return null;
+}
+
+
+function Apt_house(data) {
+    let swaplist = [];
+    let swapdata = data.data[0].list;
+    for (let i = 0, len = swapdata.length; i < len; i++) {
+        let image = null;
+        try {
+            image = swapdata[i].pics[0].url
+        } catch (err) {
+            image = "/images/temp/property_01.jpg";
+        }
+        swaplist[i] = {
+            "houseimage": image,
+            "housename": swapdata[i].title,
+            "zent": swapdata[i].rent,
+            "houseid": swapdata[i].id,
+            "houseaddress": swapdata[i].addr_detail,
+            "style": swapdata[i].style,
+            "area": swapdata[i].addr_id,
+            "status": swapdata[i].status >= 3 ? true : false,
+            "payway": swapdata[i].pay_a * 10 + swapdata[i].pay_b,
+            "attestation": swapdata[i].status >= 1 ? true : false,
+            "housedate": swapdata[i].create_time,
+            "housearea": swapdata[i].area,
+            "username": swapdata[i].username,
+            "housefaci": swapdata[i].info,
+            "housestyle": swapdata[i].type_a * 1000 + swapdata[i].type_b * 100 + swapdata[i].type_c * 10 + swapdata[i].type_d,
+            "userid": swapdata[i].user_id
+        };
+    }
+    let search_data = get_localStorage("SEARCH");
+    return unpdate_search(swaplist, search_data)
+}
+
+function unpdate_search(swap, search) {
+    for (let i = 0, len = swap.length; i < len; i++) {
+        for (let key in search.payway) {
+            if (swap[i].payway == key) {
+                swap[i].payway = search.payway[key];
+            }
+        }
+        for (let key in search.housestyle) {
+            if (swap[i].housestyle == key)
+                swap[i].housestyle = search.housestyle[key];
+        }
+        for (let key in search.style) {
+            if (swap[i].style == key)
+                swap[i].style = search.style[key];
+        }
+        for (let key in search.areas) {
+            if (swap[i].area == key)
+                swap[i].area = search.areas[key];
+        }
+    }
+    // debugger;
+    return swap;
+}
+
+function Apd_add(txt) {
+
+    let type_d = txt.housestyle % 10,
+        type_c = parseInt(txt.housestyle / 10 % 10),
+        type_b = parseInt(txt.housestyle / 100 % 10),
+        type_a = parseInt(txt.housestyle / 1000 % 10),
+        pay_b = txt.payway % 10,
+        pay_a = parseInt(txt.payway / 10 % 10);
+    let newData = new Date().toLocaleDateString();
+    let userid = LocalStorage_Day.get("USER").id;
+    let sum_swap = {
+        "id": txt.houseid,
+        "title": txt.housename,
+        "area": txt.housearea,
+        "addr_id": txt.area,
+        "type_d": type_d,
+        "type_c": type_c,
+        "type_b": type_b,
+        "type_a": type_a,
+        "pay_b": pay_b,
+        "pay_a": pay_a,
+        "style": txt.style,
+        "addr_detail": txt.houseaddress,
+        "rent": txt.zent,
+        "info": txt.housefaci,
+        "status": txt, status,
+        "user_id": userid,
+        "create_time": newData
+    };
+    return sum_swap;
+}
+

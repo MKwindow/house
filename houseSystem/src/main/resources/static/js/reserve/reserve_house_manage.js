@@ -3,29 +3,31 @@ layui.use(['table', 'jquery'], function () {
         form = layui.form,
         $ = layui.jquery,
         upload = layui.upload;
-    // console.log(reserve_house_manage);
     let url = 'http://test.sunxiaoyuan.com:8080/reserve/list';
     let token = get_LocalStorage("TOKEN");
     let swap = {"Authorization": "Bearer" + "\xa0" + token.access_token};
+    let user = get_LocalStorage('USER');
     let retable = table.render({
         elem: '#renthourse'//表格绑定 根据id绑定
         , url: url //请求地址
         , method: 'POST'//请求方法
         // , headers: swap
-        , where: {"access_token": token.access_token}
+        , where: {"access_token": token.access_token,'user_id':user.id}
         , request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
         }
         , parseData: function (res) { //res 即为原始返回的数据
+            // debugger;
             let data = Apt_reserve(res);
             return {
                 "code": res.code, //解析接口状态
                 "msg": res.msg, //解析提示文本
-                "count": res.data.total, //解析数据长度
+                "count": res.data[0].total, //解析数据长度
                 "data": data //解析数据列表
             };
         }
+
         , response: {
             // statusName: 'status' ,  //规定数据状态的字段名称，默认：code
             statusCode: 200 //规定成功的状态码，默认：0
@@ -35,7 +37,7 @@ layui.use(['table', 'jquery'], function () {
         }
         // , contentType: 'application/json'//发送到服务端的内容编码类型
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
-        , title: '房屋预定管理'//定义 table 的大标题（在文件导出等地方会用到
+        , title: '房东预定管理'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
         , id: 'house'
         , done: function (res, curr, count) {
@@ -59,20 +61,23 @@ layui.use(['table', 'jquery'], function () {
                 sort: true,//排序
                 totalRowText: '合计'
             }
-                , {field: 'houseid', title: '房屋编号',hide:true}
-                , {field: 'userid', title: '用户编号',hide:true}
-                , {field: 'owenid', title: '房东编号',hide:true}
+                , {field: 'houseid', title: '房屋编号', hide: true}
+                , {field: 'userid', title: '用户编号', hide: true}
+                , {field: 'owenid', title: '房东编号', hide: true}
                 , {field: 'housestyle', title: '房屋类型', width: 120}
                 , {field: 'houseaddress', title: '房屋地址', width: 228}
                 , {field: 'tenantname', title: '租客姓名', width: 100, sort: true}
                 , {field: 'tenantphone', title: '租客电话', width: 120, sort: true, templet: '#showphone1'}
-                , {field: 'owenphone', title: '房东电话', width: 120, sort: true, templet: '#showphone2',hide:true}
+                , {field: 'owenphone', title: '房东电话', width: 120, sort: true, templet: '#showphone2', hide: true}
                 , {field: 'username', title: '房东姓名', width: 90}
                 , {field: 'reservedate', title: '预约日期', width: 110, sort: true}
                 , {field: 'payway', title: '缴费方式', width: 100}
                 , {field: 'reservestate', title: '预约状态', width: 110, sort: true, templet: '#checkboxTp2'}
-                , {field: 'zent', title: '租金', width: 200, sort: true}
+                , {field: 'zent', title: '租金', width: 90, sort: true}
+                , {field: 'area', title: '房屋面积', width: 100, sort: true}
+                , {field: 'create_time', title: '创建时间', width: 100, sort: true}
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: 160}
+
             ]
         ]
         , page: true
@@ -83,7 +88,7 @@ layui.use(['table', 'jquery'], function () {
         let list = data.data[0].list;
         try {
             let search = get_LocalStorage('SEARCH');
-            return success(search);
+            return success(search,list);
         } catch (err) {
             $.getJSON('/json/search.json', function (opt) {
                 let data = {'value': opt.data, 'expirse': (new Date().getTime() + 86400000)};
@@ -91,7 +96,7 @@ layui.use(['table', 'jquery'], function () {
             });
         }
 
-        function success(opt) {
+        function success(opt,list) {
             let search = opt;
             let swap = [];
             for (let i = 0, len = list.length; i < len; i++) {
@@ -102,15 +107,16 @@ layui.use(['table', 'jquery'], function () {
                     'houseid': list[i].house_id,
                     'payway': list[i].pay_a * 10 + list[i].pay_b,
                     'username': list[i].u_nick_name,
-                    'reservestate': list[i].status,
+                    'reservestate': list[i].status == 0 ? false :true,
                     'tenantphone': list[i].phone,
                     'tenantname': list[i].nick_name,
                     'zent': list[i].rent,
                     'housestyle': list[i].type_a * 1000 + list[i].type_b * 100 + list[i].type_c * 10 + list[i].type_d,
                     'userid': list[i].user_id,
-                    'owenid': 1,
-                    'reserveid': 1,
-                    'owenphone': list[i].u_phone
+                    'owenid': list[i].u_user_id,
+                    'reserveid': list[i].id,
+                    'owenphone': list[i].u_phone,
+                    "create_time":list[i].create_time,
                 }
             }
             for (let i = 0, len = swap.length; i < len; i++) {

@@ -125,7 +125,7 @@ public class ControllerTest {
 		return "main/order/order_tenant_manage";
 	}
 
-	// 租客合同管理页面
+	// 房东合同管理页面
 	@RequestMapping("/showOwnerManage")
 	public String showOwnerManage() {
 		return "main/order/order_owner_manage";
