@@ -30,7 +30,7 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
             }
         }
         , username: function (value) {
-            if (new RegExp("/^[A-Za-z0-9]*$/").test(value)) {
+            if (!new RegExp("^[A-Za-z0-9]+$").test(value)) {
                 return '用户编号必须为字母或者数组';
             }
         }
@@ -39,7 +39,7 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
         let user = $(this).val();
         $.ajax({
             url: 'http://test.sunxiaoyuan.com:8080/user/check',
-            type: 'POST',
+            type: 'GET',
             data: {'username': user.trim()},
             success: function (res) {
                 $('#txt').html("允许使用");
@@ -66,7 +66,7 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
         let url = 'http://test.sunxiaoyuan.com:8080/user/add';
         $.ajax({
             url: url,
-            type: 'POST',
+            type: 'GET',
             data: parm,
             success: function (res) {
                 if (res.code === 200) {
@@ -74,9 +74,7 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
                         icon: 1,
                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
                     }, function () {
-                        setTimeout(function () {
-                            window.location.href = '/index'
-                        }, 2000)
+                        window.location.href = '/index'
                     });
                 }
             }, error: function (res) {

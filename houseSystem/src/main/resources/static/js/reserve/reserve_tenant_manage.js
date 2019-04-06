@@ -41,7 +41,7 @@ layui.use(['table', 'jquery'], function () {
         , limit: 8
         , cols: [
             [
-                {type: 'checkbox', fixed: 'left'}
+                {type: 'radio', fixed: 'left'}
                 , {
                 field: 'reserveid',
                 title: '预定编号',

@@ -1,56 +1,57 @@
 <!doctype html>
-<html  class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.1</title>
-	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.1</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="stylesheet" href="./../../static/admin/css/font.css" th:href="@{/admin/css/font.css}">
-	<link rel="stylesheet" href="./../../static/admin/css/xadmin.css" th:href="@{/admin/css/xadmin.css}">
-    <script type="text/javascript" src="./../../static/Jquery/3.2.1/jquery.min.js" th:src="@{/Jquery/3.2.1/jquery.min.js}"></script>
-    <script src="./../../static/layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}" ></script>
+    <link rel="stylesheet" href="./../../static/admin/css/xadmin.css" th:href="@{/admin/css/xadmin.css}">
+    <script type="text/javascript" src="./../../static/Jquery/3.2.1/jquery.min.js"
+            th:src="@{/Jquery/3.2.1/jquery.min.js}"></script>
+    <script src="./../../static/layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" src="./../../static/admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
     <script type="text/javascript" src="./../../static/admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
 
 </head>
 <body class="login-bg">
 
-    <div class="login layui-anim layui-anim-up">
-        <div class="message">房屋管理系统2.0-管理登录</div>
-        <div id="darkbannerwrap"></div>
+<div class="login layui-anim layui-anim-up">
+    <div class="message">房屋管理系统2.0-管理登录</div>
+    <div id="darkbannerwrap"></div>
 
-        <form method="post" class="layui-form" >
-            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
-            <hr class="hr15">
-            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
-            <hr class="hr15">
-            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
-            <hr class="hr20" >
-        </form>
-    </div>
+    <form method="post" class="layui-form">
+        <input name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+        <hr class="hr15">
+        <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+        <hr class="hr15">
+        <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <hr class="hr20">
+    </form>
+</div>
 
-    <script>
-        $(function  () {
-            layui.use('form', function(){
-              let form = layui.form;
-              form.on('submit(login)', function(data){
-                  let login = data.field,
-                      url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password';
-                  let parm = {'username':login.username,'passwod'}
-                  // $.ajax({
-                  //     url:
-                  // });
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });
+<script>
+    $(function () {
+        layui.use(['form', 'login'], function () {
+            let form = layui.form;
+            let login = layui.login;
+            form.on('submit(login)', function (data) {
+                let loginData = data.field,
+                    token_url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
+                    user_url = 'http://test.sunxiaoyuan.com:8080/user/info',
+                    go_url = './index.html';
+                let parm = {'username': loginData.username, 'password': loginData.password};
+                console.log(parm);
+                login.xlogin(token_url, user_url, parm, go_url);
                 return false;
-              });
             });
-        })
+        });
+    })
 
 
-    </script>
+</script>
 </body>
 </html>

@@ -5,12 +5,13 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
         form = layui.form;
     let houseid = localStorage.getItem("houseid");
     let token = get_LocalStorage('TOKEN');
+    // "access_token": token.access_token
     let url = 'http://test.sunxiaoyuan.com:8080/house/list';
     $.ajax({
         async: false
         , url: url
         , type: 'POST'
-        , data: {"id": houseid, "access_token": token.access_token}
+        , data: {"id": houseid}
         , success: function (res) {
             // localStorage.setItem("house", JSON.stringify(res));
             det_tpl(res);
@@ -130,9 +131,21 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
     });
     $('#reservation_house').click(function () {
         let url = 'http://test.sunxiaoyuan.com:8080/reserve/add';
-        let token = get_LocalStorage('TOKEN').access_token;
+        try{
+            let token = get_LocalStorage('TOKEN').access_token;
+        }catch (err){
+            layer.msg('没有登陆快去登陆吧');
+            popwindows('reservation_house');
+        }
         let houseid = localStorage.getItem("houseid");
         let userid = get_LocalStorage('USER').id;
+        let house_user_id = $('#user_id').val();
+        if (parseInt(house_user_id) === userid) {
+            layer.msg('不能预约自己房屋',{
+                icon: 0,
+            });
+            return false;
+        }
         let _content = '<div>' +
             '<span>请选择时间，不填默认2019-04-04</span><input class="layui-input timer" id="timer" placeholder="开始时间"/>' +
             '</div>';
@@ -157,14 +170,22 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                     type: 'POST',
                     data: parm,
                     success: function (res) {
-                        console.log(res);
                         if (res.code === 200) {
-                            window.location.href = '/index/reserveTenantManage';
-                            console.log('预约成功');
+                            layer.close(index);
+                            layer.msg('预约成功,快去看看吧', {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location.href = '/index/reserveTenantManage';
+                            });
                         }
                     },
                     error(res) {
-                        console.log(res);
+                        layer.close(index);
+                        layer.msg('网络开小差了', {
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        });
                     }
                 });
             },
@@ -179,7 +200,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                 elem: '#timer'
                 , min: '2019-04-04 00:00:00'
                 , max: '2099-06-16 23:59:59'
-                , value:'2019-04-04 00:00:00'
+                , value: '2019-04-04 00:00:00'
                 , istoday: true
                 , choose: function (datas) {
                     end.min = datas; //开始日选好后，重置结束日的最小日期
@@ -197,10 +218,22 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
 
     $('#order_add').click(function () {
         let url = 'http://test.sunxiaoyuan.com:8080/order/add';
-        let token = get_LocalStorage('TOKEN').access_token;
+        try{
+            let token = get_LocalStorage('TOKEN').access_token;
+        }catch (err){
+            layer.msg('没有登陆快去登陆吧');
+            popwindows('order_add');
+        }
+
         let houseid = localStorage.getItem("houseid");
         let userid = get_LocalStorage('USER').id;
-
+        let house_user_id = $('#user_id').val();
+        if (parseInt(house_user_id) === userid) {
+            layer.msg('不能入住自己的房屋',{
+                icon: 0,
+            });
+            return false;
+        }
         layer.open({
             type: 1,
             id: 'ordertime_open',
@@ -246,7 +279,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                         console.log(res);
                         if (res.code === 200) {
                             layer.close(index);
-                            layer.msg('预约成功,快去看看吧', {
+                            layer.msg('入住成功,快去看看吧', {
                                 icon: 1,
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function () {
@@ -256,7 +289,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                     },
                     error(res) {
                         layer.close(index);
-                        layer.msg('哦，不，没预约上或许是网页开小差了', {
+                        layer.msg('哦，不，没签约上或许是网页开小差了', {
                             icon: 2,
                             time: 2000 //2秒关闭（如果不配置，默认是3秒）
                         });

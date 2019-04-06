@@ -6,6 +6,9 @@ spring:
     view:
       prefix: /
       suffix: .html
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/templates/,classpath:/static/
         thymeleaf:    cache: false
 #    prefix: classpath:/templates/
 #    suffix: .html

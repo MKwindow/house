@@ -7,17 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="stylesheet" href="./../../static/admin/css/font.css" th:href="@{/admin/css/font.css}">
-    <link rel="stylesheet" href="./../../static/admin/css/xadmin.css" th:href="@{/admin/css/xadmin.css}">
-    <script type="text/javascript" src="../../static/Jquery/3.2.1/jquery.min.js" th:src="@{/Jquery/3.2.1/jquery.min.js}"></script>
-    <script type="text/javascript" src="../../static/blueimp-md5/2.10.0/js/md5.min.js" th:src="@{/blueimp-md5/2.10.0/js/md5.min.js}"></script>
-    <script src="./../../static/layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}" ></script>
-    <script type="text/javascript" src="./../../static/admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
-    <script type="text/javascript" src="./../../static/admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
+    <link rel="stylesheet" href="./admin/css/font.css" th:href="@{/admin/css/font.css}">
+    <link rel="stylesheet" href="./admin/css/xadmin.css" th:href="@{/admin/css/xadmin.css}">
+    <script type="text/javascript" src="./Jquery/3.2.1/jquery.min.js" th:src="@{/Jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" src="./blueimp-md5/2.10.0/js/md5.min.js" th:src="@{/blueimp-md5/2.10.0/js/md5.min.js}"></script>
+    <script src="./layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}" ></script>
+    <script type="text/javascript" src="./admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
+    <script type="text/javascript" src="./admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
     
     <script>
         // 是否开启刷新记忆tab功能
-        // var is_remember = false;
+        var is_remember = false;
     </script>
 </head>
 <body>
@@ -31,10 +31,10 @@
           <li class="layui-nav-item">
             <a href="javascript:;">+新增</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a onclick="x_admin_show('资讯','https://www.baidu.com')"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
-              <dd><a onclick="x_admin_show('图片','https://www.baidu.com')"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
-               <dd><a onclick="x_admin_show('用户 最大化','https://www.baidu.com','','',true)"><i class="iconfont">&#xe6b8;</i>用户最大化</a></dd>
-               <dd><a onclick="x_admin_add_to_tab('在tab打开','https://www.baidu.com',true)"><i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
+              <dd><a onclick="x_admin_show('资讯','#')"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
+              <dd><a onclick="x_admin_show('图片','#')"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
+               <dd><a onclick="x_admin_show('用户 最大化','#','','',true)"><i class="iconfont">&#xe6b8;</i>用户最大化</a></dd>
+               <dd><a onclick="x_admin_add_to_tab('在tab打开','#',true)"><i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
             </dl>
           </li>
         </ul>
@@ -42,8 +42,8 @@
           <li class="layui-nav-item">
             <a href="javascript:;">admin</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
-              <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+              <dd><a onclick="x_admin_show('个人信息','#')">个人信息</a></dd>
+              <dd><a onclick="x_admin_show('切换帐号','#')">切换帐号</a></dd>
               <dd><a href="./login.html">退出</a></dd>
             </dl>
           </li>
@@ -292,7 +292,7 @@
         </ul>
       </div>
     </div>
-    <!-- <div class="x-slide_left"></div> -->
+     <div class="x-slide_left"></div>
     <!-- 左侧菜单结束 -->
     <!-- 右侧主体开始 -->
     <div class="page-content">
@@ -300,6 +300,7 @@
           <ul class="layui-tab-title">
             <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
           </ul>
+            <!--主体右键 -->
           <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
                 <dl>
                     <dd data-type="this">关闭当前</dd>

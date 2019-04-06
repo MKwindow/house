@@ -21,19 +21,19 @@
                             <img src="../../static/images/logo.png" th:src="@{/images/logo.png}">
                         </a>
                     </div>
-                    <ul class="layui-nav layui-layout-right mylayui-nav">
+                    <ul class="layui-nav layui-layout-right mylayui-nav" lay-filter="houseManagefilter">
                         <li class="layui-nav-item mylayui-nav-item"><a href="/index"> <i
                                 class="layui-icon layui-icon-home"
                                 style="font-size: 30px; color: #1E9FFF;"></i>
                         </a></li>
-                        <li class="layui-nav-item mylayui-nav-item">
+                        <li class="layui-nav-item mylayui-nav-item" >
                             <a href="javascript:;">预定房屋管理</a>
                             <dl class="layui-nav-child mylayui-nav-child" style="margin-top: 20px">
-                                <dd> <a href="/index/reserveHouseManage">房东预约查看</a></dd>
-                                <dd> <a href="/index/reserveTenantManage">租客预约查看</a></dd>
+                                <dd> <a >房东预约查看</a></dd>
+                                <dd> <a >租客预约查看</a></dd>
                             </dl>
                         </li>
-                        <li class="layui-nav-item mylayui-nav-item"><a href="/houseadd">发布房屋</a></li>
+                        <li class="layui-nav-item mylayui-nav-item"><a>发布房屋</a></li>
                     </ul>
                 </div>
                 <ul class="layui-nav layui-layout-right mylayui-nav mylayui-nav-right" lay-filter="loginfilter" lay-allowClose="false">
@@ -55,16 +55,16 @@
                         </a>
                         <dl class="layui-nav-child mylayui-nav-child">
                             <dd>
-                                <a href="/showuser" id="user_manage_top">基本信息</a>
+                                <a id="user_manage_top">基本信息</a>
                             </dd>
                             <dd>
-                                <a href="/showOwnerManage" id="owner_order_manage_top">房东合同管理</a>
+                                <a id="owner_order_manage_top">房东合同管理</a>
                             </dd>
                             <dd>
-                                <a href="/showTentantManage" id="tenant_order_manage_top">租客合同管理</a>
+                                <a  id="tenant_order_manage_top">租客合同管理</a>
                             </dd>
                             <dd>
-                                <a href="/showRentManage" id="house_manage_top">房屋管理</a>
+                                <a id="house_manage_top">房屋管理</a>
                             </dd>
                             <dd>
                                 <a id="loginout_top">注销</a>

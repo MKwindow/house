@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="x-admin-sm">
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>后台登录-X-admin2.1</title>
@@ -8,8 +8,8 @@
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
         <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-        <link rel="stylesheet" href="./css/font.css">
-        <link rel="stylesheet" href="./css/xadmin.css">
+        <script type="text/javascript" src="./../../static/admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
+        <script type="text/javascript" src="./../../static/admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
     </head>
     <body>
         <div class="x-body">
@@ -22,7 +22,7 @@
                 注意：本案例的Echarts图表库由cdn引入，需要在线才能正常使用，如想离线，请至Echarts官网下载。
             </blockquote>
         </div>
-        <script src="//cdn.bootcss.com/echarts/3.3.2/echarts.min.js" charset="utf-8"></script>
+        <script src="./../../static/echarts/echarts.main.js" charset="utf-8" th:src="echarts/echarts.main.js"></script>
         <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));

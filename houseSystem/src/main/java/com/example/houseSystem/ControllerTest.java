@@ -1,36 +1,16 @@
 package com.example.houseSystem;
 
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSON;
-import com.example.houseSystem.tool.ResponseData;
 
 @Controller
 public class ControllerTest {
-	String json;
 
 	// 主页
 	@RequestMapping("/index")
 	public String index() {
 		return "index";
-	}
-
-
-	// 详细页请求
-	@RequestMapping(value = "/index/detail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public ResponseData detail(@RequestBody Map<String, String> map) {
-		System.out.println(map);
-		ResponseData data = ResponseData.ok();
-		data = data.putDataValue("url", "/index/show_detail");
-		System.out.println(JSON.toJSONString(data));
-		return data;
 	}
 
 	// 详细页显示
@@ -51,48 +31,10 @@ public class ControllerTest {
 		return "main/reserve/reserv_tenant_manage";
 	}
 
-	// 主页搜索功能提交
-	@RequestMapping(value = "/index/search", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public ResponseData search(@RequestBody Map<String, String> map) {
-		System.out.println(map);
-		ResponseData data = ResponseData.ok();
-		data = data.putDataValue("url", "/search");
-		System.out.println(JSON.toJSONString(data));
-		return data;
-	}
-
 	// 重定向到搜索页面
 	@RequestMapping("/search")
 	public String helloRedirect() {
 		return "main/search";
-	}
-
-	// 搜索页 头部搜索功能 提交
-	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String addClient(@RequestBody Map<String, String> map) {
-		System.out.println(map);
-		return json;
-	}
-
-	// json测试
-	@RequestMapping(value = "/json", method = RequestMethod.GET, produces = "application/json;charset=UTF-8 ")
-	@ResponseBody
-	public String json() {
-		return json;
-	}
-
-	// 登陆页请求
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public ResponseData login(@RequestBody Map<String, String> map) {
-		System.out.println(map);
-		ResponseData data = ResponseData.ok();
-		data.putDataValue("username", "小明");
-		data.putDataValue("token", "6556164");
-		System.out.println(JSON.toJSONString(data));
-		return data;
 	}
 
 	// 房屋发布页面
@@ -130,16 +72,5 @@ public class ControllerTest {
 	public String showOwnerManage() {
 		return "main/order/order_owner_manage";
 	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseData test(@RequestBody Map<String, String> map) {
-		System.out.println(map);
-		ResponseData data = ResponseData.ok();
-		data.putDataValue("username", "小明");
-		data.putDataValue("token", "6556164");
-		System.out.println(JSON.toJSONString(data));
-		return data;
-	}
-	
+
 }

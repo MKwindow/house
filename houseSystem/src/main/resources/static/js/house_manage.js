@@ -34,7 +34,7 @@ layui.use(['table', 'jquery'], function () {
         }
         , cols: [
             [
-                {type: 'checkbox', fixed: 'left'}
+                {type: 'radio', fixed: 'left'}
                 , {
                 field: 'houseid',
                 title: '房屋编号',
@@ -82,7 +82,6 @@ layui.use(['table', 'jquery'], function () {
     //右侧
     table.on('tool(hourse)', function (obj) {
         let data = obj.data;
-        // console.log(obj);
         switch (obj.event) {
             case 'del':
                 layer.confirm('真的删除行么', function (index) {
@@ -100,46 +99,62 @@ layui.use(['table', 'jquery'], function () {
                     , area: ['600px', '600px']
                     , shadeClose: true//点击外围关闭弹窗
                     , title: "编辑内容" //不显示标题
-                });
-                form.val("formedit", {
-                    "houseid": data.houseid // "name": "value"
-                    , 'housename': data.housename
-                    , 'area': data.area
-                    , "housestyle": data.housestyle
-                    , "houseaddress": data.houseaddress
-                    , "housearea": data.housearea
-                    , "housefaci": data.housefaci
-                    , "zent": data.zent
-                    , "style": data.style
-                    , "payway": data.payway
-                    , "housedate": data.style
-                });
-                //表单提交
-                form.on('submit(up)', function (data) {
-                    // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-                    // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-                    console.log(JSON.stringify(data.field)); //当前容器的全部表单字段，名值对形式：{name: value}
-                    $.ajax({
-                            url: '/test'
+                    , success: function (layero, index) {
+                        let seach = get_localStorage('SEARCH');
+                        let valdata = res_Apd_update_seach(data, seach);
+                        form.val("formedit", {
+                            "houseid": data.houseid // "name": "value"
+                            , 'housename': data.housename
+                            , 'area': valdata.area
+                            , "housestyle": data.housestyle
+                            , "houseaddress": data.houseaddress
+                            , "housearea": data.housearea
+                            , "housefaci": data.housefaci
+                            , "zent": data.zent
+                            , "style": valdata.style
+                            , "payway": valdata.payway
+                            , "housedate": valdata.style
+                        });
+                        //表单提交
+                        form.on('submit(up)', function (updata_data) {
+                            console.log(updata_data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+                            let sum_data = Apd_update_submit(updata_data.field);
+                            update_obj(updata_data.field);
+                            // $.ajax({
+                            //     url: '/test',
+                            //     type:'POST',
+                            //     data:'parm',
+                            //     success:function (res) {
+                            //
+                            //     },
+                            //     error:function (res) {
+                            //
+                            //     }
+                            // });
+                            function update_obj(data) {
+                                //将区域数字转换为字符
+                                let Apd_update_Data = Apd_update_seach(data, seach);
+                                //更新缓存里面的值
+                                obj.update({
+                                    "houseid": data.houseid // "name": "value"
+                                    , 'housename': data.housename
+                                    , 'area': Apd_update_Data.area
+                                    , "housestyle": Apd_update_Data.housestyle
+                                    , "houseaddress": data.houseaddress
+                                    , "housearea": data.housearea
+                                    , "housefaci": data.housefaci
+                                    , "zent": data.zent
+                                    , "style": Apd_update_Data.style
+                                    , "payway": Apd_update_Data.payway
+                                    , "housedate": data.housedate
+                                });
+                                layer.close(index);
+                            }
 
-                        }
-                    );
-                    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                        });
+                    }
                 });
-                //更新缓存里面的值
-                // obj.update({
-                //     "houseid": data.houseid // "name": "value"
-                //     , 'housename': data.housename
-                //     , 'area': data.area
-                //     , "housestyle": data.housestyle
-                //     , "houseaddress": data.houseaddress
-                //     , "housearea": data.housearea
-                //     , "housefaci": data.housefaci
-                //     , "zent": data.zent
-                //     , "style": data.style
-                //     , "payway": data.payway
-                //     , "housedate": data.housedate
-                // });
                 break;
             case 'attestation':
                 layer.open({
@@ -411,5 +426,77 @@ function Apd_add(txt) {
         "create_time": newData
     };
     return sum_swap;
+}
+
+function res_Apd_update_seach(data, search) {
+    for (let key in search.areas) {
+        if (data.area == search.areas[key]) {
+            data.area = key;
+        }
+    }
+    for (let key in search.style) {
+        if (data.style == search.style[key]) {
+            data.style = key;
+        }
+    }
+    for (let key in search.payway) {
+        if (data.payway == search.payway[key]) {
+            data.payway = key;
+        }
+    }
+    for (let key in search.housestyle) {
+        if (data.housestyle == search.housestyle[key])
+            data.housestyle = key;
+    }
+    return data;
+}
+
+function Apd_update_seach(data, search) {
+    for (let key in search.areas) {
+        if (data.area == key) {
+            data.area = search.areas[key];
+        }
+    }
+    for (let key in search.style) {
+        if (data.style == key) {
+            data.style = search.style[key];
+        }
+    }
+    for (let key in search.payway) {
+        if (data.payway == key) {
+            data.payway = search.payway[key];
+        }
+    }
+    for (let key in search.housestyle) {
+        if (data.housestyle == key)
+            data.housestyle = search.housestyle[key];
+    }
+    return data;
+}
+
+function Apd_update_submit(data) {
+    let type_d = data.housestyle % 10,
+        type_c = parseInt(data.housestyle / 10 % 10),
+        type_b = parseInt(data.housestyle / 100 % 10),
+        type_a = parseInt(data.housestyle / 1000 % 10),
+        pay_b = data.payway % 10,
+        pay_a = parseInt(data.payway / 10 % 10);
+    let swap = {
+        'id': data.houseid,
+        'title': data.housename,
+        'type_a': type_a,
+        'type_b': type_b,
+        'type_c': type_c,
+        'type_d': type_d,
+        'pay_a': pay_a,
+        'pay_b': pay_b,
+        'area': data.housearea,
+        'addr_id': data.area,
+        'style': data.style,
+        'rent': data.zent,
+        'info': data.housefaci,
+        'addr_detail': data.houseaddress
+    }
+    return swap;
 }
 

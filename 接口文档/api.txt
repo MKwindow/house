@@ -1,6 +1,6 @@
 ﻿服务器地址：（键值对形式）
 http://test.sunxiaoyuan.com:8080/user/info + token 个人信息
-http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password  + 用户 密码  授权
+http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password+用户+密码    授权
 http://test.sunxiaoyuan.com:8080/house/list  {"pageNum": "1", "pageSize": "10"}+token    房屋分页接口
 http://test.sunxiaoyuan.com:8080/house/list 参数 同数据库 +token
 http://test.sunxiaoyuan.com:8080/house/add  参数 同数据库 +token

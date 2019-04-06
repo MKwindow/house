@@ -36,7 +36,7 @@ layui.use(['table', 'jquery'], function () {
         , totalRow: false // 开启合计行
         , cols: [
             [
-                {type: 'checkbox', fixed: 'left'}
+                {type: 'radio', fixed: 'left'}
                 , {
                 field: 'contractid',
                 title: '合同编号',

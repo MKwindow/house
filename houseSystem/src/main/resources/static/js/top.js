@@ -11,19 +11,77 @@ function nva() {
             parent.removeClass("layui-nav-child");// 设置为展开之前的css，即不展开的样式
         }
 
+        function errotoken(url) {
+            try {
+                let token = localStorage.getItem('TOKEN');
+                if (token != null) {
+                    window.location.href = url;
+                } else {
+                    layer.msg('没有登陆快去登陆吧', {
+                        icon: 2,
+                        time: 1000
+                    }, function () {
+                        popwindows('login');
+                    });
+                }
+            } catch (err) {
+                layer.msg('没有登陆快去登陆吧', {
+                    icon: 2,
+                    time: 1000
+                }, function () {
+                    popwindows('login');
+                });
+            }
+        }
+
+        element.on('nav(houseManagefilter)', function (elem) {
+            let name = $(elem).html();
+            switch (name) {
+                case '房东预约查看': {
+                    errotoken('/index/reserveHouseManage');
+                    break;
+                }
+                case '租客预约查看': {
+                    errotoken('/index/reserveTenantManage');
+                    break;
+                }
+                case '发布房屋': {
+                    errotoken('/houseadd');
+                    break;
+                }
+            }
+        });
+
         // 监听导航点击
         element.on('nav(loginfilter)', function (elem) {
-            var id = $(elem).attr("id");
-            debugger;
+            let id = $(elem).attr("id");
+            // debugger;
             switch (id) {
                 case "loginout_top": {
                     logout();
                     element.render('nav');
+                    break;
+                }
+                case 'owner_order_manage_top': {
+                    errotoken('/showOwnerManage');
+                    break;
+                }
+                case 'tenant_order_manage_top': {
+                    errotoken("/showTentantManage");
+                    break;
+                }
+                case 'house_manage_top': {
+                    errotoken('/showRentManage');
+                    break;
+                }
+                case 'user_manage_top': {
+                    errotoken('/showuser');
+                    break;
                 }
                 case "btn_parm_top": {
                     element.render('nav');
-                    var user = document.getElementById("showname").innerText.trim();
-                    var oldlogin = $.trim(user) + "";
+                    let user = document.getElementById("showname").innerText.trim();
+                    let oldlogin = $.trim(user) + "";
                     if (encodeURIComponent(oldlogin) === "%E7%99%BB%E5%BD%95") {
                         layer.closeAll();
                         popwindows("login");
@@ -31,8 +89,8 @@ function nva() {
                     } else {
                         console.log("失败");
                     }
+                    break;
                 }
-
             }
         });
     });
@@ -152,7 +210,7 @@ function updateUsername(res) {
             data: tokenheaders,
             success: function (userdata) {
                 if (userdata.code === 200) {
-                    LocalStorage_Day.set("USER", userdata.data[0], 1/12);
+                    LocalStorage_Day.set("USER", userdata.data[0], 1 / 12);
                     username = userdata.data[0].username;
                 }
             },
