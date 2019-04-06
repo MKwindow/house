@@ -1,61 +1,63 @@
 <!doctype html>
-<html  class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.1</title>
-	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.1</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="stylesheet" href="./admin/css/font.css" th:href="@{/admin/css/font.css}">
-    <link rel="stylesheet" href="./admin/css/xadmin.css" th:href="@{/admin/css/xadmin.css}">
-    <script type="text/javascript" src="./Jquery/3.2.1/jquery.min.js" th:src="@{/Jquery/3.2.1/jquery.min.js}"></script>
-    <script type="text/javascript" src="./blueimp-md5/2.10.0/js/md5.min.js" th:src="@{/blueimp-md5/2.10.0/js/md5.min.js}"></script>
-    <script src="./layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}" ></script>
-    <script type="text/javascript" src="./admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
-    <script type="text/javascript" src="./admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
-    
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="/css/font.css" th:href="@{/admin/css/font.css}">
+    <link rel="stylesheet" href="/css/xadmin.css" th:href="@{/admin/css/xadmin.css}">
+    <script type="text/javascript" src="/Jquery/3.2.1/jquery.min.js" th:src="@{/Jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" src="/blueimp-md5/2.10.0/js/md5.min.js"
+            th:src="@{/blueimp-md5/2.10.0/js/md5.min.js}"></script>
+    <script src="/layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" src="/admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
+    <script type="text/javascript" src="/admin/admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
+    <script type="text/javascript" src="/admin/js/xconfig.js" th:src="@{/admin/js/xconfig.js}"></script>
     <script>
         // 是否开启刷新记忆tab功能
         var is_remember = false;
     </script>
 </head>
 <body>
-    <!-- 顶部开始 -->
-    <div class="container">
-        <div class="logo"><a href="./index.html">房屋后台管理系统2.0</a></div>
-        <div class="left_open">
-            <i title="展开左侧栏" class="iconfont">&#xe699;</i>
-        </div>
-        <ul class="layui-nav left fast-add" lay-filter="">
-          <li class="layui-nav-item">
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="/admin/login">房屋后台管理系统2.0</a></div>
+    <div class="left_open">
+        <i title="展开左侧栏" class="iconfont">&#xe699;</i>
+    </div>
+    <ul class="layui-nav left fast-add" lay-filter="">
+        <li class="layui-nav-item">
             <a href="javascript:;">+新增</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a onclick="x_admin_show('资讯','#')"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
-              <dd><a onclick="x_admin_show('图片','#')"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
-               <dd><a onclick="x_admin_show('用户 最大化','#','','',true)"><i class="iconfont">&#xe6b8;</i>用户最大化</a></dd>
-               <dd><a onclick="x_admin_add_to_tab('在tab打开','#',true)"><i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
+                <dd><a onclick="x_admin_show('资讯','#')"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
+                <dd><a onclick="x_admin_show('图片','#')"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
+                <dd><a onclick="x_admin_show('用户 最大化','#','','',true)"><i class="iconfont">&#xe6b8;</i>用户最大化</a></dd>
+                <dd><a onclick="x_admin_add_to_tab('在tab打开','#',true)"><i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
             </dl>
-          </li>
-        </ul>
-        <ul class="layui-nav right" lay-filter="">
-          <li class="layui-nav-item">
-            <a href="javascript:;">admin</a>
+        </li>
+    </ul>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;" id="name">登陆</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a onclick="x_admin_show('个人信息','#')">个人信息</a></dd>
-              <dd><a onclick="x_admin_show('切换帐号','#')">切换帐号</a></dd>
-              <dd><a href="./login.html">退出</a></dd>
+                <dd><a onclick="x_admin_show('个人信息','#')">个人信息</a></dd>
+                <dd><a onclick="swichLogin()">切换帐号</a></dd>
+                <dd><a onclick="outlogin(this,event)">退出</a></dd>
             </dl>
-          </li>
-          <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
-        </ul>
-        
-    </div>
-    <!-- 顶部结束 -->
-    <!-- 中部开始 -->
-     <!-- 左侧菜单开始 -->
-    <div class="left-nav">
-      <div id="side-nav">
+        </li>
+        <li class="layui-nav-item to-index"><a href="/index">前台首页</a></li>
+    </ul>
+
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<!-- 左侧菜单开始 -->
+<div class="left-nav">
+    <div id="side-nav">
         <ul id="nav">
             <li>
                 <a href="javascript:;">
@@ -65,24 +67,24 @@
                 </a>
                 <ul class="sub-menu">
                     <li date-refresh="1">
-                        <a _href="member-list.html">
+                        <a _href="./user/member-list.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员列表(静态表格)</cite>
-                            
+
                         </a>
-                    </li >
+                    </li>
                     <li>
-                        <a _href="member-list1.html">
+                        <a _href="./user/member-list1.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员列表(动态表格)</cite>
-                            
+
                         </a>
-                    </li >
+                    </li>
                     <li date-refresh="1">
-                        <a _href="member-del.html">
+                        <a _href="./user/member-del.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员删除</cite>
-                            
+
                         </a>
                     </li>
                     <li>
@@ -96,24 +98,85 @@
                                 <a _href="xxx.html">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>会员列表</cite>
-                                    
+
                                 </a>
-                            </li >
+                            </li>
                             <li>
                                 <a _href="xx.html">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>会员删除</cite>
-                                    
+
                                 </a>
                             </li>
                             <li>
                                 <a _href="xx.html">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>等级管理</cite>
-                                    
+
                                 </a>
                             </li>
-                            
+
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6b8;</i>
+                    <cite>会员管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li date-refresh="1">
+                        <a _href="member-list.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>会员列表(静态表格)</cite>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a _href="member-list1.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>会员列表(动态表格)</cite>
+
+                        </a>
+                    </li>
+                    <li date-refresh="1">
+                        <a _href="member-del.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>会员删除</cite>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont">&#xe70b;</i>
+                            <cite>会员管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a _href="xxx.html">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>会员列表</cite>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a _href="xx.html">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>会员删除</cite>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a _href="xx.html">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>等级管理</cite>
+
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
                 </ul>
@@ -130,7 +193,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>订单列表</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li>
@@ -145,7 +208,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>多级分类</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li>
@@ -160,7 +223,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>三级地区联动</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li>
@@ -175,25 +238,25 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>管理员列表</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="admin-role.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>角色管理</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="admin-cate.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限分类</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="admin-rule.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限管理</cite>
                         </a>
-                    </li >
+                    </li>
                 </ul>
             </li>
             <li>
@@ -208,7 +271,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>拆线图</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="echarts2.html">
                             <i class="iconfont">&#xe6a7;</i>
@@ -290,39 +353,126 @@
                 </ul>
             </li>
         </ul>
-      </div>
     </div>
-     <div class="x-slide_left"></div>
-    <!-- 左侧菜单结束 -->
-    <!-- 右侧主体开始 -->
-    <div class="page-content">
-        <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
-          <ul class="layui-tab-title">
+</div>
+<div class="x-slide_left"></div>
+<!-- 左侧菜单结束 -->
+<!-- 右侧主体开始 -->
+<div class="page-content">
+    <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+        <ul class="layui-tab-title">
             <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
-          </ul>
-            <!--主体右键 -->
-          <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
-                <dl>
-                    <dd data-type="this">关闭当前</dd>
-                    <dd data-type="other">关闭其它</dd>
-                    <dd data-type="all">关闭全部</dd>
-                </dl>
-          </div>
-          <div class="layui-tab-content">
+        </ul>
+        <!--主体右键 -->
+        <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
+            <dl>
+                <dd data-type="this">关闭当前</dd>
+                <dd data-type="other">关闭其它</dd>
+                <dd data-type="all">关闭全部</dd>
+            </dl>
+        </div>
+        <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
                 <iframe src='./welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
             </div>
-          </div>
-          <div id="tab_show"></div>
         </div>
+        <div id="tab_show"></div>
     </div>
-    <div class="page-content-bg"></div>
-    <!-- 右侧主体结束 -->
-    <!-- 中部结束 -->
-    <!-- 底部开始 -->
-    <div class="footer">
-        <div class="copyright">租房管理版本2.0</div>
-    </div>
-    <!-- 底部结束 -->
+</div>
+<div class="page-content-bg"></div>
+<!-- 右侧主体结束 -->
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">租房管理版本2.0</div>
+</div>
+<!-- 底部结束 -->
+<!--退出清除-->
+<script>
+    function outlogin(obj, event) {
+        localStorage.removeItem("TOKEN");
+        localStorage.removeItem("USER");
+        window.location.href = '/admin/login';
+    }
+
+    $(function () {
+        let swap = $('#name');
+        let username = swap.text();
+        layui.use(['xajax', 'layer'], function () {
+            let xajax = layui.xajax;
+            let layer = layui.layer;
+            let user = xajax.get_User();
+            if (user != null && username == '登陆') {
+                let localuser = null;
+                try {
+                    xajax.set_cache("USER", user.data[0]);
+                    localuser = user.data[0].nickName;
+                    if (localuser !== username) {
+                        $('#name').text(localuser);
+                    }
+                } catch (err) {
+                    localuser = user.nickName;
+                    if (localuser !== username) {
+                        $('#name').text(localuser);
+                    }
+                }
+            }
+        });
+    });
+
+    function swichLogin() {
+        $(function () {
+            layui.use(['form', 'xajax', 'layer', 'jquery'], function () {
+                let form = layui.form,
+                    xajax = layui.xajax,
+                    layer = layui.layer,
+                    $ = layui.jquery;
+                let index = layer.open({
+                    type: 1,
+                    content: $('#swichLogin'),
+                    area: [450 + 'px', 450 + 'px'],
+                    fix: false, //不固定
+                    maxmin: false,
+                    shadeClose: true,
+                    shade: 0.4,
+                    title: '更换用户',
+                    anim: 1,
+                    resize: false,
+                    scrollbar: false
+                });
+                form.on('submit(login)', function (data) {
+                    let loginData = data.field,
+                        token_url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
+                        user_url = 'http://test.sunxiaoyuan.com:8080/user/info',
+                        go_url = '/admin/index';
+                    let parm = {'username': loginData.username, 'password': loginData.password};
+                    $("input[type=reset]").trigger("click");
+                    layer.close(index);
+                    xajax.xlogin(token_url, user_url, parm, null, 'GET', function (res) {
+                        $('#name').text(res.data[0].nickName);
+                    });
+                    return false;
+                });
+            });
+        })
+    }
+</script>
+
 </body>
+
+<div class="login layui-anim layui-anim-up"
+     style="display: none;background-color: #47fbff;height: 420px;width: 420px;margin-top: 0px" id="swichLogin">
+    <div class="message">房屋管理系统2.0-管理登录</div>
+    <div id="darkbannerwrap"></div>
+
+    <form class="layui-form">
+        <input name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+        <hr class="hr15">
+        <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+        <hr class="hr15">
+        <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <input type="reset" style="display: none">
+        <hr class="hr20">
+    </form>
+</div>
 </html>

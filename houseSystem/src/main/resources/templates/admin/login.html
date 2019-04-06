@@ -15,6 +15,7 @@
     <script src="./../../static/layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" src="./../../static/admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
     <script type="text/javascript" src="./../../static/admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
+    <script type="text/javascript" src="./../../static/admin/js/xconfig.js" th:src="@{/admin/js/xconfig.js}"></script>
 
 </head>
 <body class="login-bg">
@@ -35,17 +36,16 @@
 
 <script>
     $(function () {
-        layui.use(['form', 'login'], function () {
+        layui.use(['form', 'xajax'], function () {
             let form = layui.form;
-            let login = layui.login;
+            let xajax = layui.xajax;
             form.on('submit(login)', function (data) {
                 let loginData = data.field,
                     token_url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
                     user_url = 'http://test.sunxiaoyuan.com:8080/user/info',
-                    go_url = './index.html';
+                    go_url = '/admin/index';
                 let parm = {'username': loginData.username, 'password': loginData.password};
-                console.log(parm);
-                login.xlogin(token_url, user_url, parm, go_url);
+                xajax.xlogin(token_url, user_url, parm, go_url);
                 return false;
             });
         });

@@ -6,8 +6,6 @@
 
 // };
 $(function () {
-    x_admin_loadjavascrip('./js/xconfig.js');
-
     layui.use(['form', 'element'],
         function () {
             layer = layui.layer;
@@ -367,19 +365,18 @@ function x_admin_show(title, url, w, h, full = false) {
     if (title == null || title == '') {
         title = false;
     }
-    ;
     if (url == null || url == '') {
         url = "404.html";
     }
-    ;
     if (w == null || w == '') {
         w = ($(window).width() * 0.9);
     }
-    ;
     if (h == null || h == '') {
         h = ($(window).height() - 50);
     }
-    ;
+    if (full) {
+        layer.full(index);
+    }
     var index = layer.open({
         type: 2,
         area: [w + 'px', h + 'px'],
@@ -402,9 +399,7 @@ function x_admin_show(title, url, w, h, full = false) {
             // location.replace(location.href);
         }
     });
-    if (full) {
-        layer.full(index);
-    }
+
 }
 
 /*关闭弹出框口*/

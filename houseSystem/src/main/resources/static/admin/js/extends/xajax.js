@@ -19,26 +19,33 @@ layui.define(["layer", "jquery"], function (exports) {
         }
     };
     let obj = {
-        xlogin: function (tokenUrl, userUrl, user, goUrl) {
-            debugger;
+        xlogin: function (tokenUrl, userUrl, user, goUrl = null, type = 'POST', callback) {
+            // debugger;
             $.ajax({
                 url: tokenUrl,
-                type: 'POST',
+                type: type,
                 data: user,
                 success: function (tokenRes) {
                     LocalStorage_Data.set('TOKEN', tokenRes, 7200000);
                     $.ajax({
                         url: userUrl,
-                        type: 'POST',
+                        type: type,
                         data: {'access_token': tokenRes.access_token},
                         success: function (userRes) {
                             LocalStorage_Data.set('USER', userRes, 7200000);
-                            layer.msg('登陆成功', {icon: 1}, function () {
-                                window.location.href = goUrl;
-                            });
+                            if (typeof callback === "function") {
+                                callback(userRes);
+                            }
+                            if (goUrl == null) {
+                                return false;
+                            } else {
+                                layer.msg('登陆成功', {icon: 1}, function () {
+                                    window.location.href = goUrl;
+                                });
+                            }
                         },
                         error: function () {
-                            layer.msg('用户获取失败', {icon: 2});
+                            layer.msg('用户名或者密码错误，请重新再试', {icon: 2});
                         }
                     });
                 },
@@ -83,14 +90,41 @@ layui.define(["layer", "jquery"], function (exports) {
         get_token: function () {
             return LocalStorage_Data.get('TOKEN');
         },
+        get_User: function () {
+            try {
+                let token = LocalStorage_Data.get('TOKEN');
+                if (token !== null) {
+                    return LocalStorage_Data.get('USER');
+                } else {
+                    return null;
+                }
+            } catch (err) {
+                return null;
+            }
+        },
         set_cache: function (key, value, hours = 2) {
-            LocalStorage_Data.set(key, value, hours)
+            let swap = 3600000 * hours;
+            LocalStorage_Data.set(key, value, swap);
         },
         get_cache: function (key) {
             LocalStorage_Data.get(key);
         },
+        error_token: function (url) {
+            try {
+                let token = LocalStorage_Data.get('TOKEN');
+                if (token == null) {
+                    layer.msg('没有获取授权', {icon: 2, time: 1000}, function () {
+                        window.location.href = url
+                    });
+                }
+            } catch (erro) {
+                layer.msg('没有获取授权', {icon: 2, time: 1000}, function () {
+                    window.location.href = url
+                });
+            }
+        }
     };
-    exports("login", obj);
-})
-;
+    exports("xajax", obj);
+});
+
 

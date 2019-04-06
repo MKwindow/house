@@ -117,20 +117,29 @@ layui.use(['table', 'jquery'], function () {
                         });
                         //表单提交
                         form.on('submit(up)', function (updata_data) {
+                            let token = get_localStorage('TOKEN');
                             console.log(updata_data.field); //当前容器的全部表单字段，名值对形式：{name: value}
                             let sum_data = Apd_update_submit(updata_data.field);
-                            update_obj(updata_data.field);
-                            // $.ajax({
-                            //     url: '/test',
-                            //     type:'POST',
-                            //     data:'parm',
-                            //     success:function (res) {
-                            //
-                            //     },
-                            //     error:function (res) {
-                            //
-                            //     }
-                            // });
+                            let parm = Object.assign(sum_data, {'access_token': token.access_token});
+                            $.ajax({
+                                // url: '/test',
+                                type: 'POST',
+                                data: parm,
+                                success: function (res) {
+                                    if (res === 200) {
+                                        layer.msg('修改成功', {icon: 1, time: 2000}, function () {
+                                            update_obj(updata_data.field);
+                                            layer.close(index);
+                                        });
+                                    }
+                                },
+                                error: function (res) {
+                                    layer.msg('修改失败，意外意外', {icon: 1, time: 2000}, function () {
+                                        layer.close(index);
+                                    });
+                                }
+                            });
+
                             function update_obj(data) {
                                 //将区域数字转换为字符
                                 let Apd_update_Data = Apd_update_seach(data, seach);
@@ -148,7 +157,7 @@ layui.use(['table', 'jquery'], function () {
                                     , "payway": Apd_update_Data.payway
                                     , "housedate": data.housedate
                                 });
-                                layer.close(index);
+
                             }
 
                             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
