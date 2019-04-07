@@ -14,6 +14,7 @@
     <script src="/layui/layui.js" charset="utf-8" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" src="/admin/js/xadmin.js" th:src="@{/admin/js/xadmin.js}"></script>
     <script type="text/javascript" src="/admin/js/cookie.js" th:src="@{/admin/js/cookie.js}"></script>
+    <script type="text/javascript" src="/admin/js/xconfig.js" th:src="@{/admin/js/xconfig.js}"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -26,10 +27,10 @@
     <form class="layui-form">
         <div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>邮箱
+                <span class="x-red">*</span>用户名
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required="" lay-verify="email"
+                <input type="text" id="L_email" name="username" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -41,7 +42,7 @@
                 <span class="x-red">*</span>昵称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
+                <input type="text" id="L_username" name="nickName" required="" lay-verify="nikename"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -76,10 +77,11 @@
     </form>
 </div>
 <script>
-    layui.use(['form', 'layer'], function () {
+    layui.use(['form', 'layer', 'xajax'], function () {
         $ = layui.jquery;
-        var form = layui.form
-            , layer = layui.layer;
+        let form = layui.form
+            , layer = layui.layer
+            , xajx = layui.xajax;
 
         //自定义验证规则
         form.verify({
@@ -98,14 +100,33 @@
 
         //监听提交
         form.on('submit(add)', function (data) {
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6}, function () {
-                //关闭当前frame
-                x_admin_close();
-
-                // 可以对父窗口进行刷新 
-                x_admin_father_reload();
+            let data = data.field;
+            let parm = {
+                'username': data.username,
+                'nickName': data.nickName,
+                'password': data.pass,
+                'phone': '13354617544',
+                'email': 'testadmin@test.com',
+                'idCard': '500222199909090909',
+                'sex': 0,
+                'status': 0,
+                'create_time': new Date()
+            };
+            xajx.xajax({
+                url: 'test',
+                date: parm,
+                success: function (res) {
+                    //发异步，把数据提交给php
+                    layer.msg("增加成功", {icon: 1}, function () {
+                        //关闭当前frame
+                        x_admin_close();
+                        // 可以对父窗口进行刷新
+                        x_admin_father_reload();
+                    });
+                },
+                error: function (res) {
+                    layer.msg('增加失败', {icon: 2})
+                }
             });
             return false;
         });

@@ -4,7 +4,7 @@
 // ③key(index)：在指定的数字位置获取该位置的名字。
 // ④removeItem（name）：删除由name指定的名值对
 // ⑤setItem(name,value)：为指定名字设置一个对应的值
-localStorage.setItem("name", "songyuhua");
+// localStorage.setItem("name", "songyuhua");
 
 layui.use('table', function () {
     var url1 = 'http://localhost:63342/resources/static/json/rent_manage.json';

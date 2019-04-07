@@ -54,11 +54,11 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
         let user = data.field;
         let parm = {
             'username': user.username,
-            'nick_name': user.nick_name,
+            'nickName': user.nick_name,
             'password': user.passwod,
             'phone': user.phone,
             'email': user.email,
-            'id_card': user.id_card,
+            'idCard': user.id_card,
             'sex': user.sex,
             'status': 1,
             'create_time': new Date()

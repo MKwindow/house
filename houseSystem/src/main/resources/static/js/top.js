@@ -120,15 +120,24 @@ function popwindows(id) {
             , closeBtn: 2
             , resize: false// 拉伸
             , shade: [0.8, '#393D49']// 遮罩
-            , shadeClose: true, // 点击遮罩关闭层
+            , shadeClose: true // 点击遮罩关闭层
+            , cancel: function (index, layero) {
+                layer.close(index)
+            }
+            , end: function () {
+                if (layer.index > 0) {
+                    layer.close(layer.index);
+                }
+            }
         });
     });
 }
 
 // 登陆函数
 function login() {
-    layui.use('jquery', function () {
-        var $ = layui.jquery;
+    layui.use(['jquery', 'layer'], function () {
+        let $ = layui.jquery;
+        let layer = layui.layer;
         $('#login').click(
             function () {
                 var username = $.trim($("#user")
@@ -154,7 +163,7 @@ function login() {
                     // "application/json;
                     // charset=utf-8",
                     success: function (res) {
-                        console.log(res);
+                        layer.close(layer.index);
                         success(res);
                     },// res为相应体,function为回调函数
                     error: error
@@ -201,12 +210,8 @@ function updateUsername(res) {
         };
         $.ajax({
             async: false,
-            url: 'http://test.sunxiaoyuan.com:8080/user/info'
-            // , url: '/test'
-            ,
-            type: 'GET'// method请求方式，get或者post
-            // , headers: {"Authorization": swapToken}
-            ,
+            url: 'http://test.sunxiaoyuan.com:8080/user/info',
+            type: 'GET',// method请求方式，get或者post
             data: tokenheaders,
             success: function (userdata) {
                 if (userdata.code === 200) {

@@ -3,7 +3,7 @@ function use_ajax(url, parm, success) {
     layui.use(['jquery', 'layer'], function () {
         let $ = layui.jquery,
             layer = layui.layer;
-        let token = get_token();
+        // let token = get_token();
         // try {
         //     parm = Object.assign(parm, {"access_token": token.access_token});
         //     let value = "bearer" + '\xa0' + token.access_token;
@@ -60,18 +60,18 @@ function get_search_json() {
     return search_data;
 }
 
-function get_token() {
-    var data = JSON.parse(localStorage.getItem("TOKEN"));
-    if (data !== null) {
-        // debugger
-        if (data.expirse != null && data.expirse < new Date().getTime()) {
-            localStorage.removeItem(key);
-        } else {
-            return data.value;
-        }
-    }
-    return null;
-}
+// function get_token() {
+//     var data = JSON.parse(localStorage.getItem("TOKEN"));
+//     if (data !== null) {
+//         // debugger
+//         if (data.expirse != null && data.expirse < new Date().getTime()) {
+//             localStorage.removeItem(key);
+//         } else {
+//             return data.value;
+//         }
+//     }
+//     return null;
+// }
 
 function error_token() {
     var userform = document.getElementById("signform");

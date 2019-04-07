@@ -361,7 +361,7 @@ function getCateId(cateId) {
     w       弹出层宽度（缺省调默认值）
     h       弹出层高度（缺省调默认值）
 */
-function x_admin_show(title, url, w, h, full = false) {
+function x_admin_show(title, url, w, h, full = false, endcallback) {
     if (title == null || title == '') {
         title = false;
     }
@@ -373,9 +373,6 @@ function x_admin_show(title, url, w, h, full = false) {
     }
     if (h == null || h == '') {
         h = ($(window).height() - 50);
-    }
-    if (full) {
-        layer.full(index);
     }
     var index = layer.open({
         type: 2,
@@ -390,16 +387,25 @@ function x_admin_show(title, url, w, h, full = false) {
             //窗口加载成功刷新frame
             // location.replace(location.href);
         },
-        cancel: function () {
+        cancel: function (index, layero) {
+            layer.close(index);
             //关闭窗口之后刷新frame
             // location.replace(location.href);
         },
         end: function () {
+            if (typeof endcallback === 'function') {
+                callback();
+            }
+            if (layer.index > 0) {
+                layer.close(layer.index);
+            }
             //窗口销毁之后刷新frame
             // location.replace(location.href);
         }
     });
-
+    if (full) {
+        layer.full(index);
+    }
 }
 
 /*关闭弹出框口*/
