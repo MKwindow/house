@@ -35,7 +35,6 @@ layui.use(['upload', 'jquery'], function () {
         "userphone": user.phone,
         "usermail": user.email,
         "attestation": user.status,
-        "userdddress": "公测上市",
         "useridentity": user.idCard,
         "usersex": user.sex
     };
@@ -94,20 +93,18 @@ layui.use(['form', 'jquery', 'layer'], function () {
         // delete userdata.useridentity;
         // let swapToken = "Bearer" + "\xa0" + token;
         let swap = {
+            'nickName':userdata.username,
             "id": userdata.userid,
             "phone": userdata.userphone,
             "email": userdata.usermail,
             'sex': userdata.usersex,
-            'idcard': userdata.useridentity,
+            'idCard': userdata.useridentity,
             "access_token": token
         };
         $.ajax({
             url: 'http://test.sunxiaoyuan.com:8080/user/update'
             , type: 'POST'
             , data: swap
-            // , headers: {
-            //     "Authorization": swapToken
-            // }
             , success: function (res) {
                 layer.msg('恭喜修改成功', {
                     icon: 1,
@@ -121,6 +118,7 @@ layui.use(['form', 'jquery', 'layer'], function () {
                             success: function (opt) {
                                 let data = {'value': opt, 'expirse': (new Date().getTime() + 86400000)};
                                 localStorage.setItem('USER', JSON.stringify(data));
+                                window.location.reload();
                             }
                         });
                 });
