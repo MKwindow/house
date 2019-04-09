@@ -14,7 +14,7 @@
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>发布房屋</legend>
             </fieldset>
-            <form class="layui-form" action="">
+            <form class="layui-form" enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label">房屋名称:</label>
                     <div class="layui-input-block">
@@ -93,25 +93,9 @@
                         </script>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">房屋图片:</label>
-                    <div class="layui-input-block">
-                        <button type="button" class="layui-btn" id="img">
-                            <i class="layui-icon">&#xe67c;</i>上传图片
-                        </button>
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">房屋设施:</label>
                     <div class="layui-input-block">
                         <textarea name="housefaci" placeholder="请输入内容" class="layui-textarea"></textarea>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">认证文件:</label>
-                    <div class="layui-input-block">
-                        <button type="button" class="layui-btn" id="txt">
-                            <i class="layui-icon">&#xe67c;</i>上传文件
-                        </button>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -120,6 +104,23 @@
                         <textarea name="houseaddress" placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
                 </div>
+                <!--<div class="layui-form-item">-->
+                    <!--<label class="layui-form-label">房屋图片:</label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<button type="button" class="layui-btn" id="img" >-->
+                            <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+                        <!--</button>-->
+                        <!--&lt;!&ndash;<input id="fileinfo" type="file" class="layui-btn" >&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="layui-form-item">-->
+                    <!--<label class="layui-form-label">认证文件:</label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<button type="button" class="layui-btn" id="txt">-->
+                            <!--<i class="layui-icon">&#xe67c;</i>上传文件-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit="" lay-filter="up" id="up">发布</button>

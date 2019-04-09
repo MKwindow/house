@@ -144,7 +144,7 @@ layui.define(["layer", "jquery"], function (exports) {
                 }
                 return fmt;
             }
-        },
+        }
     };
     exports("xajax", obj);
 });

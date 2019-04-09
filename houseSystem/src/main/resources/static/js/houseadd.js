@@ -179,8 +179,8 @@ function Apd_add(txt) {
         type_c = parseInt(txt.housestyle / 10 % 10),
         type_b = parseInt(txt.housestyle / 100 % 10),
         type_a = parseInt(txt.housestyle / 1000 % 10),
-        pay_a = txt.payway,
-        pay_b = 0;
+        pay_b = txt.payway % 10,
+        pay_a = parseInt(txt.payway / 10 % 10);
     let newData = new Date().toLocaleDateString();
     let userid = LocalStorage_Day.get("USER").id;
     let swap = {

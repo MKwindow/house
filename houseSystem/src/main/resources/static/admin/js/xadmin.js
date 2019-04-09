@@ -394,7 +394,7 @@ function x_admin_show(title, url, w, h, full = false, endcallback) {
         },
         end: function () {
             if (typeof endcallback === 'function') {
-                callback();
+                endcallback();
             }
             if (layer.index > 0) {
                 layer.close(layer.index);

@@ -55,12 +55,12 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
         let parm = {
             'username': user.username,
             'nickName': user.nick_name,
-            'password': user.passwod,
+            'password': user.password,
             'phone': user.phone,
             'email': user.email,
             'idCard': user.id_card,
             'sex': user.sex,
-            'status': 1,
+            'status': 0,
             'create_time': new Date()
         };
         let url = 'http://test.sunxiaoyuan.com:8080/user/add';

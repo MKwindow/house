@@ -36,7 +36,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                         "housearea": parm[0].list[i].addr_id,
                         "address": parm[0].list[i].addr_detail,
                         "status": parm[0].list[i].status >= '3' ? true : false,
-                        "payway": parm[0].list[i].pay_a,
+                        "payway": parm[0].list[i].pay_a * 10 + parm[0].list[i].pay_b,
                         "attestation": parm[0].list[i].status >= '1' ? true : false,
                         "date": parm[0].list[i].create_time,
                         "area": parm[0].list[i].area,

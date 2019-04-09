@@ -99,7 +99,7 @@ layui.use(['table', 'jquery'], function () {
                         'area': list[i].area,
                         'reservedate': list[i].time,
                         'houseid': list[i].house_id,
-                        'payway': list[i].pay_a,
+                        'payway': list[i].pay_a * 10 + list[i].pay_b,
                         'username': list[i].u_nick_name,
                         'reservestate': list[i].status == 0 ? false :true,
                         'tenantphone': list[i].phone,
