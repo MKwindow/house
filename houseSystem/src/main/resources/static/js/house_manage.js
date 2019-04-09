@@ -21,6 +21,13 @@ layui.use(['table', 'jquery'], function () {
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
         },
         parseData: function (res) { //res 即为原始返回的数据
+            let list = res.data[0].list;
+            for (let j = 0, len = list.length; j < len; j++) {
+                if (list[j].status === 3) {
+                    res.data[0].list.splice(j, 1);
+                    len --;
+                }
+            }
             let data = Apt_house(res);
             return {
                 "code": res.code, //解析接口状态
@@ -100,6 +107,7 @@ layui.use(['table', 'jquery'], function () {
                     , shadeClose: true//点击外围关闭弹窗
                     , title: "编辑内容" //不显示标题
                     , success: function (layero, index) {
+                        uploadimg(data);
                         let seach = get_localStorage('SEARCH');
                         let valdata = res_Apd_update_seach(data, seach);
                         form.val("formedit", {
@@ -227,24 +235,24 @@ function uploadimg(rowdata) {
     layui.use('upload', function () {
         let upload = layui.upload;
         let $ = layui.jquery;
+        let token = get_localStorage('TOKEN');
         upload.render({
             elem: '#image', //绑定元素
-            url: '/imgage/' //上传接口
+            url: 'http://test.sunxiaoyuan.com:8080/upload' //上传接口
             , method: 'post'//默认post
             , accept: 'images'//文件类型
             , data: {
-                houseid: rowdata.houseid//额外属性
+                'house_id': rowdata.houseid,//额外属性
+                'access_token':token.access_token
             }
             // , headers: {token: 'sasasas'}//头部属性
             , size: 20480//大小
             , auto: true//自动上传
             , done: function (res) {
-                console.log('上传完毕回调');
-                //上传完毕回调
+               layer.msg('添加成功',{icon:1,time:1000})
             }
             , error: function () {
-                console.log('请求异常回调');
-                //请求异常回调
+                layer.msg('添加失败',{icon:1,time:1000})
             }
         });
     });
@@ -267,7 +275,8 @@ function previewImg(obj) {
         scrollbar: false,//不现实滚动条
         title: "图片预览", //不显示标题
         content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
-        cancel: function () {
+        cancel: function (index) {
+            layer.close(index);
             // layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
         }
     });

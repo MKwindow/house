@@ -64,8 +64,8 @@ layui.define(["layer", "jquery"], function (exports) {
         }) {
             let token,
                 parm;
-            opt.token_name === 'TOKEN' ? token = LocalStorage_Data.get('TOKEN').access_token : token = LocalStorage_Data.get(opt.token_name).access_token;
-            if (opt.isheard === false) {
+            opt.token_name === 'TOKEN' || typeof opt.token_name === 'undefined' ? token = LocalStorage_Data.get('TOKEN').access_token : token = LocalStorage_Data.get(opt.token_name).access_token;
+            if (opt.isheard === false || typeof  opt.isheard === 'undefined') {
                 parm = Object.assign(opt.data, {'access_token': token});
                 $.ajax({
                         url: opt.url,
@@ -107,7 +107,7 @@ layui.define(["layer", "jquery"], function (exports) {
             LocalStorage_Data.set(key, value, swap);
         },
         get_cache: function (key) {
-            LocalStorage_Data.get(key);
+           return LocalStorage_Data.get(key);
         },
         error_token: function (url) {
             try {
@@ -144,7 +144,7 @@ layui.define(["layer", "jquery"], function (exports) {
                 }
                 return fmt;
             }
-        }
+        },
     };
     exports("xajax", obj);
 });

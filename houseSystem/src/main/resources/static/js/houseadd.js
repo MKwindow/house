@@ -1,7 +1,8 @@
-layui.use(['form', 'jquery', 'layer'], function () {
+layui.use(['form', 'jquery', 'layer', 'upload'], function () {
     let form = layui.form;
     let $ = layui.jquery,
-        layer = layui.layer;
+        layer = layui.layer,
+        upload = layui.upload;
     house_ajx(form);
     //监听提交
     form.on('submit(up)', function (data) {
@@ -14,8 +15,7 @@ layui.use(['form', 'jquery', 'layer'], function () {
         swap = Object.assign(swap, swapToken);
         $.ajax({
             url: url
-            , type: 'GET'
-            // , headers: {"Authorization": swapToken}
+            , type: 'POST'
             , data: swap
             , success: function (rescss) {
                 if (rescss.code == 200) {
@@ -34,13 +34,13 @@ layui.use(['form', 'jquery', 'layer'], function () {
                 });
             }
         });
-        console.log(JSON.stringify(data.field));
         return false;
     });
     form.render();
 });
-layui.use('upload', function () {
+layui.use(['upload', 'layer'], function () {
     let upload = layui.upload;
+    let layer = layui.layer;
     //执行实例
     //图片
     let token = getToken_house_add("TOKEN");
@@ -56,14 +56,25 @@ layui.use('upload', function () {
     upload.render({
         elem: '#img' //绑定元素
         // , headers: {"Authorization": swapToken}
-        , method: 'GET'//默认post
+        , method: 'POST'//默认post
         , url: 'http://test.sunxiaoyuan.com:8080/house/add' //上传接口
         , accept: 'images'
         , field: 'files'
         , auto: false//自动上传
-        , bindAction: '#up'//提交按钮 不使用默认提交方式
+        , multiple: true
+        // , bindAction: '#up'//提交按钮 不使用默认提交方式
+        // , choose: function (obj) {
+        //     let files = obj.pushFile();
+        //     obj.preview(function (index, file, result) {
+        //         // console.log(index); //得到文件索引
+        //         console.log(file); //得到文件对象
+        //         // console.log(result); //得到文件base64编码，比如图片
+        //         sessionStorage.setItem('file',JSON.stringify(file));
+        //     });
+        // }
+
         , done: function (res) {
-            console.log(res);
+            layer.msg('图片上传成功', {icon: 1, time: 1000});
         }
         , error: function (res) {
             console.log(res);
@@ -75,10 +86,9 @@ layui.use('upload', function () {
     //     elem: '#txt' //绑定元素
     //     , url: 'http://test.sunxiaoyuan.com:8080/house/add' //上传接口
     //     , method: 'post'//默认post
-    //     , accept: 'file'//文件类型
+    //     , accept: 'images'//文件类型
     //     , field: 'files'
     //     , size: 51200//大小
-    //     , exts: 'zip|rar|7z|doc|txt|docx'//允许后缀
     //     , auto: false//自动上传
     //     , bindAction: '#up'//提交按钮 不使用默认提交方式
     //     , done: function (res) {
@@ -169,8 +179,8 @@ function Apd_add(txt) {
         type_c = parseInt(txt.housestyle / 10 % 10),
         type_b = parseInt(txt.housestyle / 100 % 10),
         type_a = parseInt(txt.housestyle / 1000 % 10),
-        pay_b = txt.payway % 10,
-        pay_a = parseInt(txt.payway / 10 % 10);
+        pay_a = txt.payway,
+        pay_b = 0;
     let newData = new Date().toLocaleDateString();
     let userid = LocalStorage_Day.get("USER").id;
     let swap = {
@@ -189,7 +199,8 @@ function Apd_add(txt) {
         "info": txt.housefaci,
         "status": 0,
         "user_id": userid,
-        "create_time": newData
+        "create_time": newData,
+        // 'files': txt.files
     };
     return swap;
 }

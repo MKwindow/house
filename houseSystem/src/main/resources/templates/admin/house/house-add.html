@@ -26,154 +26,173 @@
     <form class="layui-form">
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>用户名
+                <span class="x-red">*</span>房屋名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="username" name="username" required="" lay-verify="required"
+                <input type="text" id="username" name="title" required=""
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>收货人
+                <span class="x-red">*</span>面积
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="username" name="username" required="" lay-verify="required"
+                <input type="text" id="username" name="area" required=""
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="phone" class="layui-form-label">
-                <span class="x-red">*</span>手机
+                <span class="x-red">*</span>地区
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="phone" name="phone" required="" lay-verify="phone"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>收货地址
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="username" name="username" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>配送物流
-            </label>
-            <div class="layui-input-inline">
-                <select id="shipping" name="shipping" class="valid">
-                    <option value="shentong">申通物流</option>
-                    <option value="shunfeng">顺丰物流</option>
+                <select name="addr_id" lay-verify="required">
+                    <option value=""></option>
+                    <option value="1">江北</option>
+                    <option value="2">渝北</option>
+                    <option value="3">南岸</option>
+                    <option value="4">巴南</option>
+                    <option value="5">沙坪坝</option>
+                    <option value="6">九龙坡</option>
+                    <option value="7">渝中</option>
+                    <option value="8">大渡口</option>
+                    <option value="9">江津</option>
+                    <option value="10">垫江县</option>
+                    <option value="11">巫溪县</option>
+                    <option value="12">彭水苗族土家族自治县</option>
+                    <option value="13">酉阳土家族苗族自治县</option>
+                    <option value="14">忠县</option>
+                    <option value="15">开州区</option>
+                    <option value="16">奉节县</option>
+                    <option value="17">荣昌区</option>
+                    <option value="18">巫山县</option>
+                    <option value="19">秀山土家族苗族自治县</option>
+                    <option value="20">城口县</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>支付方式
+                <span class="x-red">*</span>房屋类型
             </label>
             <div class="layui-input-inline">
-                <select name="contrller">
-                    <option>支付方式</option>
-                    <option>支付宝</option>
-                    <option>微信</option>
-                    <option>货到付款</option>
+                <select name="type_a">
+                    <option value="">请选择房间</option>
+                    <option value="1">一室</option>
+                    <option value="2">二室</option>
+                    <option value="3">三室</option>
+                    <option value="4">四室</option>
+                    <option value="5">五室</option>
                 </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="type_b">
+                    <option value="">请选择厅</option>
+                    <option value="1">一厅</option>
+                    <option value="2">一厅</option>
+                    <option value="3">三厅</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="type_c">
+                    <option value="">请选择卫生间</option>
+                    <option value="1">一卫</option>
+                    <option value="2">二卫</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="type_d">
+                    <option value="">请选择厨房</option>
+                    <option value="0">零厨房</option>
+                    <option value="1">一厨</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="username" class="layui-form-label">
+                <span class="x-red">*</span>房源风格
+            </label>
+            <div class="layui-input-inline">
+                <select name="style" lay-verify="required">
+                    <option value="">请选择方式</option>
+                    <option value="0">经济</option>
+                    <option value="1">精装</option>
+                    <option value="2">豪华</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="username" class="layui-form-label">
+                <span class="x-red">*</span>租金
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="rent" lay-verify="required" autocomplete="off"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>发票抬头
+                <span class="x-red">*</span>付款方式
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>
+                <select name="pay_a">
+                    <option value="">请选择方式</option>
+                    <option value="11">押一付一</option>
+                    <option value="13">押一付三</option>
+                    <option value="01">月租</option>
+                    <option value="06">半年</option>
+                    <option value="10">年租</option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label for="desc" class="layui-form-label">
-                商品增加
+                房屋设施:
             </label>
             <div class="layui-input-block">
-                <table class="layui-table">
-                    <tbody>
-                    <tr>
-                        <td>haier海尔 BC-93TMPF 93升单门冰箱
+                <textarea placeholder="请输入内容" id="desc" name="info" class="layui-textarea"></textarea>
             </div>
-            </td>
-            <td>0.01
         </div>
-        </td>
-        <td>984
-</div>
-</td>
-<td>1</td>
-<td>删除</td>
-</tr>
-<tr>
-    <td>haier海尔 BC-93TMPF 93升单门冰箱</div></td>
-    <td>0.01</div></td>
-    <td>984</div></td>
-    <td>1</td>
-    <td>删除</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="layui-form-item layui-form-text">
-    <label for="desc" class="layui-form-label">
-        描述
-    </label>
-    <div class="layui-input-block">
-        <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
-    </div>
-</div>
-<div class="layui-form-item">
-    <label for="L_repass" class="layui-form-label">
-    </label>
-    <button class="layui-btn" lay-filter="add" lay-submit="">
-        增加
-    </button>
-</div>
-</form>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">
+                房屋地址:
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" name="addr_detail" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="add" lay-submit="">
+                增加
+            </button>
+        </div>
+    </form>
 </div>
 <script>
     layui.use(['form', 'layer'], function () {
-        $ = layui.jquery;
-        var form = layui.form
+        let $ = layui.jquery;
+        let form = layui.form
             , layer = layui.layer;
-
-        //自定义验证规则
-        form.verify({
-            nikename: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符啊';
-                }
-            }
-            , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , repass: function (value) {
-                if ($('#L_pass').val() != $('#L_repass').val()) {
-                    return '两次密码不一致';
-                }
-            }
-        });
-
         //监听提交
         form.on('submit(add)', function (data) {
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6}, function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
+            $.ajax({
+                url: 'http://test.sunxiaoyuan.com:8080/house/add',
+                type: 'POST',
+                data: data.field,
+                success: function (res) {
+                    layer.msg("增加成功", {icon: 1}, function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                }
+                , error: function () {
+                    layer.msg("添加失败", {icon: 2});
+                }
             });
             return false;
         });
@@ -181,13 +200,6 @@
 
     });
 </script>
-<script>var _hmt = _hmt || [];
-(function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();</script>
 </body>
 
 </html>
