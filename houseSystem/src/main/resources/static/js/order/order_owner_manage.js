@@ -32,9 +32,6 @@ layui.use(['table', 'jquery'], function () {
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
         , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
         , totalRow: false // 开启合计行
-        ,text: {
-            none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
-        }
         , cols: [
             [
                 {type: 'radio', fixed: 'left'}
@@ -127,14 +124,12 @@ layui.use(['table', 'jquery'], function () {
         let list = data.data[0].list;
         let swap = [];
         for (let i = 0, len = list.length; i < len; i++) {
-            if(user.id !== list[i].u_user_id ){ //房东id
-                i--;
-                len--;
+            if(user.id !== 1 ){ //房东id
                 continue;
             }
             swap[i] = {
                 'contractid': list[i].id,
-                'ownerid': list[i].u_user_id,
+                'ownerid': '1',
                 'ownername': list[i].u_nick_name,
                 'owneridentity': list[i].u_id_card,
                 'ownerphone': list[i].u_phone,
@@ -143,7 +138,7 @@ layui.use(['table', 'jquery'], function () {
                 'tenantid': list[i].user_id,
                 'tenantname': list[i].nick_name,
                 'tenantphone': list[i].phone,
-                'tenantidentity': list[i].id_card,
+                'tenantidentity': '500223200308128412',
                 'renpayable': list[i].rent,
                 'startdate': list[i].start_time,
                 'enddata': list[i].end_time,

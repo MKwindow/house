@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>房屋后台管理系统2.0</title>
+    <title>欢迎页面-X-admin2.1</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -37,22 +37,97 @@
         <form class="layui-form layui-col-md12 x-so">
           <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end">
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option>支付状态</option>
+              <option>已支付</option>
+              <option>未支付</option>
+            </select>
+          </div>
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option>支付方式</option>
+              <option>支付宝</option>
+              <option>微信</option>
+              <option>货到付款</option>
+            </select>
+          </div>
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option value="">订单状态</option>
+              <option value="0">待确认</option>
+              <option value="1">已确认</option>
+              <option value="2">已收货</option>
+              <option value="3">已取消</option>
+              <option value="4">已完成</option>
+              <option value="5">已作废</option>
+            </select>
+          </div>
           <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <script type="text/html" id="toolbar">
+      <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加预约','./resever-add.html',458,361)"><i class="layui-icon"></i>添加</button>
-      </script>
-      <script type="text/html" id="checkboxTp2">
-        <input type="checkbox" name="status" value="{{d.id}}" status="{{d.status}}" title="认证状态" lay-filter="status" {{
-               d.status == 1 ? 'checked' : '' }}>
-      </script>
-      <script type="text/html" id="bar">
-        <a class="layui-btn layui-btn-xs" lay-event="orderSigned">取消预约</a>
-      </script>
-      <table id="reserver" lay-filter="reserver"></table>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加</button>
+        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+      </xblock>
+      <table class="layui-table">
+        <thead>
+          <tr>
+            <th>
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
+            <th>订单编号</th>
+            <th>收货人</th>
+            <th>总金额</th>
+            <th>应付金额</th>
+            <th>订单状态</th>
+            <th>支付状态</th>
+            <th>发货状态</th>
+            <th>支付方式</th>
+            <th>配送方式</th>
+            <th>下单时间</th>
+            <th >操作</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+            </td>
+            <td>2017009171822298053</td>
+            <td>老王:18925139194</td>
+            <td>7829.10</td>
+            <td>7854.10</td>
+            <td>待确认</td>
+            <td>未支付</td>
+            <td>未发货</td>
+            <td>其他方式</td>
+            <td>申通物流</td>
+            <td>2017-08-17 18:22</td>
+            <td class="td-manage">
+              <a title="查看"  onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
+                <i class="layui-icon">&#xe63c;</i>
+              </a>
+              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                <i class="layui-icon">&#xe640;</i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="page">
+        <div>
+          <a class="prev" href="">&lt;&lt;</a>
+          <a class="num" href="">1</a>
+          <span class="current">2</span>
+          <a class="num" href="">3</a>
+          <a class="num" href="">489</a>
+          <a class="next" href="">&gt;&gt;</a>
+        </div>
+      </div>
+
     </div>
     <script>
       layui.use('laydate', function(){
@@ -69,146 +144,58 @@
         });
       });
 
-      layui.use(['table', 'jquery','form','upload','xajax'], function () {
-          let table = layui.table,
-              form = layui.form,
-              $ = layui.jquery,
-              upload = layui.upload,
-              xajax = layui.xajax;
-          let order_list = 'http://test.sunxiaoyuan.com:8080/reserve/list';
-          xajax.error_token('/admin/index');
-          let token = xajax.get_token();
-          let user = xajax.get_User();
-          xajax.formatDate();
-          let retable = table.render({
-              elem: '#reserver'//表格绑定 根据id绑定
-              , url: order_list //请求地址
-              , method: 'POST'//请求方法
-              , where: {"access_token": token.access_token}
-              , request: {
-                  pageName: 'pageNum' //页码的参数名称，默认：page
-                  , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-              },
-              parseData: function (res) { //res 即为原始返回的数据
-                  return {
-                      "code": res.code, //解析接口状态
-                      "msg": res.msg, //解析提示文本
-                      "count": res.data[0].total, //解析数据长度
-                      "data": res.data[0].list //解析数据列表
-                  };
+       /*用户-停用*/
+      function member_stop(obj,id){
+          layer.confirm('确认要停用吗？',function(index){
+
+              if($(obj).attr('title')=='启用'){
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title','停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!',{icon: 5,time:1000});
+
+              }else{
+                $(obj).attr('title','启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!',{icon: 5,time:1000});
               }
-              , response: {
-                  statusCode: 200 //规定成功的状态码，默认：0
-              }
-              // , contentType: 'application/json'//发送到服务端的内容编码类型
-              , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
-              , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
-              , totalRow: false // 开启合计行
-              ,text: {
-                  none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
-              }
-              , cols: [
-                  [
-                      {type: 'radio', fixed: 'left'}
-                      , {
-                      field: 'id',
-                      title: '预定编号',
-                      width: 100,
-                      fixed: 'left',
-                      unresize: true,//不可编辑
-                      sort: true,//排序
-                      totalRowText: '合计'
-                  }
-                      , {field: 'title', title: '房屋名称', width: 80}
-                      , {field: 'type_a', title: '房间数', width: 80}
-                      , {field: 'type_b', title: '客厅数', width: 80}
-                      , {field: 'type_c', title: '卫生间数', width: 80}
-                      , {field: 'type_d', title: '厨房数', width: 80}
-                      , {field: 'house_id', title: '房屋编号', width: 100, sort: true}
-                      , {field: 'addr_detail', title: '房屋地址', width: 120}
-                      , {field: 'title', title: '房屋名称', width: 100}
-                      , {field: 'user_id', title: '租客编号', width: 100}
-                      , {field: 'nick_name', title: '租客名字', width: 100}
-                      , {field: 'phone', title: '租客电话', width: 120, sort: true}
-                      , {field: 'u_user_id', title: '租客编号', width: 100}
-                      , {field: 'u_nick_nam', title: '房东名字', width: 100}
-                      , {field: 'u_phone', title: '租客电话', width: 120, sort: true}
-                      , {field: 'rent', title: '租金', width: 90, sort: true,align:'center'}
-                      , {field: 'area', title: '面积', width: 90, sort: true,align:'center'}
-                      , {field: 'time', title: '预约日期', width: 160, sort: true,templet:function (d) {
-                          return new Date(d.time).format('yyyy-MM-dd hh-mm-ss');
-                      }}
-                      , {field: 'status', title: '预约状态', width: 120,align:'center', sort: true, templet: '#checkboxTp2'}
-                      , {fixed: 'right', title: '操作', toolbar: '#bar', width: 100}
-                  ]
-              ]
-              , page: true //分页开关
-              , loading: false
+              
           });
+      }
 
-          //工具栏事件
-          table.on('toolbar(reserver)', function (obj) {
-              let checkStatus = table.checkStatus(obj.config.id);
-              switch (obj.event) {
-                  case 'flush':
-                      retable.reload();
-                      break;
-              }
+      /*用户-删除*/
+      function member_del(obj,id){
+          layer.confirm('确认要删除吗？',function(index){
+              //发异步删除数据
+              $(obj).parents("tr").remove();
+              layer.msg('已删除!',{icon:1,time:1000});
           });
-          //监听行工具事件
-          //右侧
-          table.on('tool(reserver)', function (obj) {
-              let data = obj.data;
-              // console.log(obj);
-              switch (obj.event) {
-                  case 'orderSigned':
+      }
 
-                      break;
-                  case 'upOrder':
-                      layer.open({
-                          type: 1,
-                          shade: 0.8,
-                          offset: 'auto',
-                          area: [250 + 'px', 200 + 'px'],
-                          scrollbar: false,//不现实滚动条
-                          title: "文件上传", //不显示标题
-                          content: '内容' //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
-                      });
-                      break;
-              }
-          });
 
-          form.on('checkbox(status)', function (obj) {
-              let status = $(this).attr('status');
-              let Intstatus = parseInt(status);
-              if (obj.elem.checked === true && Intstatus === 0) {
-                  Intstatus = 1;
-              } else {
-                  Intstatus = 0;
-              }
-              xajax.xajax({
-                  url: 'http://test.sunxiaoyuan.com:8080/resever/update',
-                  data: {'id': this.value, 'status': Intstatus},
-                  success: function (res) {
-                      layer.tips('修改成功', obj.othis);
-                  },
-                  error: function () {
-                      layer.tips('修改失败', obj.othis);
-                  }
-              });
-          });
 
-      });
+      function delAll (argument) {
 
-      var plusXing = function (str="") {
-          if (str === "" || str === undefined){
-              return '无数据';
-          }else {
-              return str.substring(0, 6) + "**********" + str.substring(str.length - 2);
-          }
-      };
-
+        var data = tableCheck.getData();
+  
+        layer.confirm('确认要删除吗？'+data,function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+      }
     </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
   </body>
 
 </html>

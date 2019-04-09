@@ -158,24 +158,9 @@ layui.use(['table', 'jquery'], function () {
                 break;
             case 'edit':
                 layer.confirm('同意对方的申请吗', function (index) {
-                    let parm = {
-                        'id': data.reserveid,
-                        'status': data.reservestate + 1,
-                        'access_token': token.access_token
-                    };
-                    $.ajax({
-                        url: 'http://test.sunxiaoyuan.com:8080/reserve/update',
-                        type: 'POST',
-                        data: parm,
-                        success: function (res) {
-                            layer.msg('修改成功', {icon: 1, time: 1000});
-                            obj.update({
-                                "reservestate": data.reservestate + 1 // "name": "value"
-                            });
-                        }
-                        , error: function () {
-                            layer.msg('修改失败', {icon: 2, time: 1000});
-                        }
+                    //更新缓存里面的值
+                    obj.update({
+                        "reservestate": data.houseid // "name": "value"
                     });
                     layer.close(index);
                 });

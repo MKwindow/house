@@ -4,7 +4,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
         layer = layui.layer,
         form = layui.form;
     let houseid = localStorage.getItem("houseid");
-    var token = get_LocalStorage('TOKEN');
+    let token = get_LocalStorage('TOKEN');
     // "access_token": token.access_token
     let url = 'http://test.sunxiaoyuan.com:8080/house/list';
     $.ajax({
@@ -40,7 +40,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                         "attestation": parm[0].list[i].status >= '1' ? true : false,
                         "date": parm[0].list[i].create_time,
                         "area": parm[0].list[i].area,
-                        "username": parm[0].list[i].nick_name,
+                        "username": parm[0].list[i].username,
                         "faci": parm[0].list[i].info,
                         "housestyle": parm[0].list[i].type_a * 1000 + parm[0].list[i].type_b * 100 + parm[0].list[i].type_c * 10 + parm[0].list[i].type_d,
                         "userid": parm[0].list[i].user_id
@@ -132,7 +132,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
     $('#reservation_house').click(function () {
         let url = 'http://test.sunxiaoyuan.com:8080/reserve/add';
         try{
-            token = get_LocalStorage('TOKEN').access_token;
+            let token = get_LocalStorage('TOKEN').access_token;
         }catch (err){
             layer.msg('没有登陆快去登陆吧');
             popwindows('reservation_house');
@@ -219,7 +219,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
     $('#order_add').click(function () {
         let url = 'http://test.sunxiaoyuan.com:8080/order/add';
         try{
-            token = get_LocalStorage('TOKEN').access_token;
+            let token = get_LocalStorage('TOKEN').access_token;
         }catch (err){
             layer.msg('没有登陆快去登陆吧');
             popwindows('order_add');

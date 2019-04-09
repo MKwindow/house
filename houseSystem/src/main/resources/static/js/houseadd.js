@@ -1,8 +1,7 @@
-layui.use(['form', 'jquery', 'layer', 'upload'], function () {
+layui.use(['form', 'jquery', 'layer'], function () {
     let form = layui.form;
     let $ = layui.jquery,
-        layer = layui.layer,
-        upload = layui.upload;
+        layer = layui.layer;
     house_ajx(form);
     //监听提交
     form.on('submit(up)', function (data) {
@@ -15,7 +14,8 @@ layui.use(['form', 'jquery', 'layer', 'upload'], function () {
         swap = Object.assign(swap, swapToken);
         $.ajax({
             url: url
-            , type: 'POST'
+            , type: 'GET'
+            // , headers: {"Authorization": swapToken}
             , data: swap
             , success: function (rescss) {
                 if (rescss.code == 200) {
@@ -34,13 +34,13 @@ layui.use(['form', 'jquery', 'layer', 'upload'], function () {
                 });
             }
         });
+        console.log(JSON.stringify(data.field));
         return false;
     });
     form.render();
 });
-layui.use(['upload', 'layer'], function () {
+layui.use('upload', function () {
     let upload = layui.upload;
-    let layer = layui.layer;
     //执行实例
     //图片
     let token = getToken_house_add("TOKEN");
@@ -56,25 +56,14 @@ layui.use(['upload', 'layer'], function () {
     upload.render({
         elem: '#img' //绑定元素
         // , headers: {"Authorization": swapToken}
-        , method: 'POST'//默认post
+        , method: 'GET'//默认post
         , url: 'http://test.sunxiaoyuan.com:8080/house/add' //上传接口
         , accept: 'images'
         , field: 'files'
         , auto: false//自动上传
-        , multiple: true
-        // , bindAction: '#up'//提交按钮 不使用默认提交方式
-        // , choose: function (obj) {
-        //     let files = obj.pushFile();
-        //     obj.preview(function (index, file, result) {
-        //         // console.log(index); //得到文件索引
-        //         console.log(file); //得到文件对象
-        //         // console.log(result); //得到文件base64编码，比如图片
-        //         sessionStorage.setItem('file',JSON.stringify(file));
-        //     });
-        // }
-
+        , bindAction: '#up'//提交按钮 不使用默认提交方式
         , done: function (res) {
-            layer.msg('图片上传成功', {icon: 1, time: 1000});
+            console.log(res);
         }
         , error: function (res) {
             console.log(res);
@@ -86,9 +75,10 @@ layui.use(['upload', 'layer'], function () {
     //     elem: '#txt' //绑定元素
     //     , url: 'http://test.sunxiaoyuan.com:8080/house/add' //上传接口
     //     , method: 'post'//默认post
-    //     , accept: 'images'//文件类型
+    //     , accept: 'file'//文件类型
     //     , field: 'files'
     //     , size: 51200//大小
+    //     , exts: 'zip|rar|7z|doc|txt|docx'//允许后缀
     //     , auto: false//自动上传
     //     , bindAction: '#up'//提交按钮 不使用默认提交方式
     //     , done: function (res) {
@@ -199,8 +189,7 @@ function Apd_add(txt) {
         "info": txt.housefaci,
         "status": 0,
         "user_id": userid,
-        "create_time": newData,
-        // 'files': txt.files
+        "create_time": newData
     };
     return swap;
 }

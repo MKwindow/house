@@ -35,34 +35,66 @@
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
 </div>
 <div class="x-body">
-    <script type="text/html" id="topbar">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+            <input class="layui-input" placeholder="开始日" name="start" id="start">
+            <input class="layui-input" placeholder="截止日" name="end" id="end">
+            <div class="layui-input-inline">
+                <select name="contrller">
+                    <option>支付状态</option>
+                    <option>已支付</option>
+                    <option>未支付</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="contrller">
+                    <option>支付方式</option>
+                    <option>支付宝</option>
+                    <option>微信</option>
+                    <option>货到付款</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="contrller">
+                    <option value="">订单状态</option>
+                    <option value="0">待确认</option>
+                    <option value="1">已确认</option>
+                    <option value="2">已收货</option>
+                    <option value="3">已取消</option>
+                    <option value="4">已完成</option>
+                    <option value="5">已作废</option>
+                </select>
+            </div>
+            <input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加房屋','./house-add.html')"><i class="layui-icon"></i>添加
+        <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加
         </button>
-    </script>
+    </xblock>
     <script type="text/html" id="bar">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="attestation">添加图片</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
-    <div class="layui-upload-drag" id="file" style="display: none;">
-        <i class="layui-icon"></i>
-        <p>点击上传，或将文件拖拽到此处</p>
-    </div>
+
 
     <script type="text/html" id="status1">
-        <input type="checkbox" name="status" value="{{d.id}}" status="{{d.status}}" title="出租状态" lay-filter="status1" {{
-               d.status>=2
+        <input type="checkbox" name="status" value="{{d.id}}" title="出租状态" lay-filter="status1" {{ d.status>=2
         ? 'checked' : '' }}>
     </script>
     <script type="text/html" id="status2">
-        <input type="checkbox" name="status" value="{{d.id}}" status="{{d.status}}" title="认证状态" lay-filter="status2" {{
+        <input type="checkbox" name="status" value="{{d.id}}" title="认证状态" lay-filter="status2" {{
                d.status>= 1 ? 'checked' : '' }}>
     </script>
     <script type="text/html" id="img">
         {{#  if(d.pics && d.pics != ""){ }}
-        <img src={{=d.pics}} width="100%"
-                height="100%" onclick="previewImg(this)" >
+        <img
+                src={{=d.pics}} width="100%"
+                height="100%" onclick="previewImg(this)"
+        >
         {{#  }else{ }}
         无数据
         {{# } }}
@@ -86,6 +118,40 @@
             elem: '#end' //指定元素
         });
     });
+
+    /*用户-停用*/
+    function member_stop(obj, id) {
+        layer.confirm('确认要停用吗？', function (index) {
+
+            if ($(obj).attr('title') == '启用') {
+
+                //发异步把用户状态进行更改
+                $(obj).attr('title', '停用')
+                $(obj).find('i').html('&#xe62f;');
+
+                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+                layer.msg('已停用!', {icon: 5, time: 1000});
+
+            } else {
+                $(obj).attr('title', '启用')
+                $(obj).find('i').html('&#xe601;');
+
+                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                layer.msg('已启用!', {icon: 5, time: 1000});
+            }
+
+        });
+    }
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            //发异步删除数据
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!', {icon: 1, time: 1000});
+        });
+    }
+
 
     function delAll(argument) {
 
@@ -125,7 +191,7 @@
             , url: url //请求地址
             , method: 'POST'//请求方法
             , where: {"access_token": token.access_token}
-            , toolbar: '#topbar' //开启表格头部工具栏区域 左边图标
+            , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
             , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
             , totalRow: false // 开启合计行
             , request: {
@@ -139,12 +205,6 @@
                         res.data[0].list[i].pics = res.data[0].list[i].pics[0].url
                     } else {
                         res.data[0].list[i].pics = '/images/temp/property_01.jpg'
-                    }
-                }
-                for (let j = 0, len = list.length; j < len; j++) {
-                    if (list[j].status === 5) {
-                        res.data[0].list.splice(j, 1);
-                        len --;
                     }
                 }
                 return {
@@ -219,7 +279,7 @@
 
                     , {field: 'status', title: '出租状态', width: 130, sort: true, templet: '#status1'}
                     , {field: 'status', title: '认证状态', width: 130, sort: true, templet: '#status2'}
-                    , {fixed: 'right', title: '操作', align: 'center', toolbar: '#bar', width: 240}
+                    , {fixed: 'right', title: '操作', align: 'center', toolbar: '#bar', width: 200}
                 ]
             ]
             , page: true //分页开关
@@ -243,40 +303,80 @@
                 case 'del':
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
-                        xajax.xajax({
-                            url: 'http://test.sunxiaoyuan.com:8080/house/update',
-                            data: {'id': data.id, 'status': 5},
-                            success: function () {
-                                layer.msg('删除成功', {icon: 1, time: 1000});
-                            }
-                            , error: function () {
-                                layer.msg('删除失败', {icon: 2, time: 1000});
-                            }
-                        });
                         layer.close(index);
                     });
                     break;
                 case 'edit':
-                    sessionStorage.setItem('houseedit', JSON.stringify(data));
-                    x_admin_show('编辑', './house-edit.html', 600, 400, false, function () {
-                        let newdata = JSON.parse(sessionStorage.getItem('houseedit'));
-                        if (newdata === data) {
-                            return false;
-                        } else {
-                            obj.update({
-                                'addr_detail': newdata.addr_detail,
-                                'addr_id': newdata.addr_id,
-                                'area': newdata.area,
-                                'title': newdata.title,
-                                'info': newdata.info,
-                                'rent': newdata.rent,
-                                'style': newdata.style,
-                                'pay_a': newdata.pay_a,
-                                'pay_b': newdata.pay_b,
-                                'type_a': newdata.type_a,
-                                'type_b': newdata.type_b,
-                                'type_c': newdata.type_c,
-                                'type_d': newdata.type_d
+                    layer.open({
+                        type: 1
+                        , shade: 0.8
+                        , offset: 'auto'
+                        , content: $('#formedit')
+                        , area: ['600px', '600px']
+                        , shadeClose: true//点击外围关闭弹窗
+                        , title: "编辑内容" //不显示标题
+                        , success: function (layero, index) {
+                            let seach = get_localStorage('SEARCH');
+                            let valdata = res_Apd_update_seach(data, seach);
+                            form.val("formedit", {
+                                "houseid": data.houseid // "name": "value"
+                                , 'housename': data.housename
+                                , 'area': valdata.area
+                                , "housestyle": data.housestyle
+                                , "houseaddress": data.houseaddress
+                                , "housearea": data.housearea
+                                , "housefaci": data.housefaci
+                                , "zent": data.zent
+                                , "style": valdata.style
+                                , "payway": valdata.payway
+                                , "housedate": valdata.style
+                            });
+                            //表单提交
+                            form.on('submit(up)', function (updata_data) {
+                                let token = get_localStorage('TOKEN');
+                                console.log(updata_data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+                                let sum_data = Apd_update_submit(updata_data.field);
+                                let parm = Object.assign(sum_data, {'access_token': token.access_token});
+                                $.ajax({
+                                    // url: '/test',
+                                    type: 'POST',
+                                    data: parm,
+                                    success: function (res) {
+                                        if (res === 200) {
+                                            layer.msg('修改成功', {icon: 1, time: 2000}, function () {
+                                                update_obj(updata_data.field);
+                                                layer.close(index);
+                                            });
+                                        }
+                                    },
+                                    error: function (res) {
+                                        layer.msg('修改失败，意外意外', {icon: 1, time: 2000}, function () {
+                                            layer.close(index);
+                                        });
+                                    }
+                                });
+
+                                function update_obj(data) {
+                                    //将区域数字转换为字符
+                                    let Apd_update_Data = Apd_update_seach(data, seach);
+                                    //更新缓存里面的值
+                                    obj.update({
+                                        "houseid": data.houseid // "name": "value"
+                                        , 'housename': data.housename
+                                        , 'area': Apd_update_Data.area
+                                        , "housestyle": Apd_update_Data.housestyle
+                                        , "houseaddress": data.houseaddress
+                                        , "housearea": data.housearea
+                                        , "housefaci": data.housefaci
+                                        , "zent": data.zent
+                                        , "style": Apd_update_Data.style
+                                        , "payway": Apd_update_Data.payway
+                                        , "housedate": data.housedate
+                                    });
+
+                                }
+
+                                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
                             });
                         }
                     });
@@ -287,80 +387,24 @@
                         shade: 0.8,
                         offset: 'auto',
                         area: [250 + 'px', 200 + 'px'],
-                        // shadeClose: true,//点击外围关闭弹窗
+                        shadeClose: true,//点击外围关闭弹窗
                         scrollbar: false,//不现实滚动条
                         title: "文件上传", //不显示标题
                         content: $('#file'), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
-                        success:function (index) {
-                            upload.render({
-                                elem: '#upimg', //绑定元素
-                                url: 'http://test.sunxiaoyuan.com:8080/upload' //上传接口
-                                , method: 'post'//默认post
-                                , accept: 'images'//文件类型
-                                , data: {
-                                    'house_id': data.houseid,//额外属性
-                                    'access_token':token.access_token
-                                }
-                                , size: 20480//大小
-                                , auto: true//自动上传
-                                , done: function (res) {
-                                    layer.close(index);
-                                    layer.msg('添加成功',{icon:1,time:1000})
-                                }
-                                , error: function () {
-                                    layer.close(index);
-                                    layer.msg('添加失败',{icon:1,time:1000})
-                                }
-                            });
-                        },
-                        cancel:function (index,layero) {
-                          layer.close(index);
-                        }
                     });
-
+                    uploadData(data);
                     break;
             }
         });
 
         //监听出租状态锁定操作
         form.on('checkbox(status1)', function (obj) {
-            let status = $(this).attr('status');
-            let Intstatus = parseInt(status);
-            if (obj.elem.checked === true && Intstatus === 1) {
-                Intstatus = 2;
-            } else {
-                Intstatus = 1;
-            }
-            xajax.xajax({
-                url: 'http://test.sunxiaoyuan.com:8080/house/update',
-                data: {'id': this.value, 'status': Intstatus},
-                success: function (res) {
-                    layer.tips('修改成功', obj.othis);
-                },
-                error: function () {
-                    layer.tips('修改失败', obj.othis);
-                }
-            });
-        });
+            // {"access_token": token.access_token}
+            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
+        })
         // 监听认证状态锁定操作
         form.on('checkbox(status2)', function (obj) {
-            let status = $(this).attr('status');
-            let Intstatus = parseInt(status);
-            if (obj.elem.checked === true && Intstatus === 0) {
-                Intstatus = 1;
-            } else {
-                Intstatus = 0;
-            }
-            xajax.xajax({
-                url: 'http://test.sunxiaoyuan.com:8080/house/update',
-                data: {'id': this.value, 'status': Intstatus},
-                success: function (res) {
-                    layer.tips('修改成功', obj.othis);
-                },
-                error: function () {
-                    layer.tips('修改失败', obj.othis);
-                }
-            });
+            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
         });
 
     });
