@@ -30,13 +30,13 @@ CREATE TABLE `house` (
   `type_c` int(11) NOT NULL COMMENT '几厨',
   `type_d` int(11) NOT NULL COMMENT '几位',
   `style` int(11) NOT NULL COMMENT '风格1经济(TODO)',
-  `pay_a` int(11) NOT NULL COMMENT '压几',
-  `pay_b` int(11) NOT NULL COMMENT '付几',
+  `pay_a` int(11) NOT NULL COMMENT '压几付几',
+  `pay_b` int(11) NOT NULL COMMENT '房屋状态',
   `info` text COLLATE utf8mb4_unicode_520_ci NOT NULL COMMENT '详细补充',
   `addr_id` int(11) NOT NULL COMMENT '检索主地址',
   `addr_detail` text COLLATE utf8mb4_unicode_520_ci NOT NULL COMMENT '详细地址',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `status` int(11) NOT NULL COMMENT '房屋状态',
+  `status` int(11) NOT NULL COMMENT '认证状态',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci COMMENT='房屋表';
 
