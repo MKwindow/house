@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxh.house.mapper.OrderMapper">
+    <insert id="insertOrder" parameterType="Order">
+      INSERT INTO `order`(user_id, house_id, start_time, end_time, status, remark, snapshot, create_time) VALUES
+          (#{user_id},#{house_id},#{start_time},#{end_time},#{status},#{remark},#{snapshot},#{create_time})
+    </insert>
+    <update id="updateOrder" parameterType="Order">
+      UPDATE `order`
+      <set>
+          <if test="status != null">
+              status = #{status},
+          </if>
+          <if test="close != null">
+              close = #{close},
+          </if>
+          <if test="define != null">
+              define = #{define},
+          </if>
+      </set>
+        WHERE id = #{id}
+    </update>
+    <select id="selectOrder" resultType="java.util.Map"  parameterType="java.lang.Integer">
+      SELECT
+      o.id,o.user_id, o.house_id, o.start_time, o.end_time, o.status, o.remark,o.create_time,o.close,o.define,
+      h.user_id u_user_id, h.title, h.area, h.rent, h.type_a, h.type_b, h.type_c, h.type_d, h.style, h.pay_a, h.pay_b, h.info, h.addr_id, h.addr_detail, h.create_time house_create_time, h.status house_status,
+      u.nick_name,u.id_card,u.phone,
+      u1.nick_name u_nick_name,u1.id_card u_id_card,u1.phone u_phone
+      FROM `order` o
+      LEFT JOIN house h ON o.house_id = h.id
+      LEFT JOIN user u ON o.user_id = u.id
+      LEFT JOIN user u1 ON h.user_id = u1.id
+        <where>
+            <if test="user_id != null">
+                AND u.id = #{user_id} 
+            </if>
+           	<if test="owen_id != null">
+               AND u1.id = #{owen_id}
+            </if>
+            <if test="close != null">
+               AND o.close = #{close}
+            </if>
+            <if test="define != null">
+               AND o.define = #{define}
+            </if>
+        </where>
+    </select>
+</mapper>

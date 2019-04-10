@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxh.house.mapper.HouseMapper">
+
+    <select id="selectAddr" resultType="HouseAddr">
+      SELECT * FROM house_addr;
+    </select>
+
+    <insert id="insertAddr" useGeneratedKeys="true" keyProperty="id" parameterType="HouseAddr">
+      INSERT INTO house_addr(name) VALUES (#{name});
+    </insert>
+
+    <insert id="insertHouse" parameterType="House" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO house(
+            user_id, title, area, rent, type_a, type_b, type_c, type_d, style, pay_a, pay_b, info, addr_id, addr_detail, create_time, status
+        ) VALUES(
+            #{user_id},#{title},#{area},#{rent},#{type_a},#{type_b},#{type_c},#{type_d},#{style},#{pay_a},#{pay_b},#{info},#{addr_id},#{addr_detail},#{create_time},#{status}
+        );
+    </insert>
+    <update id="updateHouse" parameterType="House">
+        UPDATE house
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="rent != null">
+                rent = #{rent},
+            </if>
+            <if test="pay_a != null">
+                pay_a = #{pay_a},
+            </if>
+            <if test="pay_b != null">
+                pay_b = #{pay_b},
+            </if>
+            <if test="info != null and info != ''">
+                info = #{info},
+            </if>
+            <if test="addr_detail != null and addr_detail != ''">
+                addr_detail = #{addr_detail},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+
+    <select id="selectHouseList" parameterType="House" resultType="map">
+        SELECT user.nick_name,house.id,user_id, title, area, rent, type_a, type_b, type_c, type_d, style, pay_a, pay_b, info, addr_id, addr_detail, house.create_time,house.status FROM house
+        LEFT JOIN user ON user.id = user_id
+        <where>
+            <if test="id != null">
+                AND house.id = #{id}
+            </if>
+            <if test="user_id != null">
+                AND house.user_id = #{user_id}
+            </if>
+            <if test="type_a != null">
+                AND type_a = #{type_a}
+            </if>
+            <if test="type_b != null">
+                AND type_b = #{type_b}
+            </if>
+            <if test="type_c != null">
+                AND type_c = #{type_c}
+            </if>
+            <if test="type_d != null">
+                AND type_d = #{type_d}
+            </if>
+            <if test="rent != null">
+                AND rent &lt; ${rent}
+            </if>
+            <if test="pay_a != null">
+                AND pay_a = #{pay_a}
+            </if>
+            <if test="pay_b != null">
+                AND pay_b = #{pay_b}
+            </if>
+            <if test="addr_detail != null and addr_detail != null">
+                AND addr_detail LIKE  CONCAT('%',#{addr_detail},'%')
+            </if>
+            <if test="status != null">
+                AND house.status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertHousePic" parameterType="HousePic">
+        INSERT INTO house_pic(house_id, url, status) VALUES(#{house_id},#{url},#{status});
+    </insert>
+    <update id="updateHousePic" parameterType="HousePic">
+        UPDATE house_pic SET status = 0 WHERE id = #{id};
+    </update>
+    <select id="selectHousePic" resultType="HousePic">
+        SELECT id,house_id,url,status FROM house_pic WHERE house_id = #{house_id};
+    </select>
+</mapper>

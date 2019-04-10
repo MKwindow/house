@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxh.house.mapper.UserMapper">
+    <resultMap id="user" type="User">
+        <result column="id" property="id" />
+        <result column="nick_name" property="nickName" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="credit" property="credit" />
+        <result column="status" property="status" />
+        <result column="id_card" property="idCard" />
+        <result column="sex" property="sex" />
+        <result column="create_time" property="createTime" />
+        <collection property="roles" ofType="Role">
+            <result column="role_id" property="id" />
+            <result column="role_name" property="roleName" />
+        </collection>
+    </resultMap>
+    <insert id="insertUser" parameterType="User"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user(nick_name,username,password,phone,email,credit,status,create_time,id_card,sex)
+        VALUES
+        (#{nickName},#{username},#{password},#{phone},#{email},#{credit},#{status},#{createTime},#{idCard},#{sex})
+    </insert>
+    <update id="updateUser" parameterType="User">
+        UPDATE user
+        <set>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="credit != null">
+                credit = #{credit},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="idCard != null">
+                id_card = #{idCard},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <select id="selectUsers" parameterType="User" resultMap="user">
+        SELECT
+        id,nick_name,username,email,phone,credit,status,create_time,id_card,sex
+        FROM user
+        <where>
+            <if test="nickName != null and nickName != ''">
+                AND nick_name = #{nickName}
+            </if>
+            <if test="username != null and username != ''">
+                AND username = #{username},
+            </if>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone = #{phone}
+            </if>
+            <if test="credit != null">
+                AND credit = #{credit}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="idCard != null and idCard != ''">
+                AND id_card = #{idCard}
+            </if>
+            <if test="sex != null">
+                AND sex = #{sex}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+    <select id="selectUserByName" resultMap="user">
+        SELECT
+            u.id,u.nick_name,u.username,u.password,u.phone,u.email,u.credit,u.status,u.create_time,u.id_card,u.sex,
+            r.id AS role_id,r.role_name
+        FROM user AS u
+            LEFT JOIN user_role AS ur ON ur.user_id = u.id
+            LEFT JOIN role AS r ON r.id = ur.role_id
+        WHERE u.username = #{username}
+    </select>
+
+
+    <!-- ============================================================================ -->
+    <resultMap id="role" type="Role">
+        <result column="id" property="id" />
+        <result column="role_name" property="roleName" />
+    </resultMap>
+    <insert id="insertRole" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO role(role_name) VALUES (#{roleName})
+    </insert>
+    <update id="updateRole" parameterType="Role">
+        UPDATE role SET role_name = #{roleName} WHERE id = #{id};
+    </update>
+    <select id="selectRoles" parameterType="Role" resultMap="role">
+        SELECT id,role_name FROM role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                AND role_name = #{roleName}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <!-- ============================================================================ -->
+
+    <insert id="addUserRole">
+        INSERT INTO user_role(user_id, role_id,status) VALUES (#{user.id},#{role.id},1)
+    </insert>
+
+    <update id="updateUserRole">
+        UPDATE user_role SET status = 0 WHERE user_id = #{user.id} AND role_id = #{role.id}
+    </update>
+
+    <insert id="insertUserPic" parameterType="UserPic">
+        INSERT INTO user_pic(user_id, url, status) VALUES(#{user_id},#{url},#{status});
+    </insert>
+    <update id="updateUserPic" parameterType="UserPic">
+        UPDATE user_pic SET status = 0 WHERE id = #{id};
+    </update>
+    <select id="selectUserPic" resultType="UserPic">
+        SELECT id,user_id,url,status FROM user_pic WHERE user_id = #{user_id};
+    </select>
+</mapper>
