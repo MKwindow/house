@@ -80,7 +80,7 @@ function submitFn(obj, evt) {
 //轮转函数
 function carouse(ins, opt) {
     let carousel_data = null;
-    let url = "http://test.sunxiaoyuan.com:8080/house/list";
+    let url = "http://localhost:8080/house/list";
     let data = {"pageNum": "1", "pageSize": "10", 'status': 1,'pay_b':0};
     //获取轮转数据
     use_ajax(url, data, function (data) {
@@ -102,7 +102,7 @@ get_page();
 //分页数据操作
 function get_page() {
     let page = {"pageNum": 1, 'pageSize': 6, 'status': 1,'pay_b':0};
-    let url = "http://test.sunxiaoyuan.com:8080/house/list";
+    let url = "http://localhost:8080/house/list";
     use_ajax(url, page, function (data) {
         if (data.code === 200) {
             let page_data = {"list": data.data};

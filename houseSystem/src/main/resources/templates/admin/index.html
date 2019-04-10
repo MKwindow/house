@@ -238,27 +238,6 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe6b4;</i>
-                    <cite>其它页面</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="login.html" target="_blank">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>登录页面</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="error.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>错误页面</cite>
-                        </a>
-                    </li>
-                </ul>
-            </li>
         </ul>
     </div>
 </div>
@@ -310,7 +289,23 @@
             let layer = layui.layer;
             xajax.error_token('/admin/login');
             let user = xajax.get_User();
+
             if (user != null && username == '登陆') {
+                let reg = new RegExp(/^admin.*?/gi);
+                let name;
+                try {
+                   name = user.data[0].username;
+                    if(reg.test(name) === false){
+                        // window.location.href = '/admin/login';
+                        return false;
+                    }
+                }catch {
+                    name = user.username;
+                    if(reg.test(name) === false){
+                        // window.location.href = '/admin/login';
+                        return false;
+                    }
+                }
                 let localuser = null;
                 try {
                     xajax.set_cache("USER", user.data[0]);
@@ -350,8 +345,8 @@
                 });
                 form.on('submit(login)', function (data) {
                     let loginData = data.field,
-                        token_url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
-                        user_url = 'http://test.sunxiaoyuan.com:8080/user/info',
+                        token_url = 'http://localhost:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
+                        user_url = 'http://localhost:8080/user/info',
                         go_url = '/admin/index';
                     let parm = {'username': loginData.username, 'password': loginData.password};
                     $("input[type=reset]").trigger("click");

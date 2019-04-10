@@ -1,14 +1,13 @@
 package com.example.houseSystem;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class ControllerTest {
+public class Controllerhouse {
 
 	// 主页
-	@RequestMapping("/index")
+	@RequestMapping(value = { "/index", "/" })
 	public String index() {
 		return "index";
 	}
@@ -72,5 +71,6 @@ public class ControllerTest {
 	public String showOwnerManage() {
 		return "main/order/order_owner_manage";
 	}
-
+	
+	
 }

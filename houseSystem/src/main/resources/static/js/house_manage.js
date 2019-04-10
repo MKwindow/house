@@ -3,14 +3,14 @@ layui.use(['table', 'jquery'], function () {
         form = layui.form,
         $ = layui.jquery,
         upload = layui.upload;
-    let url = 'http://test.sunxiaoyuan.com:8080/house/list';
+    let url = 'http://localhost:8080/house/list';
     let token = get_localStorage("TOKEN");
     let user = get_localStorage("USER");
     let retable = table.render({
         elem: '#renthourse'//表格绑定 根据id绑定
         , url: url //请求地址
         , method: 'POST'//请求方法
-        , where: {"access_token": token.access_token, 'user_id': user.id}
+        , where: {"access_token": token.access_token, 'user_id': user.id, 'pay_b': 0}
         // , contentType: 'application/json'//发送到服务端的内容编码类型
         , toolbar: '#toolbar' //开启表格头部工具栏区域 左边图标
         , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
@@ -25,7 +25,7 @@ layui.use(['table', 'jquery'], function () {
             for (let j = 0, len = list.length; j < len; j++) {
                 if (list[j].status === 3) {
                     res.data[0].list.splice(j, 1);
-                    len --;
+                    len--;
                 }
             }
             let data = Apt_house(res);
@@ -67,7 +67,7 @@ layui.use(['table', 'jquery'], function () {
             }
                 , {field: 'payway', title: '缴费方式', width: 100}
                 , {field: 'housedate', title: '发布时间', width: 100, sort: true}
-                , {field: 'city', title: '出租状态', width: 125, sort: true, templet: '#checkboxTp1'}
+                , {field: 'city', title: '出租状态', width: 130, sort: true, templet: '#checkboxTp1'}
                 , {field: 'attestation', title: '认证状态', width: 100, sort: true, templet: '#checkboxTp2'}
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: 200}
             ]
@@ -93,10 +93,22 @@ layui.use(['table', 'jquery'], function () {
             case 'del':
                 layer.confirm('真的删除行么', function (index) {
                     obj.del();
+                    $.xajax({
+                        url: 'http://localhost:8080/house/update',
+                        type:'POST',
+                        data: {'id': data.id, 'pay_b': 1},
+                        success: function () {
+                            layer.msg('删除成功', {icon: 1, time: 1000});
+                        }
+                        , error: function () {
+                            layer.msg('删除失败', {icon: 2, time: 1000});
+                        }
+                    });
                     layer.close(index);
                 });
                 break;
             case 'edit':
+                uploadimg(data);
                 house_ajx(form);
                 layer.open({
                     type: 1
@@ -107,7 +119,6 @@ layui.use(['table', 'jquery'], function () {
                     , shadeClose: true//点击外围关闭弹窗
                     , title: "编辑内容" //不显示标题
                     , success: function (layero, index) {
-                        uploadimg(data);
                         let seach = get_localStorage('SEARCH');
                         let valdata = res_Apd_update_seach(data, seach);
                         form.val("formedit", {
@@ -130,11 +141,11 @@ layui.use(['table', 'jquery'], function () {
                             let sum_data = Apd_update_submit(updata_data.field);
                             let parm = Object.assign(sum_data, {'access_token': token.access_token});
                             $.ajax({
-                                // url: '/test',
+                                url: 'http://localhost:8080/house/update',
                                 type: 'POST',
                                 data: parm,
                                 success: function (res) {
-                                    if (res === 200) {
+                                    if (res.code === 200) {
                                         layer.msg('修改成功', {icon: 1, time: 2000}, function () {
                                             update_obj(updata_data.field);
                                             layer.close(index);
@@ -191,13 +202,29 @@ layui.use(['table', 'jquery'], function () {
 
     //监听出租状态锁定操作
     form.on('checkbox(lockcity)', function (obj) {
-        // {"access_token": token.access_token}
-        layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
+        let status = $(this).attr('status');
+        let Intstatus = parseInt(status);
+        if (obj.elem.checked === true && Intstatus === 1) {
+            Intstatus = 2;
+        } else if (obj.elem.checked === false && Intstatus === 2) {
+            Intstatus = 1;
+        } else {
+            Intstatus = 0;
+        }
+        $.ajax({
+            url: 'http://localhost:8080/house/update',
+            type: 'POST',
+            data: {'id': this.value, 'status': Intstatus, "access_token": token.access_token},
+            success: function (res) {
+                layer.tips('修改成功', obj.othis);
+            },
+            error: function () {
+                layer.tips('修改失败', obj.othis);
+            }
+        });
+
+
     });
-    //监听认证状态锁定操作
-    // form.on('checkbox(lockattestation)', function (obj) {
-    //     layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
-    // });
 
 
 });
@@ -213,6 +240,7 @@ function uploadData(data) {
             , method: 'post'//默认post
             , accept: 'file'//文件类型
             , size: 51200//大小
+            , field: 'files'
             , exts: 'zip|rar|7z|doc|txt|docx|rtf|pdf|gz|arj'//允许后缀
             , auto: true//自动上传
             // , bindAction: '#up'//提交按钮 不使用默认提交方式
@@ -237,22 +265,24 @@ function uploadimg(rowdata) {
         let $ = layui.jquery;
         let token = get_localStorage('TOKEN');
         upload.render({
-            elem: '#image', //绑定元素
-            url: 'http://test.sunxiaoyuan.com:8080/upload' //上传接口
+            elem: '#upimg', //绑定元素
+            url: 'http://localhost:8080/upload' //上传接口
             , method: 'post'//默认post
             , accept: 'images'//文件类型
+            , field: 'files'
             , data: {
                 'house_id': rowdata.houseid,//额外属性
-                'access_token':token.access_token
+                'access_token': token.access_token,
+                'status': 0
             }
             // , headers: {token: 'sasasas'}//头部属性
             , size: 20480//大小
             , auto: true//自动上传
             , done: function (res) {
-               layer.msg('添加成功',{icon:1,time:1000})
+                layer.msg('添加成功', {icon: 1, time: 1000})
             }
             , error: function () {
-                layer.msg('添加失败',{icon:1,time:1000})
+                layer.msg('添加失败', {icon: 1, time: 1000})
             }
         });
     });
@@ -346,7 +376,6 @@ function house_ajx(from) {
 function get_localStorage(key) {
     let data = JSON.parse(localStorage.getItem(key));
     if (data !== null) {
-        // debugger
         if (data.expirse != null && data.expirse < new Date().getTime()) {
             localStorage.removeItem(key);
         } else {
@@ -376,7 +405,7 @@ function Apt_house(data) {
             "style": swapdata[i].style,
             "area": swapdata[i].addr_id,
             "status": swapdata[i].status >= 2 ? true : false,
-            "payway": swapdata[i].pay_a * 10 + swapdata[i].pay_b,
+            "payway": swapdata[i].pay_a,
             "attestation": swapdata[i].status >= 1 ? true : false,
             "housedate": swapdata[i].create_time,
             "housearea": swapdata[i].area,
@@ -420,8 +449,7 @@ function Apd_add(txt) {
         type_c = parseInt(txt.housestyle / 10 % 10),
         type_b = parseInt(txt.housestyle / 100 % 10),
         type_a = parseInt(txt.housestyle / 1000 % 10),
-        pay_b = txt.payway % 10,
-        pay_a = parseInt(txt.payway / 10 % 10);
+        pay_a = txt.payway;
     let newData = new Date().toLocaleDateString();
     let userid = LocalStorage_Day.get("USER").id;
     let sum_swap = {
@@ -433,7 +461,6 @@ function Apd_add(txt) {
         "type_c": type_c,
         "type_b": type_b,
         "type_a": type_a,
-        "pay_b": pay_b,
         "pay_a": pay_a,
         "style": txt.style,
         "addr_detail": txt.houseaddress,
@@ -497,8 +524,7 @@ function Apd_update_submit(data) {
         type_c = parseInt(data.housestyle / 10 % 10),
         type_b = parseInt(data.housestyle / 100 % 10),
         type_a = parseInt(data.housestyle / 1000 % 10),
-        pay_b = data.payway % 10,
-        pay_a = parseInt(data.payway / 10 % 10);
+        pay_a = data.payway;
     let swap = {
         'id': data.houseid,
         'title': data.housename,
@@ -507,14 +533,13 @@ function Apd_update_submit(data) {
         'type_c': type_c,
         'type_d': type_d,
         'pay_a': pay_a,
-        'pay_b': pay_b,
         'area': data.housearea,
         'addr_id': data.area,
         'style': data.style,
         'rent': data.zent,
         'info': data.housefaci,
         'addr_detail': data.houseaddress
-    }
+    };
     return swap;
 }
 

@@ -65,7 +65,7 @@
             </label>
             <div class="layui-input-block">
                 <input type="checkbox" name="status" lay-skin="switch" lay-text="ON|OFF">
-            </div
+            </div>
         </div>
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
@@ -121,7 +121,7 @@
             };
             console.log();
             xajax.xajax({
-                url: 'http://test.sunxiaoyuan.com:8080/order/add',
+                url: 'http://localhost:8080/order/add',
                 data: swap,
                 success: function (res) {
                     layer.msg("增加成功", {icon: 1}, function () {

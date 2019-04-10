@@ -23,8 +23,8 @@
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
         <script type="text/html" id="checkboxTp1">
-            <input type="checkbox" name="city" value="{{d.houseid}}" title="已出租" lay-filter="lockcity" {{ d.city
-                   ? 'checked' : '' }}>
+            <input type="checkbox" name="status" value="{{d.id}}" status="{{d.status}}" title="出租状态" lay-filter="status1"
+                   {{ d.status>=2 ? 'checked' : '' }}>
         </script>
 
         <script type="text/html" id="checkboxTp2">
@@ -38,11 +38,9 @@
         <script type="text/html" id="img">
             {{#  if(d.houseimage && d.houseimage != ""){ }}
             <img
-                    src="http://localhost:63342/resources/static{{= d.houseimage}}" width="100%"
+                    src="{{=d.houseimage }}" width="100%"
                     height="100%" onclick="previewImg(this)"
-                    th:href="@{
-            {{= d.houseimage}}
-            }">
+                   >
             {{#  }else{ }}
             无数据
             {{# } }}
@@ -51,7 +49,7 @@
     </div>
 </div>
 <script src="../../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
-<script src="../../../static/js/house_manage.js" th:src="@{/js//house_manage.js}"></script>
+<script src="../../../static/js/house_manage.js" th:src="@{/js/house_manage.js}"></script>
 </body>
 <div class="layui-form" style="display: none;" id="formedit" lay-filter="formedit" >
     <input type="hidden" name="houseid" lay-verify="required" autocomplete="off" class="layui-input"

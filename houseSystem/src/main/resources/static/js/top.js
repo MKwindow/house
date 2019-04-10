@@ -145,7 +145,7 @@ function login() {
                 var password = $.trim($("#pwd")
                     .val());
                 // var url = user_login_url;
-                var url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password'
+                var url = 'http://localhost:8080/oauth/token?client_id=house&client_secret=house&grant_type=password';
                 var param = {
                     "username": username,
                     "password": password
@@ -210,7 +210,7 @@ function updateUsername(res) {
         };
         $.ajax({
             async: false,
-            url: 'http://test.sunxiaoyuan.com:8080/user/info',
+            url: 'http://localhost:8080/user/info',
             type: 'GET',// method请求方式，get或者post
             data: tokenheaders,
             success: function (userdata) {

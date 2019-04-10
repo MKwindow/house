@@ -33,6 +33,9 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
             if (!new RegExp("^[A-Za-z0-9]+$").test(value)) {
                 return '用户编号必须为字母或者数组';
             }
+            if(new RegExp("/^admin.*?/gi").test(value)){
+                return '不允许使用关键词'
+            }
         }
     });
     $("input[name='username']").blur(function () {
@@ -63,7 +66,7 @@ layui.use(['form', 'upload', 'layer', 'jquery'], function () {
             'status': 0,
             'create_time': new Date()
         };
-        let url = 'http://test.sunxiaoyuan.com:8080/user/add';
+        let url = 'http://localhost:8080/user/add';
         $.ajax({
             url: url,
             type: 'GET',

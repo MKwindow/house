@@ -114,7 +114,7 @@
         form.on('submit(update)', function (data) {
             xajax.error_token('/admin/index');
             xajax.xajax({
-                url: "url",
+                url:'http://localhost:8080/user/update',
                 data: data.field,
                 success: function (res) {
                     sessionStorage.setItem('editDate', JSON.stringify(Object.assign(data.field, {'t': 1})));

@@ -151,7 +151,6 @@
             , laytpl = layui.laytpl;
 
         let seach = xajax.get_cache('SEARCH');
-
         function tpl(tpl, view, data, callback) {
             laytpl.config({
                 open: '<%',
@@ -181,13 +180,38 @@
             , "info": edit.info
             , "addr_detail": edit.addr_detail
             , "rent": edit.rent
-            , "payway": edit.pay_a * 10 + edit.pay_b,
+            , "payway": edit.pay_a,
             'type_a': edit.type_a,
             'type_b': edit.type_b,
             'type_c': edit.type_c,
             'type_d': edit.type_d,
             'style': edit.style,
         });
+
+        let token = xajax.get_token();
+        layui.use('upload',function(){
+            let upload =layui. upload;
+            upload.render({
+                elem: '#upimg', //绑定元素
+                url: 'http://localhost/upload' //上传接口
+                , method: 'post'//默认post
+                , accept: 'images'//文件类型
+                , data: {
+                    'house_id': edit.id,//额外属性
+                    'access_token':token.access_token,
+                    'status':0
+                }
+                , size: 20480//大小
+                , auto: true//自动上传
+                , done: function (res) {
+                    layer.msg('添加成功',{icon:1,time:1000})
+                }
+                , error: function () {
+                    layer.msg('添加失败',{icon:1,time:1000})
+                }
+            });
+        });
+
 
         //监听提交
         form.on('submit(up)', function (data) {

@@ -7,7 +7,7 @@ layui.use(['form', 'jquery', 'layer', 'upload'], function () {
     //监听提交
     form.on('submit(up)', function (data) {
         let fromdata = data.field;
-        let url = "http://test.sunxiaoyuan.com:8080/house/add";
+        let url = "http://localhost:8080/house/add";
         let swap = Apd_add(fromdata);
         let token = getToken_house_add("TOKEN");
         // let swapToken = "Bearer" + "\xa0" + token.access_token;
@@ -57,7 +57,7 @@ layui.use(['upload', 'layer'], function () {
         elem: '#img' //绑定元素
         // , headers: {"Authorization": swapToken}
         , method: 'POST'//默认post
-        , url: 'http://test.sunxiaoyuan.com:8080/house/add' //上传接口
+        , url: 'http://localhost:8080/house/add' //上传接口
         , accept: 'images'
         , field: 'files'
         , auto: false//自动上传
@@ -179,8 +179,7 @@ function Apd_add(txt) {
         type_c = parseInt(txt.housestyle / 10 % 10),
         type_b = parseInt(txt.housestyle / 100 % 10),
         type_a = parseInt(txt.housestyle / 1000 % 10),
-        pay_b = txt.payway % 10,
-        pay_a = parseInt(txt.payway / 10 % 10);
+        pay_a = txt.payway;
     let newData = new Date().toLocaleDateString();
     let userid = LocalStorage_Day.get("USER").id;
     let swap = {
@@ -191,8 +190,8 @@ function Apd_add(txt) {
         "type_c": type_c,
         "type_b": type_b,
         "type_a": type_a,
-        "pay_b": pay_b,
         "pay_a": pay_a,
+        'pay_b': 0,
         "style": txt.style,
         "addr_detail": txt.houseaddress,
         "rent": txt.zent,

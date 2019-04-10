@@ -3,14 +3,14 @@ layui.use(['table', 'jquery'], function () {
         form = layui.form,
         $ = layui.jquery,
         upload = layui.upload;
-    let url = "http://test.sunxiaoyuan.com:8080/order/list";
+    let url = "http://localhost:8080/order/list";
     let token = get_LocalStorage("TOKEN");
     let user = get_LocalStorage("USER");
     let retable = table.render({
         elem: '#renthourse'//表格绑定 根据id绑定
         , url: url //请求地址
         , method: 'POST'//请求方法
-        , where: {"access_token": token.access_token, 'user_id': user.id}
+        , where: {"access_token": token.access_token, 'owen_id': user.id,'close':0}
         , request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -80,6 +80,7 @@ layui.use(['table', 'jquery'], function () {
             }
                 , {field: 'remark', title: '备注', width: 100}
                 , {field: 'status', title: '认证状态', width: 100, sort: true, templet: '#checkboxTp2'}
+                 ,{field: 'define', title: '签订状态', width: 100, sort: true, templet: '#checkboxTp3'} 
                 , {fixed: 'right', title: '操作', toolbar: '#bar', width: 240}
             ]
         ]
@@ -103,7 +104,32 @@ layui.use(['table', 'jquery'], function () {
         // console.log(obj);
         switch (obj.event) {
             case 'orderSigned':
-
+            	if(data.status === false){
+            		layer.msg('没有认证，认证去吧', {icon: 2, time: 1000});
+            		return false;
+            	}
+            	let define = data.define;
+            	if((define & 2) === 2){
+            		layer.msg('你已经确认了', {icon: 2, time: 1000});
+            		return false;
+            	}
+            	 layer.confirm('真的确认了么，不可修改的哦', function (index) {
+                     $.ajax({
+                     	url:'http://localhost:8080/order/update',
+                     	type:'POST',
+                     	data:{'id': data.contractid,'define':define^2,"access_token": token.access_token},
+                     	success:function(res){
+                     		layer.msg('修改成功', {icon: 1, time: 1000});
+                     		obj.update({
+                     			'define':(define^2)
+                     		});
+                     	},
+                     	error:function(){
+                     		layer.msg('修改失败', {icon: 2, time: 1000});
+                     	}
+                     });
+                     layer.close(index);
+                 });
                 break;
             case 'upOrder':
                 layer.open({
@@ -126,12 +152,7 @@ layui.use(['table', 'jquery'], function () {
         let user = get_LocalStorage("USER");
         let list = data.data[0].list;
         let swap = [];
-        for (let i = 0, len = list.length; i < len; i++) {
-            if(user.id !== list[i].u_user_id ){ //房东id
-                i--;
-                len--;
-                continue;
-            }
+        for(let i = 0,len = list.length; i < len; i++ ){
             swap[i] = {
                 'contractid': list[i].id,
                 'ownerid': list[i].u_user_id,
@@ -148,7 +169,8 @@ layui.use(['table', 'jquery'], function () {
                 'startdate': list[i].start_time,
                 'enddata': list[i].end_time,
                 "remark": list[i].remark,
-                'status': list[i].status == 0 ? false : true
+                'status': list[i].status == 0 ? false : true,
+                'define': list[i].define
             }
         }
         return swap;

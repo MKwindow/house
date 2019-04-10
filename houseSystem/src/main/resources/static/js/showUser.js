@@ -1,30 +1,12 @@
 layui.use(['upload', 'jquery'], function () {
     let upload = layui.upload;
     let $ = layui.jquery;
-    // let url = user_show_url;
-    // let data = {'token': '123'};
-    // $.ajax({
-    //     url: url
-    //     , async: true
-    //     , type: 'get'
-    //     , dataType: "json"
-    //     , data: JSON.stringify(data)
-    //     , success: returnGet
-    // });
     let user;
     try {
         user = LocalStorage_Day.get("USER");
     } catch (erro) {
         try {
-            let data = JSON.parse(localStorage.getItem(key));
-            if (data !== null) {
-                // debugger
-                if (data.expirse != null && data.expirse < new Date().getTime()) {
-                    localStorage.removeItem(key);
-                } else {
-                    user = data.value;
-                }
-            }
+            get_Lock("USER");
         } catch (err) {
             popwindows("user");
         }
@@ -39,22 +21,26 @@ layui.use(['upload', 'jquery'], function () {
         "usersex": user.sex
     };
     updateform(swap);
-
+    let token = get_Lock('TOKEN');
     //执行实例
     upload.render({
         elem: '#up' //绑定元素
         , url: '/file/' //上传接口
         , method: 'post'//默认post
-        , accept: 'file'//文件类型
+        , accept: 'images'//文件类型
+        , data:{
+            'user_id':user.id,
+            'status':0,
+            'access_token':token.access_token
+        }
         , size: 51200//大小
-        , exts: 'zip|rar|7z|doc|txt|docx|rtf|pdf|gz|arj'//允许后缀
         , auto: true//自动上传
         // , bindAction: '#up'//提交按钮 不使用默认提交方式
         , done: function (res) {
-            //上传完毕回调
+            layer.msg('添加成功',{icon:1,time:1000})
         }
         , error: function () {
-            //请求异常回调
+            layer.msg('添加失败',{icon:2,time:1000})
         }
     });
 
@@ -63,7 +49,6 @@ layui.use(['upload', 'jquery'], function () {
 
 //表单
 function updateform(data) {
-    debugger;
     layui.use('form', function () {
         let form = layui.form;
         form.val("updataform", {
@@ -102,7 +87,7 @@ layui.use(['form', 'jquery', 'layer'], function () {
             "access_token": token
         };
         $.ajax({
-            url: 'http://test.sunxiaoyuan.com:8080/user/update'
+            url: 'http://localhost:8080/user/update'
             , type: 'POST'
             , data: swap
             , success: function (res) {
@@ -156,17 +141,18 @@ layui.use(['form', 'jquery', 'layer'], function () {
             , "access_token": token
         };
         $.ajax({
-            url: 'http://test.sunxiaoyuan.com:8080/user/update'
+            url: 'http://localhost:8080/user/update'
             , type: 'POST'
             , data: parm
             , success: function (res) {
-                console.log(res);
-                layer.closeAll();
-                localStorage.removeItem("TOKEN");
-                localStorage.removeItem("USER");
-                window.location.reload();
+                layer.msg('修改成功',{icon:2,time:1000},function () {
+                    layer.closeAll();
+                    localStorage.removeItem("TOKEN");
+                    localStorage.removeItem("USER");
+                    window.location.reload();
+                });
             }, error: function (res) {
-                console.log(res);
+                layer.msg('修改失败',{icon:2,time:1000});
             }
         });
         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -192,3 +178,15 @@ layui.use(['jquery', 'layer'], function () {
         // console.log(id);
     });
 });
+
+function get_Lock(key) {
+    let data = JSON.parse(localStorage.getItem(key));
+    if (data !== null) {
+        // debugger
+        if (data.expirse != null && data.expirse < new Date().getTime()) {
+            localStorage.removeItem(key);
+        } else {
+            user = data.value;
+        }
+    }
+}

@@ -3,7 +3,7 @@ layui.use(['table', 'jquery'], function () {
         form = layui.form,
         $ = layui.jquery,
         upload = layui.upload;
-    let url = 'http://test.sunxiaoyuan.com:8080/reserve/list';
+    let url = 'http://localhost:8080/reserve/list';
     let token = get_LocalStorage("TOKEN");
     // let swap = {"Authorization": "Bearer" + "\xa0" + token.access_token};
     let user = get_LocalStorage('USER');
@@ -13,7 +13,7 @@ layui.use(['table', 'jquery'], function () {
         , method: 'POST'//请求方法
         // , headers: swap
 
-        , where: {"access_token": token.access_token, 'user_id': user.id}
+        , where: {"access_token": token.access_token, 'owen_id': user.id,'close':0}
         , request: {
             pageName: 'pageNum' //页码的参数名称，默认：page
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -105,7 +105,7 @@ layui.use(['table', 'jquery'], function () {
                         'area': list[i].area,
                         'reservedate': list[i].time,
                         'houseid': list[i].house_id,
-                        'payway': list[i].pay_a * 10 + list[i].pay_b,
+                        'payway': list[i].pay_a,
                         'username': list[i].u_nick_name,
                         'reservestate': list[i].status == 0 ? false : true,
                         'tenantphone': list[i].phone,
@@ -153,6 +153,17 @@ layui.use(['table', 'jquery'], function () {
             case 'del':
                 layer.confirm('真的取消么', function (index) {
                     obj.del();
+                    $.ajax({
+                    	url:'http://localhost:8080/reserve/update',
+                    	type:'POST',
+                    	data:{'id': data.reserveid,'close':1,'access_token': token.access_token},
+                    	success:function(res){
+                    		layer.msg('修改成功', {icon: 1, time: 1000});
+                    	},
+                    	error:function(){
+                    		layer.msg('修改失败', {icon: 2, time: 1000});
+                    	}
+                    });
                     layer.close(index);
                 });
                 break;
@@ -164,7 +175,7 @@ layui.use(['table', 'jquery'], function () {
                         'access_token': token.access_token
                     };
                     $.ajax({
-                        url: 'http://test.sunxiaoyuan.com:8080/reserve/update',
+                        url: 'http://localhost:8080/reserve/update',
                         type: 'POST',
                         data: parm,
                         success: function (res) {

@@ -56,7 +56,16 @@
       <script type="text/html" id="bar">
         <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="upOrder">查看合同</a>
         <a class="layui-btn layui-btn-xs" lay-event="orderSigned">同意</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">取消合同</a>
       </script>
+       <script type="text/html" id="checkboxTp3">
+            {{#   if( (d.define & 4) === 4 ){  }}
+            <i class="layui-icon layui-icon-auz" style="font-size: 30px; color: #1E9FFF; margin-left: 20px"></i>
+            {{# }else{ }}
+            <i class="layui-icon layui-icon-close-fill" style="font-size: 30px; color: #ff1a00;margin-left: 20px"></i>
+            {{#  } }}
+        </script>
+      
       <table id="order" lay-filter="order"></table>
     </div>
     <script>
@@ -80,7 +89,7 @@
               $ = layui.jquery,
               upload = layui.upload,
               xajax = layui.xajax;
-          let order_list = 'http://test.sunxiaoyuan.com:8080/order/list';
+          let order_list = 'http://localhost:8080/order/list';
           xajax.error_token('/admin/index');
           let token = xajax.get_token();
           let user = xajax.get_User();
@@ -89,7 +98,7 @@
               elem: '#order'//表格绑定 根据id绑定
               , url: order_list //请求地址
               , method: 'POST'//请求方法
-              , where: {"access_token": token.access_token}
+              , where: {"access_token": token.access_token,'close':0}
               , request: {
                   pageName: 'pageNum' //页码的参数名称，默认：page
                   , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -151,9 +160,15 @@
                   }
                       , {field: 'rent', title: '应交租金', width: 90, sort: true,align:'center'}
                       , {field: 'create_time', title: '签订时间', width: 160, sort: true,templet:function (d) {
+                    	  if(d.create_time === null){
+                              return '无数据'
+                          }
                           return new Date(d.create_time).format('yyyy-MM-dd hh-mm-ss');
                       }}
                       , {field: 'end_time', title: '到期时间', width: 160, sort: true ,templet:function (d) {
+                    	  if(d.end_time === null){
+                              return '无数据'
+                          }
                           return new Date(d.end_time).format('yyyy-MM-dd hh-mm-ss');
                       }}
                       , {
@@ -164,7 +179,8 @@
                   }
                       , {field: 'remark', title: '备注', width: 100}
                       , {field: 'status', title: '认证状态', width: 120,align:'center', sort: true, templet: '#checkboxTp2'}
-                      , {fixed: 'right', title: '操作', toolbar: '#bar', width: 180}
+                      , {field: 'define', title: '签订状态', width: 100, sort: true, templet: '#checkboxTp3'} 
+                      , {fixed: 'right', title: '操作', toolbar: '#bar', width: 250}
                   ]
               ]
               , page: true //分页开关
@@ -187,7 +203,29 @@
               // console.log(obj);
               switch (obj.event) {
                   case 'orderSigned':
-
+                	  if(data.status !== 1){
+                	    layer.msg('没有认证，认证去吧', {icon: 2, time: 1000});
+                  		return false;
+                  	}
+                  	let define = data.define;
+                  	if((define & 4) === 4){
+                  		layer.msg('你已经确认了', {icon: 1, time: 1000});
+                  		return false;
+                  	}
+                  	 layer.confirm('真的确认了么，不可修改的哦', function (index) {
+                           xajx.xajax({
+                           	url:'http://localhost:8080/order/update',
+                           	type:'POST',
+                           	data:{'id': data.id,'define':define^4},
+                           	success:function(res){
+                           		layer.msg('修改成功', {icon: 1, time: 1000});
+                           	},
+                           	error:function(){
+                           		layer.msg('修改失败', {icon: 2, time: 1000});
+                           	}
+                           });
+                           layer.close(index);
+                       });
                       break;
                   case 'upOrder':
                       layer.open({
@@ -198,6 +236,25 @@
                           scrollbar: false,//不现实滚动条
                           title: "文件上传", //不显示标题
                           content: '内容' //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                      });
+                      break;
+                  case 'del':
+                      layer.confirm('真的删除行么', function (index) {
+                          obj.del();
+                          xajax.xajax({
+                              url: 'http://localhost:8080/order/update',
+                              data: {'id': data.id, 'close': 1,},
+                              success: function () {
+                                  layer.msg('删除成功', {icon: 1, time: 1000});
+                                  obj.update({
+                           			'define': (define^4)
+                           		});
+                              }
+                              , error: function () {
+                                  layer.msg('删除失败', {icon: 2, time: 1000});
+                              }
+                          });
+                          layer.close(index);
                       });
                       break;
               }
@@ -212,7 +269,7 @@
                   Intstatus = 0;
               }
               xajax.xajax({
-                  url: 'http://test.sunxiaoyuan.com:8080/order/update',
+                  url: 'http://localhost:8080/order/update',
                   data: {'id': this.value, 'status': Intstatus},
                   success: function (res) {
                       layer.tips('修改成功', obj.othis);

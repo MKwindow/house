@@ -41,9 +41,14 @@
             let xajax = layui.xajax;
             form.on('submit(login)', function (data) {
                 let loginData = data.field,
-                    token_url = 'http://test.sunxiaoyuan.com:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
-                    user_url = 'http://test.sunxiaoyuan.com:8080/user/info',
+                    token_url = 'http://localhost:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
+                    user_url = 'http://localhost:8080/user/info',
                     go_url = '/admin/index';
+                let reg = new RegExp(/^admin.*?/gi);
+                let name = loginData.username;
+                if(reg.test(name) === false){
+                    return false;
+                }
                 let parm = {'username': loginData.username, 'password': loginData.password};
                 xajax.xlogin(token_url, user_url, parm, go_url);
                 return false;

@@ -61,7 +61,7 @@
     </script>
     <script type="text/html" id="img">
         {{#  if(d.pics && d.pics != ""){ }}
-        <img src={{=d.pics}} width="100%"
+        <img src="{{=d.pics}}" width="100%"
                 height="100%" onclick="previewImg(this)" >
         {{#  }else{ }}
         无数据
@@ -104,7 +104,7 @@
             $ = layui.jquery,
             upload = layui.upload,
             xajax = layui.xajax;
-        let url = 'http://test.sunxiaoyuan.com:8080/house/list';
+        let url = 'http://localhost:8080/house/list';
         xajax.error_token('/index/login');
         let token = xajax.get_token();
         let seach = xajax.get_cache('SEARCH');
@@ -124,7 +124,7 @@
             elem: '#house'//表格绑定 根据id绑定
             , url: url //请求地址
             , method: 'POST'//请求方法
-            , where: {"access_token": token.access_token}
+            , where: {"access_token": token.access_token,'pay_b':0}
             , toolbar: '#topbar' //开启表格头部工具栏区域 左边图标
             , title: '房东房屋表格'//定义 table 的大标题（在文件导出等地方会用到
             , totalRow: false // 开启合计行
@@ -139,12 +139,6 @@
                         res.data[0].list[i].pics = res.data[0].list[i].pics[0].url
                     } else {
                         res.data[0].list[i].pics = '/images/temp/property_01.jpg'
-                    }
-                }
-                for (let j = 0, len = list.length; j < len; j++) {
-                    if (list[j].status === 5) {
-                        res.data[0].list.splice(j, 1);
-                        len --;
                     }
                 }
                 return {
@@ -200,8 +194,13 @@
                         }
                     }
                 }
-                    , {field: 'pay_a', title: '押金数', width: 90, align: 'center'}
-                    , {field: 'pay_b', title: '缴费数', width: 90, align: 'center'}
+                    , {field: 'pay_a', title: '缴费方式', width: 90, align: 'center',templet:function (d) {
+                        for (let key in seach.payway) {
+                            if (key == d.pay_a) {
+                                return seach.payway[key];
+                            }
+                        }
+                    }}
                     , {field: 'type_a', title: '房间数', width: 90, align: 'center'}
                     , {field: 'type_b', title: '客厅数', width: 90, align: 'center'}
                     , {field: 'type_c', title: '卫生间数', width: 90, align: 'center'}
@@ -244,8 +243,8 @@
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
                         xajax.xajax({
-                            url: 'http://test.sunxiaoyuan.com:8080/house/update',
-                            data: {'id': data.id, 'status': 5},
+                            url: 'http://localhost:8080/house/update',
+                            data: {'id': data.id, 'pay_b': 1},
                             success: function () {
                                 layer.msg('删除成功', {icon: 1, time: 1000});
                             }
@@ -272,7 +271,6 @@
                                 'rent': newdata.rent,
                                 'style': newdata.style,
                                 'pay_a': newdata.pay_a,
-                                'pay_b': newdata.pay_b,
                                 'type_a': newdata.type_a,
                                 'type_b': newdata.type_b,
                                 'type_c': newdata.type_c,
@@ -282,7 +280,7 @@
                     });
                     break;
                 case 'attestation':
-                    layer.open({
+                   let index= layer.open({
                         type: 1,
                         shade: 0.8,
                         offset: 'auto',
@@ -291,33 +289,13 @@
                         scrollbar: false,//不现实滚动条
                         title: "文件上传", //不显示标题
                         content: $('#file'), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
-                        success:function (index) {
-                            upload.render({
-                                elem: '#upimg', //绑定元素
-                                url: 'http://test.sunxiaoyuan.com:8080/upload' //上传接口
-                                , method: 'post'//默认post
-                                , accept: 'images'//文件类型
-                                , data: {
-                                    'house_id': data.houseid,//额外属性
-                                    'access_token':token.access_token
-                                }
-                                , size: 20480//大小
-                                , auto: true//自动上传
-                                , done: function (res) {
-                                    layer.close(index);
-                                    layer.msg('添加成功',{icon:1,time:1000})
-                                }
-                                , error: function () {
-                                    layer.close(index);
-                                    layer.msg('添加失败',{icon:1,time:1000})
-                                }
-                            });
-                        },
                         cancel:function (index,layero) {
                           layer.close(index);
                         }
                     });
-
+                    uploadimage(data,token,function () {
+                        layer.close(index);
+                    });
                     break;
             }
         });
@@ -332,7 +310,7 @@
                 Intstatus = 1;
             }
             xajax.xajax({
-                url: 'http://test.sunxiaoyuan.com:8080/house/update',
+                url: 'http://localhost:8080/house/update',
                 data: {'id': this.value, 'status': Intstatus},
                 success: function (res) {
                     layer.tips('修改成功', obj.othis);
@@ -352,7 +330,7 @@
                 Intstatus = 0;
             }
             xajax.xajax({
-                url: 'http://test.sunxiaoyuan.com:8080/house/update',
+                url: 'http://localhost:8080/house/update',
                 data: {'id': this.value, 'status': Intstatus},
                 success: function (res) {
                     layer.tips('修改成功', obj.othis);
@@ -397,7 +375,33 @@
             }, 10000)
         });
     }
-
+    function uploadimage(data,token,callback) {
+        layui.use('upload',function(){
+           let upload =layui. upload;
+            upload.render({
+                elem: '#file', //绑定元素
+                url: 'http://localhost:8080/upload' //上传接口
+                , method: 'post'//默认post
+                , accept: 'images'//文件类型
+                , field: 'files'
+                , data: {
+                    'house_id': data.id,//额外属性
+                    'access_token':token.access_token,
+                    'status': 0
+                }
+                , size: 20480//大小
+                , auto: true//自动上传
+                , done: function (res) {
+                    callback();
+                    layer.msg('添加成功',{icon:1,time:1000})
+                }
+                , error: function () {
+                    callback();
+                    layer.msg('添加失败',{icon:1,time:1000})
+                }
+            });
+        });
+    }
 </script>
 </body>
 

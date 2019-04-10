@@ -63,7 +63,7 @@
 </script>
 
 <script type="text/html" id="enabled">
-    <input type="checkbox" name="enabled" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="enabled" {{
+    <input type="checkbox" name="enabled" value="{{d.id}}"   lay-skin="switch" lay-text="是|否" lay-filter="enabled" {{
            d.enabled==
            true ? 'checked' : '' }}>
 </script>
@@ -103,7 +103,7 @@
 
         let retable = table.render({
             elem: '#user'
-            , url: 'http://test.sunxiaoyuan.com:8080/user/list' //数据接口
+            , url: 'http://localhost:8080/user/list' //数据接口
             , method: 'POST'//请求方法
             , where: {'access_token': token.access_token}//接口的其它参数
             , parseData:
@@ -216,7 +216,7 @@
 
                 case 'editpwd':
                     sessionStorage.setItem('id', data.id);
-                    x_admin_show('修改密码', 'member-password.html', 600, 400, false);
+                    x_admin_show('修改密码', './member-password.html', 600, 400, false);
                     break;
             }
         });

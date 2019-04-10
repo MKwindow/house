@@ -75,7 +75,7 @@
               $ = layui.jquery,
               upload = layui.upload,
               xajax = layui.xajax;
-          let order_list = 'http://test.sunxiaoyuan.com:8080/reserve/list';
+          let order_list = 'http://localhost:8080/reserve/list';
           xajax.error_token('/admin/index');
           let token = xajax.get_token();
           let user = xajax.get_User();
@@ -84,7 +84,7 @@
               elem: '#reserver'//表格绑定 根据id绑定
               , url: order_list //请求地址
               , method: 'POST'//请求方法
-              , where: {"access_token": token.access_token}
+              , where: {"access_token": token.access_token,'close':0}
               , request: {
                   pageName: 'pageNum' //页码的参数名称，默认：page
                   , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -162,17 +162,19 @@
               // console.log(obj);
               switch (obj.event) {
                   case 'orderSigned':
-
-                      break;
-                  case 'upOrder':
-                      layer.open({
-                          type: 1,
-                          shade: 0.8,
-                          offset: 'auto',
-                          area: [250 + 'px', 200 + 'px'],
-                          scrollbar: false,//不现实滚动条
-                          title: "文件上传", //不显示标题
-                          content: '内容' //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                	  layer.confirm('真的删除行么', function (index) {
+                          obj.del();
+                          xajax.xajax({
+                              url: 'http://localhost:8080/resever/update',
+                              data: {'id': data.id, 'close': 1},
+                              success: function () {
+                                  layer.msg('删除成功', {icon: 1, time: 1000});
+                              }
+                              , error: function () {
+                                  layer.msg('删除失败', {icon: 2, time: 1000});
+                              }
+                          });
+                          layer.close(index);
                       });
                       break;
               }
@@ -187,7 +189,7 @@
                   Intstatus = 0;
               }
               xajax.xajax({
-                  url: 'http://test.sunxiaoyuan.com:8080/resever/update',
+                  url: 'http://localhost:8080/resever/update',
                   data: {'id': this.value, 'status': Intstatus},
                   success: function (res) {
                       layer.tips('修改成功', obj.othis);

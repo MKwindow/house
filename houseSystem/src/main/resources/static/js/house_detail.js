@@ -6,12 +6,12 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
     let houseid = localStorage.getItem("houseid");
     var token = get_LocalStorage('TOKEN');
     // "access_token": token.access_token
-    let url = 'http://test.sunxiaoyuan.com:8080/house/list';
+    let url = 'http://localhost:8080/house/list';
     $.ajax({
         async: false
         , url: url
         , type: 'POST'
-        , data: {"id": houseid}
+        , data: {"id": houseid,'pay_b':0}
         , success: function (res) {
             // localStorage.setItem("house", JSON.stringify(res));
             det_tpl(res);
@@ -36,7 +36,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                         "housearea": parm[0].list[i].addr_id,
                         "address": parm[0].list[i].addr_detail,
                         "status": parm[0].list[i].status >= '3' ? true : false,
-                        "payway": parm[0].list[i].pay_a * 10 + parm[0].list[i].pay_b,
+                        "payway": parm[0].list[i].pay_a,
                         "attestation": parm[0].list[i].status >= '1' ? true : false,
                         "date": parm[0].list[i].create_time,
                         "area": parm[0].list[i].area,
@@ -130,7 +130,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
         }
     });
     $('#reservation_house').click(function () {
-        let url = 'http://test.sunxiaoyuan.com:8080/reserve/add';
+        let url = 'http://localhost:8080/reserve/add';
         try{
             token = get_LocalStorage('TOKEN').access_token;
         }catch (err){
@@ -217,7 +217,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
     });
 
     $('#order_add').click(function () {
-        let url = 'http://test.sunxiaoyuan.com:8080/order/add';
+        let url = 'http://localhost:8080/order/add';
         try{
             token = get_LocalStorage('TOKEN').access_token;
         }catch (err){

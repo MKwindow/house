@@ -39,10 +39,6 @@ layui.use(['form', "jquery"], function () {
             frist.attr("checked", false);
             form.render('checkbox');
         }
-        // console.log(data.elem); //得到checkbox原始DOM对象
-        // console.log(data.elem.checked); //是否被选中，true或者false
-        // console.log(data.value); //复选框value值，也可以通过data.elem.value得到
-        // console.log(data.othis); //得到美化后的DOM对象
     });
     form.on('submit(*)', function (data) {
         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
@@ -59,8 +55,7 @@ layui.use(['form', "jquery"], function () {
             type_c = parseInt(param.housestyle / 10 % 10),
             type_b = parseInt(param.housestyle / 100 % 10),
             type_a = parseInt(param.housestyle / 1000 % 10),
-            pay_b = param.payway % 10,
-            pay_a = parseInt(param.payway / 10 % 10);
+            pay_a = param.payway;
         var token = get_token();
         var swapdata = {
             "addr_id": param.areas,
@@ -70,19 +65,18 @@ layui.use(['form', "jquery"], function () {
             "type_c": type_c,
             "type_d": type_d,
             "pay_a": pay_a,
-            "pay_b": pay_b,
             "rent": param.price_max,
             "access_token": token.access_token
         };
         $.ajax(
             {
-                url: "http://test.sunxiaoyuan.com:8080/house/list",
+                url: "http://localhost:8080/house/list",
                 type: 'get',//method请求方式，get或者post
                 dataType: 'json',//预期服务器返回的数据类型
                 data: swapdata,//表格数据序列化
                 // contentType: "application/json; charset=utf-8",
                 success: function (res) {//res为相应体,function为回调函数
-                    var resdata = Adapter_page(res)
+                    var resdata = Adapter_page(res);
                     updata_data(resdata);
                     // console.log(JSON.stringify(res));
                 },
@@ -177,11 +171,11 @@ layui.use(['laypage', 'layer', 'jquery'], function () {
     debugger;
     let where;
     if (seach != "") {
-        where = {"pageNum": "1", "pageSize": "10", 'addr_detail': seach, 'status': 1};
+        where = {"pageNum": "1", "pageSize": "10", 'addr_detail': seach, 'status': 1,'pay_b':0};
     } else {
-        where = {"pageNum": "1", "pageSize": "10",'status':1};
+        where = {"pageNum": "1", "pageSize": "10",'status':1,'pay_b':0};
     }
-    let url = "http://test.sunxiaoyuan.com:8080/house/list";
+    let url = "http://localhost:8080/house/list";
     use_ajax(url, where, function (res) {
         counts = res.data[0].total;
         let swap = Adapter_page(res);
@@ -210,11 +204,11 @@ function get_page_search(obj, seach) {
         let $ = layui.jquery;
         let page;
         if (seach != "") {
-            page = {"pageNum": obj.curr, "pageSize": obj.limit, "addr_detail": seach};
+            page = {"pageNum": obj.curr, "pageSize": obj.limit, "addr_detail": seach,'pay_b':0};
         } else {
-            page = {"pageNum": obj.curr, "pageSize": obj.limit};
+            page = {"pageNum": obj.curr, "pageSize": obj.limit,'pay_b':0};
         }
-        let url = "http://test.sunxiaoyuan.com:8080/house/list";
+        let url = "http://localhost:8080/house/list";
         use_ajax(url, page, function (res) {
             var swap = Adapter_page(res);
             updata_data(swap);
