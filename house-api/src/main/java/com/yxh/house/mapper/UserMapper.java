@@ -8,10 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * 作者: sxy
- * 时间: 2019/3/21
- */
+
 @Mapper
 public interface UserMapper{
 

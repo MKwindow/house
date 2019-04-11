@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * 作者: sxy 时间: 2019/3/25
- */
+
 @Service
 public class HouseService {
 

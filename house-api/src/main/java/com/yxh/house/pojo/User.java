@@ -15,10 +15,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 作者: sxy
- * 时间: 2019/3/21
- */
+
 @Data
 public class User implements UserDetails, Serializable {
 

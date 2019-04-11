@@ -6,10 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 作者: sxy
- * 时间: 2019/3/21
- */
+
 @Data
 public class Role implements GrantedAuthority {
 

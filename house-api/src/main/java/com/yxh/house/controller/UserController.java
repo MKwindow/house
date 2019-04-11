@@ -17,10 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-/**
- * 作者: sxy
- * 时间: 2019/3/22
- */
+
 @RestController
 public class UserController {
 
