@@ -36,9 +36,10 @@
 
 <script>
     $(function () {
-        layui.use(['form', 'xajax'], function () {
+        layui.use(['form', 'xajax','layer'], function () {
             let form = layui.form;
             let xajax = layui.xajax;
+            let layer = layui.layer;
             form.on('submit(login)', function (data) {
                 let loginData = data.field,
                     token_url = 'http://localhost:8080/oauth/token?client_id=house&client_secret=house&grant_type=password',
@@ -47,6 +48,7 @@
                 let reg = new RegExp(/^admin.*?/gi);
                 let name = loginData.username;
                 if(reg.test(name) === false){
+                	layer.msg('未获得授权',{icon:2,time:1000});
                     return false;
                 }
                 let parm = {'username': loginData.username, 'password': loginData.password};

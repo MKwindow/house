@@ -289,24 +289,41 @@
             let layer = layui.layer;
             xajax.error_token('/admin/login');
             let user = xajax.get_User();
-
+            try{
+                if(user.data[0].credit ===0 ||user.data[0].close === 1){
+                    layer.msg('你没有权限',{icon:2,time:1000},function () {
+                        localStorage.removeItem("TOKEN");
+                        localStorage.removeItem("USER");
+                        window.location.href = '/admin/login';
+                    });
+                }
+            }catch (err){
+                if(user.credit === 0||user.close === 1){
+                    layer.msg('你没有权限',{icon:2,time:1000},function () {
+                        localStorage.removeItem("TOKEN");
+                        localStorage.removeItem("USER");
+                        window.location.href = '/admin/login';
+                    });
+                }
+            }
             if (user != null && username == '登陆') {
                 let reg = new RegExp(/^admin.*?/gi);
                 let name;
                 try {
                    name = user.data[0].username;
                     if(reg.test(name) === false){
-                        // window.location.href = '/admin/login';
+                        window.location.href = '/admin/login';
                         return false;
                     }
-                }catch {
+                }catch(err) {
                     name = user.username;
                     if(reg.test(name) === false){
-                        // window.location.href = '/admin/login';
+                        window.location.href = '/admin/login';
                         return false;
                     }
                 }
                 let localuser = null;
+
                 try {
                     xajax.set_cache("USER", user.data[0]);
                     localuser = user.data[0].nickName;

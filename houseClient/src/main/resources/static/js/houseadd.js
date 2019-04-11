@@ -4,13 +4,24 @@ layui.use(['form', 'jquery', 'layer', 'upload'], function () {
         layer = layui.layer,
         upload = layui.upload;
     house_ajx(form);
+    if (user.credit === 0 || user.close === 1){
+        layer.msg('你没有该权限',{icon:1,time:1000},function () {
+        	window.location.href = '/index'
+        })
+    }
     //监听提交
     form.on('submit(up)', function (data) {
+        let user = getToken_house_add('USER');
+        if (user.credit === 0 || user.close === 1){
+            layer.msg('你没有该权限',{icon:1,time:1000},function () {
+            	window.location.href = '/index'
+                return false;
+            })
+        }
         let fromdata = data.field;
         let url = "http://localhost:8080/house/add";
         let swap = Apd_add(fromdata);
         let token = getToken_house_add("TOKEN");
-        // let swapToken = "Bearer" + "\xa0" + token.access_token;
         let swapToken = {"access_token": token.access_token};
         swap = Object.assign(swap, swapToken);
         $.ajax({
@@ -205,7 +216,7 @@ function Apd_add(txt) {
 }
 
 function getToken_house_add(key) {
-    debugger;
+    // debugger;
     let data = JSON.parse(localStorage.getItem(key));
     if (data !== null) {
         // debugger

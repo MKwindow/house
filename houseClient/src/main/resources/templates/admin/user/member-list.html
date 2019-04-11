@@ -51,21 +51,15 @@
         <button class="layui-btn layui-btn-danger" lay-event="getCheckData"><i class="layui-icon"></i>批量删除</button>
     </div>
 </script>
-<script type="text/html" id="switchTpl">
-    <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo" {{ d.id==
-           10003 ? 'checked' : '' }}>
-</script>
 
 <script type="text/html" id="status">
-    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="status" {{
-           d.status==
-           1 ? 'checked' : '' }}>
+    <input type="checkbox" name="status" value="{{d.id}}"  status="{{d.status}}"  lay-skin="switch" lay-text="是|否" lay-filter="status" {{
+           d.status== 1 ? 'checked' : '' }}>
 </script>
 
 <script type="text/html" id="enabled">
-    <input type="checkbox" name="enabled" value="{{d.id}}"   lay-skin="switch" lay-text="是|否" lay-filter="enabled" {{
-           d.enabled==
-           true ? 'checked' : '' }}>
+    <input type="checkbox" name="credit" value="{{d.id}}"  status="{{d.credit}}"  lay-skin="switch" lay-text="是|否" lay-filter="enabled" {{
+           d.credit== 1 ? 'checked' : '' }}>
 </script>
 
 <script type="text/html" id="rightbar">
@@ -98,14 +92,14 @@
             layer = layui.layer,
             form = layui.form,
             ifrmsg = layui.ifrmsg;
-        xajax.error_token('/index/login');
+        xajax.error_token('/admin/login');
         let token = xajax.get_token();
 
         let retable = table.render({
             elem: '#user'
             , url: 'http://localhost:8080/user/list' //数据接口
             , method: 'POST'//请求方法
-            , where: {'access_token': token.access_token}//接口的其它参数
+            , where: {'access_token': token.access_token,'close':0}//接口的其它参数
             , parseData:
                 function (res) { //res 即为原始返回的数据
                     // console.log(res);
@@ -144,8 +138,8 @@
                         return new Date(d.createTime).format('yyyy-MM-dd hh:mm:ss');
                     }
                 }
-                    , {field: 'status', title: '已认证', width: 135, sort: true, align: 'center', templet: '#status'}
-                    , {field: 'enabled', title: '已激活', width: 135, sort: true, align: 'center', templet: '#enabled'}
+                    , {field: 'credit', title: '已认证', width: 135, sort: true, align: 'center', templet: '#status'}
+                    , {field: 'status', title: '已激活', width: 135, sort: true, align: 'center', templet: '#enabled'}
                     , {fixed: 'right', title: '操作', toolbar: '#rightbar', width: 220}
                 ]
             ]
@@ -166,17 +160,16 @@
                 case 'getCheckData':
                     let data1 = checkStatus.data;
                     layer.confirm('确认要删除吗？', function (index) {
-                        // xajax.xajax({
-                        //     url: '/test',
-                        //     data: 'lime',
-                        //     success: function (res) {
-                        //
-                        //     },
-                        //     error:function () {
-                        //
-                        //     }
-                        // });
-                        JSON.stringify(data1);
+//                          xajax.xajax({
+//                              url: 'http://localhost:8080/user/update',
+//                              data: {'close':1,'access_token': token.access_token},
+//                              success: function (res) {
+                        			
+//                              },
+//                              error:function () {
+                        
+//                              }
+//                          });
                         //捉到所有被选中的，发异步进行删除
                         layer.msg('删除成功', {icon: 1});
                         layer.msg('删除失败', {icon: 2});
@@ -192,6 +185,16 @@
                 case 'del':
                     layer.confirm('真的删除行么', function (index) {
                         obj.del();
+                        xajax.xajax({
+                         url: 'http://localhost:8080/user/update',
+                         data: {'close':1,'access_token': token.access_token},
+                         success: function (res) {
+                        	 layer.msg('删除成功', {icon: 1});
+                         },
+                         error:function () {
+                        	 layer.msg('删除失败', {icon: 2});
+                         }
+                     });
                         layer.close(index);
                     });
                     break;
@@ -222,16 +225,42 @@
         });
 
         form.on('switch(status)', function (obj) {
-            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
-            console.log(obj.elem.checked);
-            console.log(this.value);
-            console.log(this.name);
+            let status1 = $(this).attr('status');
+            let Intstatus1 = parseInt(status1);
+            if (obj.elem.checked === true && Intstatus1 === 0) {
+                Intstatus1 = 1;
+            } else {
+                Intstatus1 = 0;
+            }
+            xajax.xajax({
+                url: 'http://localhost:8080/user/update',
+                data: {'id': this.value, 'status': Intstatus1},
+                success: function (res) {
+                    layer.tips('修改成功', obj.othis);
+                },
+                error: function () {
+                    layer.tips('修改失败', obj.othis);
+                }
+            });
         });
         form.on('switch(enabled)', function (obj) {
-            layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked, obj.othis);
-            console.log(obj.elem.checked);
-            console.log(this.value);
-            console.log(this.name);
+            let status2 = $(this).attr('status');
+            let Intstatus2 = parseInt(status);
+            if (obj.elem.checked === true && Intstatus2 === 0) {
+                Intstatus2 = 1;
+            } else {
+                Intstatus2 = 0;
+            }
+            xajax.xajax({
+                url: 'http://localhost:8080/user/update',
+                data: {'id': this.value, 'credit': Intstatus2},
+                success: function (res) {
+                    layer.tips('修改成功', obj.othis);
+                },
+                error: function () {
+                    layer.tips('修改失败', obj.othis);
+                }
+            });
         });
 
 

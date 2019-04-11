@@ -105,7 +105,7 @@
             upload = layui.upload,
             xajax = layui.xajax;
         let url = 'http://localhost:8080/house/list';
-        xajax.error_token('/index/login');
+        xajax.error_token('/admin/login');
         let token = xajax.get_token();
         let seach = xajax.get_cache('SEARCH');
         if (seach === null || typeof seach === 'undefined') {

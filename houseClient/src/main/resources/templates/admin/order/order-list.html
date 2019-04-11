@@ -213,9 +213,8 @@
                   		return false;
                   	}
                   	 layer.confirm('真的确认了么，不可修改的哦', function (index) {
-                           xajx.xajax({
+                           xajax.xajax({
                            	url:'http://localhost:8080/order/update',
-                           	type:'POST',
                            	data:{'id': data.id,'define':define^4},
                            	success:function(res){
                            		layer.msg('修改成功', {icon: 1, time: 1000});

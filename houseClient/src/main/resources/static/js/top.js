@@ -196,9 +196,10 @@ function success(res) {
 
 // 更新姓名
 function updateUsername(res) {
-    layui.use('jquery', function () {
-        debugger;
+    layui.use(['jquery','layer'], function () {
+        // debugger;
         var $ = layui.jquery;
+        var layer = layui.layer;
         var btnname = $('#btn');
         var name = btnname.text().trim();
         var username = null;
@@ -215,8 +216,13 @@ function updateUsername(res) {
             data: tokenheaders,
             success: function (userdata) {
                 if (userdata.code === 200) {
+                      if(userdata.data[0].credit === 0 || userdata.data[0].close === 1 ){
+                    	  localStorage.removeItem('USER');
+                    	  localStorage.removeItem('TOKEN');
+                          return false;
+                     }
                     LocalStorage_Day.set("USER", userdata.data[0], 1 / 12);
-                    username = userdata.data[0].username;
+                    username = userdata.data[0].nickName;
                 }
             },
             error: function (res) {
@@ -231,8 +237,12 @@ function updateUsername(res) {
                 'username': username
             };
             setname(userdata);
-            window.location.reload();
-
+            window.onload = function(){
+            	function fun(){
+            		window.location.reload();
+            	}
+                setTimeout("fun()",4000)
+            }
         }
     });
 }
@@ -250,7 +260,6 @@ function setname(userdata) {
         laytpl(getTpl).render(userdata, function (html) {
             view.innerHTML = html;
         });
-
     });
 }
 
@@ -263,6 +272,13 @@ function down() {
         // 关闭窗口后，添加下拉效果
         var parent = $('#showname').parentsUntil("ul").find("dl:first");
         parent.addClass("layui-nav-child");
+        let user = LocalStorage_Day.get('USER');
+        if(user === null){
+        	 layer.msg('你没有权限',{icon:2,time:2000},function(){
+          	   localStorage.removeItem('TOKEN');
+                 localStorage.removeItem('USER');
+           });
+        }
     });
 }
 
@@ -279,4 +295,15 @@ if (window.addEventListener) {
     window.attachEvent("onload", loadScript);
 } else {
     window.onload = loadScript;
+}
+
+//睡眠
+function sleep(numberMillis) {
+    var now = new Date();
+    var exitTime = now.getTime() + numberMillis;
+    while (true) {
+        now = new Date();
+        if (now.getTime() > exitTime)
+            return;
+    }
 }
