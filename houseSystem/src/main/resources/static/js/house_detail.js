@@ -164,7 +164,6 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                     'status': 0,
                     'access_token': token
                 };
-                // console.log(parm);
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -174,7 +173,7 @@ layui.use(['laytpl', 'jquery', 'layer', 'form'], function () {
                             layer.close(index);
                             layer.msg('预约成功,快去看看吧', {
                                 icon: 1,
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                                time: 2000 
                             }, function () {
                                 window.location.href = '/index/reserveTenantManage';
                             });

@@ -9,10 +9,10 @@
 		<version>2.1.3.RELEASE</version>
 		<relativePath />
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>houseSystem</artifactId>
+	<groupId>com.yxh.house</groupId>
+	<artifactId>houseClient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>houseSystem</name>
+	<name>houseClient</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

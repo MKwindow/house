@@ -1,4 +1,4 @@
-package com.example.houseSystem;
+package com.yxh.house;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

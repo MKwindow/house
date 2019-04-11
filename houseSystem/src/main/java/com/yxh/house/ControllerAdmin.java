@@ -1,11 +1,11 @@
-package com.example.houseSystem;
+package com.yxh.house;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("admin")
-public class AdminController {
+public class ControllerAdmin {
 	// 主页
 	@RequestMapping("index")
 	public String index() {
