@@ -245,7 +245,7 @@
         });
         form.on('switch(enabled)', function (obj) {
             let status2 = $(this).attr('status');
-            let Intstatus2 = parseInt(status);
+            let Intstatus2 = parseInt(status2);
             if (obj.elem.checked === true && Intstatus2 === 0) {
                 Intstatus2 = 1;
             } else {
